@@ -10,7 +10,7 @@ const services = [
         description: "Premium fleet of luxury vehicles for your island exploration.",
         icon: <Car />,
         color: "bg-blue-500/10",
-        image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2017"
+        image: "/images/Vitz_logo_1.webp"
     },
     {
         id: 2,
