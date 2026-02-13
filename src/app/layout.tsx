@@ -22,11 +22,20 @@ export const metadata: Metadata = {
     siteName: "Sixteen Travel",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/images/Toyota_mau.webp",
+        width: 1200,
+        height: 630,
+        alt: "Sixteen Travel Mauritius",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "SIXTEEN TRAVEL | Your Ultimate Touring Partner in Mauritius",
     description: "Bespoke tourism services in Mauritius. Exclusive tours, adventure activities, and seamless travel experiences with instant confirmation and best price guaranteed.",
+    images: ["/images/Toyota_mau.webp"],
   },
   alternates: {
     canonical: "https://16-travel.vercel.app/",
