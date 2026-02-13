@@ -22,7 +22,7 @@ export function Preloader() {
         return () => clearInterval(timer);
     }, []);
 
-    const dotVariants = {
+    const dotVariants: any = {
         animate: (i: number) => ({
             opacity: [0, 1, 0],
             transition: {
