@@ -1,6 +1,7 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Search, MapPin, Calendar, Users } from "lucide-react";
+import Image from "next/image";
 import { useRef } from "react";
 
 export function Hero() {
@@ -14,6 +15,9 @@ export function Hero() {
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
     const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
+    const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+    const backgroundOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
     return (
         <section ref={containerRef} className="relative h-screen w-full overflow-hidden">
             {/* Cinematic Background (Lens Bloom Reveal) */}
@@ -21,11 +25,18 @@ export function Hero() {
                 initial={{ scale: 1.2, filter: "blur(10px)" }}
                 animate={{ scale: 1, filter: "blur(0px)" }}
                 transition={{ duration: 3, ease: "easeOut" }}
-                style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "30%"]), opacity: useTransform(scrollYProgress, [0, 1], [1, 0]) }}
+                style={{ y: backgroundY, opacity: backgroundOpacity }}
                 className="absolute inset-0 z-0"
             >
                 <div className="absolute inset-0 bg-brand-bronze/10 z-10" />
-                <div className="w-full h-full bg-[url('https://sixteen-travel.vercel.app/images/hero-Background.jpg')] bg-cover bg-center" />
+                <Image
+                    src="https://sixteen-travel.vercel.app/images/hero-Background.jpg"
+                    alt="Mauritius Luxury Backdrop"
+                    fill
+                    className="object-cover"
+                    priority
+                    quality={90}
+                />
             </motion.div>
 
             {/* Environmental Sun Glow */}

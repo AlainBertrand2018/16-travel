@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const posts = [
     {
@@ -60,10 +61,11 @@ export function BlogGrid() {
                             className="flex flex-col group cursor-pointer"
                         >
                             <div className="relative aspect-video rounded-3xl overflow-hidden mb-6 shadow-xl">
-                                <img
+                                <Image
                                     src={post.image}
                                     alt={post.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute top-4 left-4 bg-brand-bronze/80 text-white px-3 py-1 rounded-full text-[10px] uppercase font-bold shadow-lg backdrop-blur-sm">
                                     {post.category}

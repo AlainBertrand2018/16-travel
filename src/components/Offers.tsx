@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const packages = [
     {
@@ -38,9 +39,11 @@ function PackageCard({ pkg, index }: { pkg: typeof packages[0], index: number })
                     style={{ y, scale }}
                     className="flex-1 relative aspect-[4/5] w-full rounded-[40px] overflow-hidden shadow-2xl"
                 >
-                    <div
-                        className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${pkg.image})` }}
+                    <Image
+                        src={pkg.image}
+                        alt={pkg.title}
+                        fill
+                        className="object-cover"
                     />
                     <div className="absolute inset-0 bg-brand-bronze/10 hover:bg-transparent transition-colors duration-500" />
                 </motion.div>

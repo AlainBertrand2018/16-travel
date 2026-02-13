@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
+import Image from "next/image";
 
 const cars = [
     {
@@ -56,9 +57,15 @@ export function CarRental() {
                                 <motion.div
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ duration: 0.6 }}
-                                    className="w-full h-full bg-cover bg-center"
-                                    style={{ backgroundImage: `url(${car.image})` }}
-                                />
+                                    className="w-full h-full relative"
+                                >
+                                    <Image
+                                        src={car.image}
+                                        alt={car.name}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </motion.div>
                                 <div className="absolute top-4 right-4 glass px-4 py-2 rounded-full font-bold text-brand-bronze">
                                     {car.price} <span className="text-xs font-normal opacity-70">/day</span>
                                 </div>

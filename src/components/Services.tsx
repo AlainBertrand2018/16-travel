@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
 import { Ship, Mountain, Waves, Utensils, Car } from "lucide-react";
+import Image from "next/image";
 
 const services = [
     {
@@ -62,10 +63,13 @@ export function Services() {
                             className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer shadow-lg"
                         >
                             {/* Background Image / Placeholder */}
-                            <div
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                                style={{ backgroundImage: `url(${service.image})` }}
-                            >
+                            <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                                <Image
+                                    src={service.image}
+                                    alt={service.title}
+                                    fill
+                                    className="object-cover"
+                                />
                                 <div className="absolute inset-0 bg-brand-bronze/20 group-hover:bg-brand-bronze/10 transition-colors" />
                             </div>
 
