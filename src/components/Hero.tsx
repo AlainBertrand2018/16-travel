@@ -11,17 +11,14 @@ export function Hero() {
         offset: ["start start", "end start"],
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-
     const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const backgroundOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
     return (
-        <section ref={containerRef} className="relative h-screen w-full overflow-hidden">
+        <section id="st-section-home-hero" ref={containerRef} className="relative h-screen w-full overflow-hidden">
             {/* Cinematic Background (Lens Bloom Reveal) */}
             <motion.div
+                id="st-child-home-hero-background"
                 initial={{ scale: 1.2, filter: "blur(10px)" }}
                 animate={{ scale: 1, filter: "blur(0px)" }}
                 transition={{ duration: 3, ease: "easeOut" }}
@@ -53,6 +50,7 @@ export function Hero() {
             {/* Content */}
             <div className="relative z-20 h-full flex flex-col items-center justify-center px-6 text-center">
                 <motion.div
+                    id="st-child-home-hero-badge"
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
@@ -68,7 +66,7 @@ export function Hero() {
                 </motion.div>
 
                 <div className="space-y-4 mb-14">
-                    <div className="overflow-hidden">
+                    <div id="st-child-home-hero-heading" className="overflow-hidden">
                         <motion.h1
                             initial={{ y: "100%" }}
                             animate={{ y: 0 }}
@@ -92,6 +90,7 @@ export function Hero() {
 
                 {/* Floating Search Bar (Blur-to-Clear Reveal) */}
                 <motion.div
+                    id="st-child-home-hero-booking-bar"
                     initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{ duration: 1, delay: 2 }}

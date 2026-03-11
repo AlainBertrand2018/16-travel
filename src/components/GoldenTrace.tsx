@@ -1,7 +1,7 @@
 "use client";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, MotionValue } from "framer-motion";
 import { Ship, Wind, Compass, Map, Globe, Camera } from "lucide-react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 export function GoldenTrace() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -20,7 +20,7 @@ export function GoldenTrace() {
     });
 
     return (
-        <div ref={containerRef} className="absolute inset-0 pointer-events-none overflow-hidden text-brand-gold">
+        <div ref={containerRef} id="st-section-global-trace" className="absolute inset-0 pointer-events-none overflow-hidden text-brand-gold">
             {/* The Winding Path SVG with Mask for Dotted + Drawing effect */}
             <svg
                 viewBox="0 0 100 1200"
@@ -95,7 +95,7 @@ export function GoldenTrace() {
     );
 }
 
-function LandmarkIcon({ Icon, top, left, threshold, progress }: { Icon: any, top: string, left: string, threshold: number, progress: any }) {
+function LandmarkIcon({ Icon, top, left, threshold, progress }: { Icon: React.ElementType, top: string, left: string, threshold: number, progress: MotionValue<number> }) {
     // Extreme persistence window [threshold - 0.4, threshold + 0.4] 
     // This ensures icons in upper sections are visible almost immediately.
     const start = Math.max(0, threshold - 0.4);

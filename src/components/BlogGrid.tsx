@@ -33,12 +33,12 @@ const posts = [
 
 export function BlogGrid() {
     return (
-        <section className="relative py-24 px-6 md:px-24" id="blog">
+        <section id="st-section-home-blog" className="relative py-24 px-6 md:px-24">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-pastel-cream -z-20" />
 
             <div className="relative z-20 max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                <div id="st-child-home-blog-header" className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                     <div>
                         <h2 className="text-4xl md:text-5xl font-display mb-4 italic text-brand-bronze">The Journal</h2>
                         <p className="text-muted-foreground text-lg max-w-xl">
@@ -50,7 +50,7 @@ export function BlogGrid() {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div id="st-child-home-blog-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {posts.map((post, index) => (
                         <motion.article
                             key={post.id}

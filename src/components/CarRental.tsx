@@ -32,18 +32,19 @@ const cars = [
 
 export function CarRental() {
     return (
-        <section className="relative py-24 px-6 md:px-24" id="cars">
+        <section id="st-section-home-cars" className="relative py-24 px-6 md:px-24">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-pastel-gold -z-20" />
 
             <div className="relative z-20 max-w-7xl mx-auto">
                 <SectionHeader
+                    id="st-child-home-cars-header"
                     title="Exclusive Fleet"
                     subtitle="Experience the freedom of Mauritius with our hand-picked collection of premium vehicles."
                     centered
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div id="st-child-home-cars-grid" className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     {cars.map((car, index) => (
                         <motion.div
                             key={car.id}

@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
-import { Ship, Mountain, Waves, Utensils, Car } from "lucide-react";
+import { Mountain, Waves, Utensils, Car } from "lucide-react";
 import Image from "next/image";
 
 const services = [
@@ -41,17 +41,20 @@ const services = [
 
 export function Services() {
     return (
-        <section className="relative py-24 px-6 overflow-hidden" id="activities">
+        <section id="st-section-home-services" className="relative py-24 px-6 overflow-hidden">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-pastel-cream -z-20" />
 
             <div className="relative z-20 max-w-7xl mx-auto">
-                <SectionHeader
-                    title="Bespoke Experiences"
-                    subtitle="Discover a side of Mauritius few ever get to see with our curated selection of ultra-luxury services."
-                />
+                <div id="st-child-home-services-header">
+                    <SectionHeader
+                        id="st-child-home-services-header"
+                        title="Bespoke Experiences"
+                        subtitle="Discover a side of Mauritius few ever get to see with our curated selection of ultra-luxury services."
+                    />
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div id="st-child-home-services-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {services.map((service, index) => (
                         <motion.div
                             key={service.id}

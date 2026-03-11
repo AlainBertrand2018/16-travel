@@ -36,7 +36,7 @@ export default function ActivitiesPage() {
         <main className="min-h-screen">
             <Navbar />
 
-            <section className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
+            <section id="st-section-activities-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url('/images/chamarel-7couleurs.webp')" }}
@@ -66,10 +66,10 @@ export default function ActivitiesPage() {
                 </div>
             </section>
 
-            <section className="py-24 px-6 md:px-24 bg-pastel-gold">
+            <section id="st-section-activities-grid" className="py-24 px-6 md:px-24 bg-pastel-gold">
                 <div className="max-w-7xl mx-auto">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div id="st-child-activities-grid-container" className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {activities.map((act, i) => (
                             <motion.div
                                 key={i}

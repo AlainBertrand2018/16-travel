@@ -36,7 +36,7 @@ export default function BlogPage() {
         <main className="min-h-screen">
             <Navbar />
 
-            <section className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
+            <section id="st-section-blog-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url('/images/leMorne_hiking.avif')" }}
@@ -66,11 +66,11 @@ export default function BlogPage() {
                 </div>
             </section>
 
-            <section className="py-24 px-6 md:px-24">
+            <section id="st-section-blog-content" className="py-24 px-6 md:px-24">
                 <div className="max-w-7xl mx-auto">
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
-                        <div className="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-[80px]">
+                        <div id="st-child-blog-content-featured" className="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-[80px]">
                             <div className="aspect-[21/9] w-full">
                                 <img src={posts[0].image} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -85,32 +85,34 @@ export default function BlogPage() {
                             </div>
                         </div>
 
-                        {posts.slice(1).map((post, i) => (
-                            <motion.article
-                                key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                className="group cursor-pointer"
-                            >
-                                <div className="relative aspect-[16/10] rounded-[60px] overflow-hidden mb-12 shadow-2xl">
-                                    <img src={post.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                    <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-transparent" />
-                                </div>
-                                <div className="space-y-6">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-brand-gold uppercase font-bold tracking-widest text-xs">{post.category}</span>
-                                        <span className="text-muted-foreground text-xs font-medium">{post.date}</span>
+                        <div id="st-child-blog-content-grid" className="contents">
+                            {posts.slice(1).map((post, i) => (
+                                <motion.article
+                                    key={i}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="group cursor-pointer"
+                                >
+                                    <div className="relative aspect-[16/10] rounded-[60px] overflow-hidden mb-12 shadow-2xl">
+                                        <img src={post.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                        <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-transparent" />
                                     </div>
-                                    <h3 className="text-4xl font-display group-hover:text-brand-lagoon transition-colors">{post.title}</h3>
-                                    <p className="text-lg text-muted-foreground leading-relaxed line-clamp-2">{post.excerpt}</p>
-                                    <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-brand-gold">
-                                        Read Story
-                                        <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                    <div className="space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-brand-gold uppercase font-bold tracking-widest text-xs">{post.category}</span>
+                                            <span className="text-muted-foreground text-xs font-medium">{post.date}</span>
+                                        </div>
+                                        <h3 className="text-4xl font-display group-hover:text-brand-lagoon transition-colors">{post.title}</h3>
+                                        <p className="text-lg text-muted-foreground leading-relaxed line-clamp-2">{post.excerpt}</p>
+                                        <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-brand-gold">
+                                            Read Story
+                                            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        </div>
                                     </div>
-                                </div>
-                            </motion.article>
-                        ))}
+                                </motion.article>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

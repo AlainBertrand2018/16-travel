@@ -24,7 +24,7 @@ export default function ToursPage() {
         <main className="min-h-screen">
             <Navbar />
 
-            <section className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
+            <section id="st-section-tours-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url('/images/mauritius-oberoi-royal.webp')" }}
@@ -54,10 +54,10 @@ export default function ToursPage() {
                 </div>
             </section>
 
-            <section className="py-24 px-6 md:px-24 bg-pastel-warm">
+            <section id="st-section-tours-list" className="py-24 px-6 md:px-24 bg-pastel-warm">
                 <div className="max-w-7xl mx-auto">
 
-                    <div className="space-y-32">
+                    <div id="st-child-tours-list-container" className="space-y-32">
                         {tours.map((tour, i) => (
                             <motion.div
                                 key={i}

@@ -36,7 +36,7 @@ export default function BoutiquePage() {
         <main className="min-h-screen">
             <Navbar />
 
-            <section className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center mb-16">
+            <section id="st-section-boutique-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center mb-16">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url('https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=2070')" }}
@@ -66,7 +66,7 @@ export default function BoutiquePage() {
                 </div>
             </section>
 
-            <section className="py-24 px-6 md:px-24 bg-pastel-cream">
+            <section id="st-section-boutique-products" className="py-24 px-6 md:px-24 bg-pastel-cream">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                         <div className="flex items-center gap-4 text-brand-gold font-bold uppercase tracking-widest text-sm">
@@ -75,7 +75,7 @@ export default function BoutiquePage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div id="st-child-boutique-products-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {products.map((prod, i) => (
                             <motion.div
                                 key={i}

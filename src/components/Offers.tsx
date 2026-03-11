@@ -81,12 +81,12 @@ function PackageCard({ pkg, index }: { pkg: typeof packages[0], index: number })
 
 export function Offers() {
     return (
-        <section className="relative py-24 px-6 md:px-24" id="tours">
+        <section id="st-section-home-offers" className="relative py-24 px-6 md:px-24">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-pastel-warm -z-20" />
 
             <div className="relative z-20 max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+                <div id="st-child-home-offers-header" className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
                     <div className="max-w-xl">
                         <h2 className="text-5xl md:text-7xl font-display mb-6 italic text-brand-bronze">Signature <br /> Collections</h2>
                         <p className="text-muted-foreground text-xl">
@@ -100,7 +100,7 @@ export function Offers() {
                     </div>
                 </div>
 
-                <div>
+                <div id="st-child-home-offers-list">
                     {packages.map((pkg, index) => (
                         <PackageCard key={pkg.order} pkg={pkg} index={index} />
                     ))}

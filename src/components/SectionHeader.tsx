@@ -5,11 +5,13 @@ interface SectionHeaderProps {
     title: string;
     subtitle?: string;
     centered?: boolean;
+    id?: string;
 }
 
-export function SectionHeader({ title, subtitle, centered = false }: SectionHeaderProps) {
+export function SectionHeader({ title, subtitle, centered = false, id }: SectionHeaderProps) {
     return (
         <motion.div
+            id={id}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

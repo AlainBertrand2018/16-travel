@@ -41,7 +41,7 @@ export default function CarRentalPage() {
             <Navbar />
 
             {/* Page Header */}
-            <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+            <section id="st-section-cars-header" className="relative h-[60vh] flex items-center justify-center overflow-hidden">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070')" }}
@@ -63,7 +63,7 @@ export default function CarRentalPage() {
             </section>
 
             {/* Perks */}
-            <section className="py-20 bg-white">
+            <section id="st-section-cars-perks" className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
                     <div className="flex flex-col items-center text-center space-y-4">
                         <div className="w-16 h-16 rounded-2xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
@@ -90,7 +90,7 @@ export default function CarRentalPage() {
             </section>
 
             {/* Fleet Grid */}
-            <section className="py-24 px-6 md:px-24 bg-pastel-cream">
+            <section id="st-section-cars-fleet" className="py-24 px-6 md:px-24 bg-pastel-cream">
                 <div className="max-w-7xl mx-auto">
                     <SectionHeader
                         title="Our Exclusive Fleet"
@@ -98,7 +98,7 @@ export default function CarRentalPage() {
                         centered
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
+                    <div id="st-child-cars-fleet-grid" className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
                         {cars.map((car, i) => (
                             <motion.div
                                 key={car.id}

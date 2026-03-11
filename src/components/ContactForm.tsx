@@ -4,7 +4,7 @@ import { Send, MapPin, Phone, Mail } from "lucide-react";
 
 export function ContactForm() {
     return (
-        <section className="relative py-24 px-6 md:px-24" id="contact">
+        <section className="relative py-24 px-6 md:px-24" id="st-section-home-contact">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-pastel-warm -z-20" />
 
@@ -16,9 +16,9 @@ export function ContactForm() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-5xl md:text-7xl font-display mb-8 text-brand-bronze">Get in <br /><span className="italic">Touch</span></h2>
-                        <p className="text-muted-foreground text-xl mb-12 max-w-md">
-                            Whether you're planning a corporate retreat or a dream honeymoon, our concierge team is at your disposal.
+                        <h2 id="st-child-home-contact-heading" className="text-5xl md:text-7xl font-display mb-8 text-brand-bronze">Get in <br /><span className="italic">Touch</span></h2>
+                        <p id="st-child-home-contact-description" className="text-muted-foreground text-xl mb-12 max-w-md">
+                            Whether you&apos;re planning a corporate retreat or a dream honeymoon, our concierge team is at your disposal.
                         </p>
 
                         <div className="space-y-8">
@@ -61,7 +61,7 @@ export function ContactForm() {
                     className="relative"
                 >
                     <div className="absolute -inset-4 bg-brand-gold/5 rounded-[40px] -z-10" />
-                    <form className="space-y-6">
+                    <form id="st-child-home-contact-form" className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase font-bold tracking-widest pl-4 text-brand-bronze">Full Name</label>
@@ -100,7 +100,7 @@ export function ContactForm() {
                             />
                         </div>
 
-                        <button className="w-full bg-brand-gold text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-brand-bronze transition-all shadow-lg group">
+                        <button id="st-child-home-contact-submit" className="w-full bg-brand-gold text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-brand-bronze transition-all shadow-lg group">
                             Send Message
                             <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </button>

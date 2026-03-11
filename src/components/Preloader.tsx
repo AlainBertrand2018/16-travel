@@ -19,7 +19,6 @@ const IMAGES_TO_PRELOAD = [
 export function Preloader() {
     const [progress, setProgress] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
-    const [loadedCount, setLoadedCount] = useState(0);
 
     useEffect(() => {
         let mounted = true;
@@ -42,7 +41,6 @@ export function Preloader() {
                 await preloadImage(src);
                 if (mounted) {
                     currentLoaded++;
-                    setLoadedCount(currentLoaded);
                     // Standard progress calculation based on actual loading
                     const actualProgress = Math.floor((currentLoaded / total) * 100);
                     setProgress(actualProgress);
@@ -64,7 +62,7 @@ export function Preloader() {
         };
     }, []);
 
-    const dotVariants: any = {
+    const dotVariants: import("framer-motion").Variants = {
         animate: (i: number) => ({
             opacity: [0, 1, 0],
             transition: {
@@ -80,6 +78,7 @@ export function Preloader() {
         <AnimatePresence>
             {!isComplete && (
                 <motion.div
+                    id="st-section-global-preloader"
                     className="fixed inset-0 z-[100] bg-pastel-gold flex flex-col items-center justify-center overflow-hidden"
                     exit={{
                         opacity: 0,
@@ -131,7 +130,7 @@ export function Preloader() {
                         </div>
 
                         {/* 2. Percentage Counter Linked to Actual Asset Loading */}
-                        <div className="flex flex-col items-center gap-2">
+                        <div id="st-child-global-preloader-counter" className="flex flex-col items-center gap-2">
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -145,6 +144,7 @@ export function Preloader() {
 
                         {/* 3. Sixteen Travel Status Signature */}
                         <motion.div
+                            id="st-child-global-preloader-status"
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
