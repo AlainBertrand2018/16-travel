@@ -42,17 +42,14 @@ export default function Home() {
             <GoldenTrace />
           </div>
 
-          {/* Stacking Sections (2 & 3) */}
-          <div id="st-section-home-stacking-group" className="relative">
-            <WhatWeDo />
-            <AboutSixteen />
-          </div>
+          <WhatWeDo />
+          <AboutSixteen />
 
-          {/* Subsequent Sections (4+) - They push the stacking group up */}
+          {/* Subsequent Sections (4+) */}
           <div id="st-section-home-normal-flow" className="relative bg-white z-[40]">
             <Services />
-            <Offers />
             <CarRental />
+            <Offers />
 
             <section id="st-section-home-cta" className="relative py-32 px-6 overflow-hidden">
               <div className="absolute inset-0 bg-brand-bronze -z-20" />

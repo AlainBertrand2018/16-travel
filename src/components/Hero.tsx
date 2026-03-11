@@ -1,30 +1,11 @@
-"use client";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Search, MapPin, Calendar, Users } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { RequestBar } from "./RequestBar";
 
 export function Hero() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"],
-    });
-
-    const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-    const backgroundOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-
     return (
-        <section id="st-section-home-hero" ref={containerRef} className="relative h-screen w-full overflow-hidden">
-            {/* Cinematic Background (Lens Bloom Reveal) */}
-            <motion.div
-                id="st-child-home-hero-background"
-                initial={{ scale: 1.2, filter: "blur(10px)" }}
-                animate={{ scale: 1, filter: "blur(0px)" }}
-                transition={{ duration: 3, ease: "easeOut" }}
-                style={{ y: backgroundY, opacity: backgroundOpacity }}
-                className="absolute inset-0 z-0"
-            >
+        <section id="st-section-home-hero" className="relative h-screen w-full z-40 bg-brand-bronze/5">
+            {/* Cinematic Background (Static) */}
+            <div id="st-child-home-hero-background" className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-brand-bronze/10 z-10" />
                 <Image
                     src="https://sixteen-travel.vercel.app/images/hero-Background.jpg"
@@ -34,13 +15,10 @@ export function Hero() {
                     priority
                     quality={90}
                 />
-            </motion.div>
+            </div>
 
-            {/* Environmental Sun Glow */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            {/* Environmental Sun Glow (Static) */}
+            <div
                 className="absolute inset-0 z-10 pointer-events-none"
                 style={{
                     background: "radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.15) 0%, transparent 70%)"
@@ -49,98 +27,35 @@ export function Hero() {
 
             {/* Content */}
             <div className="relative z-20 h-full flex flex-col items-center justify-center px-6 text-center">
-                <motion.div
-                    id="st-child-home-hero-badge"
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                        type: "spring",
-                        damping: 12,
-                        stiffness: 100,
-                        delay: 0.8
-                    }}
-                >
+                <div id="st-child-home-hero-badge">
                     <p className="uppercase tracking-[0.4em] text-[10px] md:text-xs mb-10 font-bold text-white bg-brand-gold px-8 py-3 rounded-full shadow-2xl border border-white/20">
                         Exclusive Mauritius Experience
                     </p>
-                </motion.div>
+                </div>
 
-                <div className="space-y-4 mb-14">
+                <div className="space-y-4 mb-14 text-center items-center flex flex-col justify-center">
                     <div id="st-child-home-hero-heading" className="overflow-hidden">
-                        <motion.h1
-                            initial={{ y: "100%" }}
-                            animate={{ y: 0 }}
-                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.2 }}
-                            className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl leading-none"
-                        >
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl leading-none">
                             Travel in
-                        </motion.h1>
+                        </h1>
                     </div>
                     <div className="overflow-hidden">
-                        <motion.h1
-                            initial={{ y: "100%" }}
-                            animate={{ y: 0 }}
-                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.4 }}
-                            className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl"
-                        >
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl">
                             <span className="italic font-light">Sublime</span> Style
-                        </motion.h1>
+                        </h1>
                     </div>
                 </div>
 
-                {/* Floating Search Bar (Blur-to-Clear Reveal) */}
-                <motion.div
-                    id="st-child-home-hero-booking-bar"
-                    initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    transition={{ duration: 1, delay: 2 }}
-                    className="w-full max-w-4xl glass p-2 rounded-2xl md:rounded-full hidden md:flex items-center shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] border border-white/20"
-                >
-                    <div className="flex-1 flex items-center px-6 border-r border-brand-gold/10 group cursor-pointer">
-                        <MapPin className="w-5 h-5 mr-3 text-brand-gold group-hover:scale-110 transition-transform" />
-                        <div className="text-left">
-                            <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Destination</p>
-                            <p className="text-sm font-medium text-brand-bronze">Where to go?</p>
-                        </div>
-                    </div>
-
-                    <div className="flex-1 flex items-center px-6 border-r border-brand-gold/10 group cursor-pointer">
-                        <Calendar className="w-5 h-5 mr-3 text-brand-gold group-hover:scale-110 transition-transform" />
-                        <div className="text-left">
-                            <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Travel Date</p>
-                            <p className="text-sm font-medium text-brand-bronze">Add dates</p>
-                        </div>
-                    </div>
-
-                    <div className="flex-1 flex items-center px-6 group cursor-pointer text-brand-bronze">
-                        <Users className="w-5 h-5 mr-3 text-brand-gold group-hover:scale-110 transition-transform" />
-                        <div className="text-left">
-                            <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Guests</p>
-                            <p className="text-sm font-medium text-brand-bronze">Add guests</p>
-                        </div>
-                    </div>
-
-                    <button className="bg-brand-gold hover:bg-brand-bronze text-white p-4 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg">
-                        <Search className="w-6 h-6" />
-                    </button>
-                </motion.div>
+                {/* Floating Request Bar */}
+                <div id="st-child-home-hero-booking-bar" className="w-full max-w-4xl">
+                    <RequestBar />
+                </div>
             </div>
 
-            {/* Decorative Scroll Line */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
-                <motion.div
-                    initial={{ height: 0 }}
-                    animate={{ height: 80 }}
-                    transition={{ duration: 1.5, delay: 2.5 }}
-                    className="relative"
-                >
-                    <div className="w-px h-full bg-gradient-to-b from-brand-gold to-transparent" />
-                    <motion.div
-                        animate={{ y: [0, 40, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-brand-gold shadow-[0_0_10px_rgba(197,160,89,0.8)]"
-                    />
-                </motion.div>
+            {/* Decorative Scroll Line (Static) */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 h-20">
+                <div className="w-px h-full bg-gradient-to-b from-brand-gold to-transparent" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-brand-gold shadow-[0_0_10px_rgba(197,160,89,0.8)]" />
             </div>
         </section>
     );

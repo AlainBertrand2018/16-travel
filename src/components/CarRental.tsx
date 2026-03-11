@@ -6,27 +6,24 @@ import Image from "next/image";
 const cars = [
     {
         id: 1,
-        name: "Suzuki Jimny",
-        type: "Rugged 4x4",
-        price: "€20",
-        image: "/images/Jimny_Mau.webp",
-        features: ["Manual", "4x4", "4 Seats"]
+        name: "Private Car",
+        type: "Family SUV",
+        image: "/images/16_suv_5-7.webp",
+        features: ["with or without Chauffeur", "A/C", "5-7 Seats"]
     },
     {
         id: 2,
-        name: "Toyota Vitz",
-        type: "Urban Compact",
-        price: "€30",
-        image: "/images/Toyota_mau.webp",
-        features: ["Automatic", "A/C", "5 Seats"]
+        name: "Executive Car",
+        type: "Fully Executive",
+        image: "/images/16_exec_5-7.webp",
+        features: ["with or without Chauffeur", "A/C", "5-7 Seats"]
     },
     {
         id: 3,
-        name: "BMW i3",
-        type: "Electric Luxury",
-        price: "€50",
-        image: "/images/BMW_Mau.webp",
-        features: ["Electric", "A/C", "4 Seats"]
+        name: "Executive Minivan",
+        type: "Extended Luggage Capacity",
+        image: "/images/16_minivan.webp",
+        features: ["with Chauffeur", "A/C", "7-15 Seats"]
     }
 ];
 
@@ -34,13 +31,13 @@ export function CarRental() {
     return (
         <section id="st-section-home-cars" className="relative py-24 px-6 md:px-24">
             {/* Layer 1: Background Plate */}
-            <div className="absolute inset-0 bg-pastel-gold -z-20" />
+            <div className="absolute inset-0 bg-white -z-20" />
 
             <div className="relative z-20 max-w-7xl mx-auto">
                 <SectionHeader
                     id="st-child-home-cars-header"
-                    title="Exclusive Fleet"
-                    subtitle="Experience the freedom of Mauritius with our hand-picked collection of premium vehicles."
+                    title="Airport Transfer"
+                    subtitle="Reliable, premium transportation from SSR International Airport to your destination, ensuring a seamless start to your Mauritian journey."
                     centered
                 />
 
@@ -67,9 +64,6 @@ export function CarRental() {
                                         className="object-cover"
                                     />
                                 </motion.div>
-                                <div className="absolute top-4 right-4 glass px-4 py-2 rounded-full font-bold text-brand-bronze">
-                                    {car.price} <span className="text-xs font-normal opacity-70">/day</span>
-                                </div>
                             </div>
 
                             <div className="space-y-4">

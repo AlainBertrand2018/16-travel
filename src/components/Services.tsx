@@ -7,7 +7,7 @@ import Image from "next/image";
 const services = [
     {
         id: 1,
-        title: "Bespoke Car Rental",
+        title: "Transfer & Rentals",
         description: "Premium fleet of luxury vehicles for your island exploration.",
         icon: <Car />,
         color: "bg-blue-500/10",
@@ -15,7 +15,7 @@ const services = [
     },
     {
         id: 2,
-        title: "Hiking Adventures",
+        title: "Nature Adventures",
         description: "Hike the iconic Le Morne Brabant and discover hidden waterfalls.",
         icon: <Mountain />,
         color: "bg-green-500/10",
@@ -23,7 +23,7 @@ const services = [
     },
     {
         id: 3,
-        title: "Sea Expeditions",
+        title: "Boat Trips",
         description: "Private catamarans and turquoise lagoon explorations.",
         icon: <Waves />,
         color: "bg-cyan-500/10",
@@ -31,11 +31,11 @@ const services = [
     },
     {
         id: 4,
-        title: "Dolphin Swim",
-        description: "Magical encounters with wild dolphins in their natural habitat.",
-        icon: <Utensils />,
+        title: "Underwater Adventures",
+        description: "Discover the crystal-clear depths and vibrant marine life of the Mauritian lagoons.",
+        icon: <Waves />,
         color: "bg-orange-500/10",
-        image: "https://sixteen-travel.vercel.app/images/dauphins.jpg"
+        image: "/images/underwater_16.webp"
     }
 ];
 
@@ -49,7 +49,7 @@ export function Services() {
                 <div id="st-child-home-services-header">
                     <SectionHeader
                         id="st-child-home-services-header"
-                        title="Bespoke Experiences"
+                        title="Our Services"
                         subtitle="Discover a side of Mauritius few ever get to see with our curated selection of ultra-luxury services."
                     />
                 </div>

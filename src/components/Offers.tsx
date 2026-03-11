@@ -18,6 +18,13 @@ const packages = [
         category: "Luxe & Serenity",
         description: "Sail towards the sunrise. Private island picnics at Île aux Cerfs and exclusive snorkeling in the crystal clear lagoons of the East.",
         image: "https://sixteen-travel.vercel.app/images/south-east.jpg"
+    },
+    {
+        order: "03",
+        title: "Reality Show",
+        category: "Shopping Day",
+        description: "Indulge in a premium shopping experience across Mauritius. From the vibrant markets of Port Louis to the luxury boutiques of Caudan Waterfront, discover the island's finest fashion and local crafts.",
+        image: "/images/port-louis-caudan.webp"
     }
 ];
 

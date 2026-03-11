@@ -8,11 +8,11 @@ import { Car, Shield, Gauge, Key } from "lucide-react";
 const cars = [
     {
         id: 1,
-        name: "Suzuki Jimny",
-        type: "Rugged 4x4",
+        name: "Private Car",
+        type: "Premium SUV",
         price: "€20",
-        image: "/images/Jimny_Mau.webp",
-        features: ["Manual", "4x4", "4 Seats"],
+        image: "/images/16_suv.webp",
+        features: ["with or without Chauffeur", "Premium SUV", "5-7 Seats"],
         desc: "The ultimate island crawler. Rugged 4x4 capability to reach the most secluded viewpoints and hidden gems."
     },
     {
