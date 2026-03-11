@@ -1,8 +1,10 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ArrowRight, Map } from "lucide-react";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 const tours = [
     {
@@ -20,10 +22,71 @@ const tours = [
 ];
 
 export default function ToursPage() {
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    if (isMobile === null) return null;
+
+    if (isMobile) {
+        const mobileSections = [
+            {
+                id: "header",
+                title: "Tours",
+                component: (
+                    <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
+                        <div className="absolute inset-0 opacity-40">
+                             <img src="/images/mauritius-oberoi-royal.webp" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="relative z-10 space-y-8">
+                             <span className="inline-block px-4 py-1.5 bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
+                                Curated Island Adventures
+                            </span>
+                            <h2 className="text-4xl md:text-6xl font-display leading-[1.1]">
+                                Curated <br /> Journeys
+                            </h2>
+                            <p className="text-white/80 text-lg leading-relaxed">
+                                Every tour is balanced with exploration and moments of profound serenity.
+                            </p>
+                        </div>
+                    </div>
+                )
+            },
+            ...tours.map((tour, i) => ({
+                id: `tour-${i}`,
+                title: tour.title,
+                component: (
+                    <div className="proportional-section bg-white p-10 min-h-screen flex flex-col justify-center space-y-8">
+                        <div className="relative aspect-video w-full rounded-[40px] overflow-hidden shadow-2xl">
+                            <img src={tour.image} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-3 text-brand-gold font-bold uppercase tracking-widest text-[10px]">
+                                <Map className="w-4 h-4" />
+                                <span>{tour.duration} Private Tour</span>
+                            </div>
+                            <h3 className="text-3xl font-display text-brand-bronze">{tour.title}</h3>
+                            <p className="text-muted-foreground leading-relaxed text-sm">{tour.desc}</p>
+                            <button className="bg-brand-gold text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                                View Itinerary
+                            </button>
+                        </div>
+                    </div>
+                )
+            }))
+        ];
+
+        return <MobileLayout sections={mobileSections} />;
+    }
+
     return (
         <main className="min-h-screen">
             <Navbar />
-
             <section id="st-section-tours-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -56,7 +119,6 @@ export default function ToursPage() {
 
             <section id="st-section-tours-list" className="py-24 px-6 md:px-24 bg-pastel-warm">
                 <div className="max-w-7xl mx-auto">
-
                     <div id="st-child-tours-list-container" className="space-y-32">
                         {tours.map((tour, i) => (
                             <motion.div
@@ -89,7 +151,6 @@ export default function ToursPage() {
                     </div>
                 </div>
             </section>
-
             <Footer />
         </main>
     );

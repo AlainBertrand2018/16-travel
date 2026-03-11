@@ -1,8 +1,10 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Waves, Mountain, Wind, Sun } from "lucide-react";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 const activities = [
     {
@@ -32,10 +34,71 @@ const activities = [
 ];
 
 export default function ActivitiesPage() {
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    if (isMobile === null) return null;
+
+    if (isMobile) {
+        const mobileSections = [
+            {
+                id: "header",
+                title: "Activities",
+                component: (
+                    <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
+                        <div className="absolute inset-0 opacity-40">
+                             <img src="/images/chamarel-7couleurs.webp" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="relative z-10 space-y-8">
+                             <span className="inline-block px-4 py-1.5 bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
+                                Essential Island Activities
+                            </span>
+                            <h2 className="text-4xl md:text-6xl font-display leading-[1.1]">
+                                Island <br /> Soul
+                            </h2>
+                            <p className="text-white/80 text-lg leading-relaxed">
+                                From the heights of Le Morne to the depths of the Indian Ocean.
+                            </p>
+                        </div>
+                    </div>
+                )
+            },
+            ...activities.map((act, i) => ({
+                id: `activity-${i}`,
+                title: act.title,
+                component: (
+                    <div className="proportional-section bg-pastel-gold p-10 min-h-screen flex flex-col justify-center space-y-8">
+                        <div className="relative aspect-square w-full rounded-[40px] overflow-hidden shadow-2xl">
+                            <img src={act.image} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-brand-bronze/20" />
+                            <div className="absolute top-6 left-6 w-14 h-14 glass rounded-2xl flex items-center justify-center text-brand-gold">
+                                {act.icon}
+                            </div>
+                        </div>
+                        <div className="space-y-6">
+                            <h3 className="text-3xl font-display text-brand-bronze">{act.title}</h3>
+                            <p className="text-muted-foreground leading-relaxed text-sm">{act.desc}</p>
+                            <button className="bg-brand-gold text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                                More Details
+                            </button>
+                        </div>
+                    </div>
+                )
+            }))
+        ];
+
+        return <MobileLayout sections={mobileSections} />;
+    }
+
     return (
         <main className="min-h-screen">
             <Navbar />
-
             <section id="st-section-activities-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -68,7 +131,6 @@ export default function ActivitiesPage() {
 
             <section id="st-section-activities-grid" className="py-24 px-6 md:px-24 bg-pastel-gold">
                 <div className="max-w-7xl mx-auto">
-
                     <div id="st-child-activities-grid-container" className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {activities.map((act, i) => (
                             <motion.div
@@ -93,7 +155,6 @@ export default function ActivitiesPage() {
                     </div>
                 </div>
             </section>
-
             <Footer />
         </main>
     );

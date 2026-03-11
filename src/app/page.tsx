@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
@@ -12,8 +13,10 @@ import { ContactForm } from "@/components/ContactForm";
 import { GoldenTrace } from "@/components/GoldenTrace";
 import { Footer } from "@/components/Footer";
 import { Preloader } from "@/components/Preloader";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -21,6 +24,32 @@ export default function Home() {
     restDelta: 0.001
   });
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Prevent hydration mismatch by wait for client-side state
+  if (isMobile === null) return <Preloader />;
+
+  // MOBILE VIEW: Independent App-style experience
+  if (isMobile) {
+    const mobileSections = [
+      { id: "hero", title: "Welcome", component: <Hero /> },
+      { id: "what-we-do", title: "Experience", component: <WhatWeDo /> },
+      { id: "about", title: "Our Story", component: <AboutSixteen /> },
+      { id: "offers", title: "Offers", component: <Services /> },
+      { id: "transfers", title: "Transfers", component: <CarRental /> },
+      { id: "cherry-picks", title: "Signature", component: <Offers /> },
+    ];
+    return <MobileLayout sections={mobileSections} />;
+  }
+
+  // DESKTOP VIEW: Premium vertical scroll experience
   return (
     <main className="relative min-h-screen">
       <Preloader />

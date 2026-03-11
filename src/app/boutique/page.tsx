@@ -1,8 +1,10 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ShoppingBag, Star, Heart } from "lucide-react";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 const products = [
     {
@@ -32,10 +34,68 @@ const products = [
 ];
 
 export default function BoutiquePage() {
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    if (isMobile === null) return null;
+
+    if (isMobile) {
+        const mobileSections = [
+            {
+                id: "header",
+                title: "Boutique",
+                component: (
+                    <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
+                        <div className="absolute inset-0 opacity-40">
+                             <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=2070" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="relative z-10 space-y-8">
+                             <span className="inline-block px-4 py-1.5 bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
+                                Exclusive Island Living
+                            </span>
+                            <h2 className="text-4xl md:text-6xl font-display leading-[1.1]">
+                                The <br /> Boutique
+                            </h2>
+                            <p className="text-white/80 text-lg leading-relaxed">
+                                A curated selection of island lifestyle essentials.
+                            </p>
+                        </div>
+                    </div>
+                )
+            },
+            ...products.map((prod, i) => ({
+                id: `product-${i}`,
+                title: prod.name,
+                component: (
+                    <div className="proportional-section bg-pastel-cream p-10 min-h-screen flex flex-col justify-center space-y-8">
+                        <div className="relative aspect-[3/4] w-full rounded-[40px] overflow-hidden shadow-2xl">
+                            <img src={prod.image} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="space-y-4 text-center">
+                            <p className="text-[10px] uppercase font-bold tracking-widest text-brand-gold mb-2">{prod.category}</p>
+                            <h3 className="text-2xl font-display text-brand-bronze">{prod.name}</h3>
+                            <p className="font-bold text-brand-gold text-lg">{prod.price}</p>
+                            <button className="bg-brand-gold text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg mt-6">
+                                Add to Quote
+                            </button>
+                        </div>
+                    </div>
+                )
+            }))
+        ];
+
+        return <MobileLayout sections={mobileSections} />;
+    }
+
     return (
         <main className="min-h-screen">
             <Navbar />
-
             <section id="st-section-boutique-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center mb-16">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -101,7 +161,6 @@ export default function BoutiquePage() {
                     </div>
                 </div>
             </section>
-
             <Footer />
         </main>
     );

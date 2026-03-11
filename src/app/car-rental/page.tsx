@@ -1,9 +1,11 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Car, Shield, Gauge, Key } from "lucide-react";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 const cars = [
     {
@@ -35,12 +37,93 @@ const cars = [
     }
 ];
 
+const perks = [
+    { icon: <Shield />, title: "Premium Insurance", desc: "Full comprehensive coverage included for complete peace of mind." },
+    { icon: <Gauge />, title: "Unlimited Mileage", desc: "Explore every hidden corner of the island without any limits." },
+    { icon: <Key />, title: "VIP Delivery", desc: "We deliver your vehicle to your airport arrival or villa door." }
+];
+
 export default function CarRentalPage() {
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    if (isMobile === null) return null;
+
+    if (isMobile) {
+        const mobileSections = [
+            {
+                id: "header",
+                title: "Rental",
+                component: (
+                    <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
+                        <div className="absolute inset-0 opacity-50">
+                             <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="relative z-10 space-y-8">
+                            <h1 className="text-4xl md:text-6xl font-display leading-[1.1]">
+                                Car Rental
+                            </h1>
+                            <p className="text-white/80 text-xl font-light">
+                                The keys to the island are in your hands.
+                            </p>
+                        </div>
+                    </div>
+                )
+            },
+            {
+                id: "perks",
+                title: "Perks",
+                component: (
+                    <div className="proportional-section bg-white p-10 min-h-screen flex flex-col justify-center space-y-12">
+                        {perks.map((perk, i) => (
+                            <div key={i} className="flex flex-col items-center text-center space-y-4">
+                                <div className="w-16 h-16 rounded-2xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
+                                    {perk.icon}
+                                </div>
+                                <h3 className="text-xl font-display font-bold">{perk.title}</h3>
+                                <p className="text-muted-foreground text-sm">{perk.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                )
+            },
+            ...cars.map((car, i) => ({
+                id: `car-${i}`,
+                title: car.name,
+                component: (
+                    <div className="proportional-section bg-pastel-cream p-10 min-h-screen flex flex-col justify-center space-y-8">
+                        <div className="relative aspect-[16/10] w-full rounded-[40px] overflow-hidden shadow-2xl">
+                             <img src={car.image} className="w-full h-full object-cover" />
+                             <div className="absolute top-4 right-4 glass px-3 py-1.5 rounded-full font-bold text-xs text-brand-bronze">
+                                {car.price} /day
+                             </div>
+                        </div>
+                        <div className="space-y-6">
+                            <div>
+                                <p className="text-brand-gold text-[10px] font-bold uppercase tracking-widest mb-2">{car.type}</p>
+                                <h3 className="text-3xl font-display text-brand-bronze">{car.name}</h3>
+                            </div>
+                            <p className="text-muted-foreground text-sm leading-relaxed">{car.desc}</p>
+                            <button className="w-full py-4 bg-brand-gold text-white rounded-2xl font-bold uppercase tracking-widest text-[10px] shadow-lg">
+                                Book This Vehicle
+                            </button>
+                        </div>
+                    </div>
+                )
+            }))
+        ];
+        return <MobileLayout sections={mobileSections} />;
+    }
+
     return (
         <main className="min-h-screen">
             <Navbar />
-
-            {/* Page Header */}
             <section id="st-section-cars-header" className="relative h-[60vh] flex items-center justify-center overflow-hidden">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -62,7 +145,6 @@ export default function CarRentalPage() {
                 </div>
             </section>
 
-            {/* Perks */}
             <section id="st-section-cars-perks" className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
                     <div className="flex flex-col items-center text-center space-y-4">
@@ -89,7 +171,6 @@ export default function CarRentalPage() {
                 </div>
             </section>
 
-            {/* Fleet Grid */}
             <section id="st-section-cars-fleet" className="py-24 px-6 md:px-24 bg-pastel-cream">
                 <div className="max-w-7xl mx-auto">
                     <SectionHeader
@@ -136,7 +217,6 @@ export default function CarRentalPage() {
                     </div>
                 </div>
             </section>
-
             <Footer />
         </main>
     );

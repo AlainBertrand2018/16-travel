@@ -1,8 +1,10 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ArrowUpRight, Clock, User } from "lucide-react";
+import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 const posts = [
     {
@@ -32,10 +34,74 @@ const posts = [
 ];
 
 export default function BlogPage() {
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    if (isMobile === null) return null;
+
+    if (isMobile) {
+        const mobileSections = [
+            {
+                id: "header",
+                title: "Journal",
+                component: (
+                    <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
+                        <div className="absolute inset-0 opacity-40">
+                             <img src="/images/leMorne_hiking.avif" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="relative z-10 space-y-8">
+                             <span className="inline-block px-4 py-1.5 bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
+                                Bespoke Island Narratives
+                            </span>
+                            <h2 className="text-4xl md:text-6xl font-display leading-[1.1]">
+                                The <br /> Journal
+                            </h2>
+                            <p className="text-white/80 text-lg leading-relaxed">
+                                A collection of narratives, guides, and island secrets.
+                            </p>
+                        </div>
+                    </div>
+                )
+            },
+            ...posts.map((post, i) => ({
+                id: `post-${i}`,
+                title: post.title,
+                component: (
+                    <div className="proportional-section bg-white p-10 min-h-screen flex flex-col justify-center space-y-8">
+                        <div className="relative aspect-video w-full rounded-[40px] overflow-hidden shadow-2xl">
+                            <img src={post.image} className="w-full h-full object-cover" />
+                            <div className="absolute top-4 right-4 bg-brand-gold px-3 py-1 rounded-full text-[8px] uppercase font-bold text-white">
+                                {post.category}
+                            </div>
+                        </div>
+                        <div className="space-y-6 text-left">
+                            <h3 className="text-2xl font-display text-brand-bronze">{post.title}</h3>
+                            <p className="text-muted-foreground leading-relaxed text-sm line-clamp-3">{post.excerpt}</p>
+                            <div className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-widest text-brand-gold">
+                                <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> {post.author}</span>
+                                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.date}</span>
+                            </div>
+                            <button className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-brand-gold border-b border-brand-gold/20 pb-1">
+                                Read Story <ArrowUpRight className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+                )
+            }))
+        ];
+
+        return <MobileLayout sections={mobileSections} />;
+    }
+
     return (
         <main className="min-h-screen">
             <Navbar />
-
             <section id="st-section-blog-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -68,7 +134,6 @@ export default function BlogPage() {
 
             <section id="st-section-blog-content" className="py-24 px-6 md:px-24">
                 <div className="max-w-7xl mx-auto">
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
                         <div id="st-child-blog-content-featured" className="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-[80px]">
                             <div className="aspect-[21/9] w-full">
@@ -116,7 +181,6 @@ export default function BlogPage() {
                     </div>
                 </div>
             </section>
-
             <Footer />
         </main>
     );
