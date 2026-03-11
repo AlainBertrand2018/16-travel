@@ -65,7 +65,11 @@ export default function Home() {
                   <p className="text-xl md:text-2xl mb-12 text-white/80">
                     Our destination specialists are ready to curate your next extraordinary journey.
                   </p>
-                  <button id="st-child-home-cta-button" className="bg-brand-gold hover:bg-white hover:text-brand-bronze text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-xl">
+                  <button 
+                    id="st-child-home-cta-button" 
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-booking'))}
+                    className="bg-brand-gold hover:bg-white hover:text-brand-bronze text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-xl"
+                  >
                     Plan Your Trip
                   </button>
                 </motion.div>

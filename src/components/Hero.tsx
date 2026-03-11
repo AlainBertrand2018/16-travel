@@ -3,7 +3,7 @@ import { RequestBar } from "./RequestBar";
 
 export function Hero() {
     return (
-        <section id="st-section-home-hero" className="relative h-screen w-full z-40 bg-brand-bronze/5">
+        <section id="st-hero" className="relative min-h-screen w-full z-40 bg-brand-bronze/5">
             {/* Cinematic Background (Static) */}
             <div id="st-child-home-hero-background" className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-brand-bronze/10 z-10" />
@@ -41,7 +41,7 @@ export function Hero() {
                     </div>
                     <div className="overflow-hidden">
                         <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl">
-                            <span className="italic font-light">Sublime</span> Style
+                            <span className="font-light">Sublime</span> Style
                         </h1>
                     </div>
                 </div>

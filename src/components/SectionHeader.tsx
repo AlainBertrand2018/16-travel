@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 interface SectionHeaderProps {
     title: string;
-    subtitle?: string;
+    subtitle?: React.ReactNode;
     centered?: boolean;
     id?: string;
 }
@@ -19,7 +19,7 @@ export function SectionHeader({ title, subtitle, centered = false, id }: Section
             className={`mb-12 ${centered ? 'text-center' : ''}`}
         >
             <h2 className="text-4xl md:text-5xl font-display mb-4 text-brand-bronze">{title}</h2>
-            {subtitle && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p>}
+            {subtitle && <p className={`text-muted-foreground text-lg max-w-2xl ${centered ? 'mx-auto text-center' : 'text-left'}`}>{subtitle}</p>}
             <div className={`h-1 w-20 bg-brand-gold mt-4 ${centered ? 'mx-auto' : ''}`} />
         </motion.div>
     );

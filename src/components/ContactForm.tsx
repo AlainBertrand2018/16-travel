@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Send, MapPin, Phone, Mail } from "lucide-react";
+import { Send, MapPin, Phone, Mail, Facebook } from "lucide-react";
 
 export function ContactForm() {
     return (
@@ -16,9 +16,9 @@ export function ContactForm() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <h2 id="st-child-home-contact-heading" className="text-5xl md:text-7xl font-display mb-8 text-brand-bronze">Get in <br /><span className="italic">Touch</span></h2>
+                        <h2 id="st-child-home-contact-heading" className="text-5xl md:text-7xl font-display mb-8 text-brand-bronze">Get in <br /><span>Touch</span></h2>
                         <p id="st-child-home-contact-description" className="text-muted-foreground text-xl mb-12 max-w-md">
-                            Whether you&apos;re planning a corporate retreat or a dream honeymoon, our concierge team is at your disposal.
+                            Whether you&apos;re planning a corporate retreat or a dream honeymoon, our dedicated team is at your disposal.
                         </p>
 
                         <div className="space-y-8">
@@ -28,7 +28,7 @@ export function ContactForm() {
                                 </div>
                                 <div>
                                     <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Office Address</p>
-                                    <p className="font-medium text-brand-bronze">Business Studio AI Suite 16, Port Louis</p>
+                                    <p className="font-medium text-brand-bronze">Sixteen Car Rental Ltd, Belvédère, Mauritius</p>
                                 </div>
                             </div>
                             <div className="flex gap-6 items-center">
@@ -37,16 +37,30 @@ export function ContactForm() {
                                 </div>
                                 <div>
                                     <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Direct Email</p>
-                                    <p className="font-medium text-brand-bronze">contact@sixteen.travel</p>
+                                    <p className="font-medium text-brand-bronze">contact@sixteentravel.com</p>
                                 </div>
                             </div>
                             <div className="flex gap-6 items-center">
                                 <div className="w-14 h-14 glass rounded-2xl flex items-center justify-center text-brand-gold shadow-sm">
-                                    <Phone className="w-6 h-6" />
-                                </div>
+                                     <Phone className="w-6 h-6" />
+                                 </div>
+                                 <div>
+                                     <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Call & Whatsapp</p>
+                                     <p className="font-medium text-brand-bronze">+230 5819 1502</p>
+                                 </div>
+                            </div>
+                            <div className="flex gap-6 items-center">
+                                <a 
+                                    href="https://www.facebook.com/profile.php?id=61562025393976" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="w-14 h-14 glass rounded-2xl flex items-center justify-center text-brand-gold shadow-sm hover:bg-brand-gold hover:text-white transition-all group"
+                                >
+                                    <Facebook className="w-6 h-6" />
+                                </a>
                                 <div>
-                                    <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Call Us</p>
-                                    <p className="font-medium text-brand-bronze">+230 5555 1616</p>
+                                    <p className="text-[10px] uppercase font-bold text-brand-gold tracking-widest">Follow Us</p>
+                                    <p className="font-medium text-brand-bronze">Facebook Page</p>
                                 </div>
                             </div>
                         </div>

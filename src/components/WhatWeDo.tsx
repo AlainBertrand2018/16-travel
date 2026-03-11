@@ -1,5 +1,5 @@
 "use client";
-import { Plane, Map, ConciergeBell } from "lucide-react";
+import { Plane, Map, ConciergeBell, Phone } from "lucide-react";
 import { TravelBackground } from "./TravelBackground";
 
 export function WhatWeDo() {
@@ -25,7 +25,7 @@ export function WhatWeDo() {
     ];
 
     return (
-        <section id="st-section-home-about" className="relative h-screen flex items-center bg-white overflow-hidden">
+        <section id="st-what-we-do" className="relative min-h-screen flex items-center bg-white overflow-hidden">
             {/* Set background icons to full opacity so they pierce through the glass cards */}
             <TravelBackground opacity={1} className="text-brand-gold" />
             
@@ -54,6 +54,16 @@ export function WhatWeDo() {
                             </p>
                         </div>
                     ))}
+                </div>
+
+                <div className="mt-16 flex justify-center">
+                    <a 
+                        href="tel:+23058191502"
+                        className="bg-brand-gold text-white px-12 py-5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-xl shadow-brand-gold/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                    >
+                        <Phone className="w-4 h-4" />
+                        Give us a call
+                    </a>
                 </div>
             </div>
 

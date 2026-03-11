@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function AboutSixteen() {
     return (
-        <section id="st-section-home-story" className="relative h-screen flex items-center bg-white z-30 overflow-hidden">
+        <section id="st-about" className="relative min-h-screen flex items-center bg-white z-30 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 md:px-24 flex items-center relative z-20 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
 
@@ -29,7 +29,7 @@ export function AboutSixteen() {
                             <span className="inline-block px-4 py-1.5 bg-pastel-gold text-brand-gold text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
                                 About Sixteen Travel
                             </span>
-                            <h2 className="text-5xl md:text-6xl font-display text-brand-bronze italic leading-[1.1]">
+                            <h2 className="text-5xl md:text-6xl font-display text-brand-bronze leading-[1.1]">
                                 Crafting Your <br /> Magical Moments
                             </h2>
                         </div>
@@ -38,16 +38,23 @@ export function AboutSixteen() {
                             We are a passionate team of young professionals in the field of hospitality having the zeal and passion to make your magical moments in Mauritius, which undoubtedly reflects in our products and services being offered.
                         </div>
 
-                        <div className="pl-8 border-l-2 border-brand-gold/30">
+                        <div id="st-mission" className="pl-8 border-l-2 border-brand-gold/30">
                             <h3 className="text-2xl font-display text-brand-bronze mb-4">Our Mission</h3>
-                            <p className="text-muted-foreground leading-relaxed italic">
+                            <p className="text-muted-foreground leading-relaxed">
                                 We strive to make you live your dreams and passions by discovering our paradise island in the most Unique Way by creating a lifetime experience which you will always cherish throughout life!!!
                             </p>
                         </div>
 
-                        <div className="text-muted-foreground leading-relaxed">
+                        <div className="text-muted-foreground leading-relaxed mb-10">
                             We believe in making things happen and always striving to make your experience unforgettable that will tumble through out existence by offering an impeccable service beyond your expectations.
                         </div>
+
+                        <button 
+                            onClick={() => window.dispatchEvent(new CustomEvent('open-contact'))}
+                            className="bg-brand-gold text-white px-10 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-brand-gold/20 hover:scale-105 active:scale-95 transition-transform"
+                        >
+                            Request more info
+                        </button>
                     </div>
 
                 </div>

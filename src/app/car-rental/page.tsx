@@ -55,7 +55,7 @@ export default function CarRentalPage() {
                         transition={{ duration: 0.8 }}
                     >
                         <h1 className="text-6xl md:text-9xl font-display text-white mb-6">Car Rental</h1>
-                        <p className="text-xl md:text-2xl text-white/90 italic font-light max-w-2xl mx-auto">
+                        <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto">
                             The keys to the island are in your hands.
                         </p>
                     </motion.div>

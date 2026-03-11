@@ -41,15 +41,15 @@ const services = [
 
 export function Services() {
     return (
-        <section id="st-section-home-services" className="relative py-24 px-6 overflow-hidden">
+        <section id="st-offers" className="relative min-h-screen flex items-center py-24 px-6 overflow-hidden">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-pastel-cream -z-20" />
 
-            <div className="relative z-20 max-w-7xl mx-auto">
+            <div className="relative z-20 max-w-7xl mx-auto w-full">
                 <div id="st-child-home-services-header">
                     <SectionHeader
                         id="st-child-home-services-header"
-                        title="Our Services"
+                        title="Our Offers"
                         subtitle="Discover a side of Mauritius few ever get to see with our curated selection of ultra-luxury services."
                     />
                 </div>

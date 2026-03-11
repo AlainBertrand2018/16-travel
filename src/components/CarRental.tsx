@@ -28,16 +28,28 @@ const cars = [
 ];
 
 export function CarRental() {
+    const handleReserve = (vehicleType: string) => {
+        window.dispatchEvent(new CustomEvent('open-booking', { 
+            detail: { vehicleType } 
+        }));
+    };
+
     return (
-        <section id="st-section-home-cars" className="relative py-24 px-6 md:px-24">
+        <section id="st-transfers" className="relative min-h-screen flex items-center py-24 px-6 md:px-24">
             {/* Layer 1: Background Plate */}
             <div className="absolute inset-0 bg-white -z-20" />
 
-            <div className="relative z-20 max-w-7xl mx-auto">
+            <div className="relative z-20 max-w-7xl mx-auto w-full">
                 <SectionHeader
                     id="st-child-home-cars-header"
                     title="Airport Transfer"
-                    subtitle="Reliable, premium transportation from SSR International Airport to your destination, ensuring a seamless start to your Mauritian journey."
+                    subtitle={
+                        <>
+                            • Book your private airport transfer to and from your Hotel •
+                            <br />
+                            • No advance payment / Cash settlement •
+                        </>
+                    }
                     centered
                 />
 
@@ -82,7 +94,10 @@ export function CarRental() {
                                     ))}
                                 </div>
 
-                                <button className="w-full py-4 border border-brand-gold/20 rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-brand-gold hover:text-white transition-all group-hover:bg-brand-gold group-hover:border-brand-gold group-hover:text-white text-brand-bronze">
+                                <button 
+                                    onClick={() => handleReserve(car.name)}
+                                    className="w-full py-4 border border-brand-gold/20 rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-brand-gold hover:text-white transition-all group-hover:bg-brand-gold group-hover:border-brand-gold group-hover:text-white text-brand-bronze"
+                                >
                                     Reserve Now
                                 </button>
                             </div>

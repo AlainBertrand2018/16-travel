@@ -46,9 +46,9 @@ export default function ToursPage() {
                         transition={{ duration: 1, delay: 0.2 }}
                         className="text-6xl md:text-9xl font-display mb-8 text-white drop-shadow-2xl whitespace-nowrap"
                     >
-                        Curated <span className="italic">Journeys</span>
+                        Curated <span>Journeys</span>
                     </motion.h1>
-                    <p className="text-xl md:text-2xl font-light italic max-w-2xl mx-auto text-white/90 drop-shadow-md">
+                    <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/90 drop-shadow-md">
                         Every tour is balanced with exploration and moments of profound serenity.
                     </p>
                 </div>

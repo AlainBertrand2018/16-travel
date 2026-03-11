@@ -40,7 +40,7 @@ export function BlogGrid() {
             <div className="relative z-20 max-w-7xl mx-auto">
                 <div id="st-child-home-blog-header" className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                     <div>
-                        <h2 className="text-4xl md:text-5xl font-display mb-4 italic text-brand-bronze">The Journal</h2>
+                        <h2 className="text-4xl md:text-5xl font-display mb-4 text-brand-bronze">The Journal</h2>
                         <p className="text-muted-foreground text-lg max-w-xl">
                             Insights, stories, and curated travel guides from our destination experts.
                         </p>

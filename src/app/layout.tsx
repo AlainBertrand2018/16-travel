@@ -42,6 +42,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { CookieConsent } from "@/components/CookieConsent";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,6 +53,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <body className="antialiased">
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
