@@ -26,14 +26,16 @@ export function Hero() {
             />
 
             {/* Content */}
-            <div className="relative z-20 h-full flex flex-col items-center justify-center px-6 text-center">
+            <div className="relative z-20 min-h-screen flex flex-col items-center justify-between py-24 md:py-32 px-6 text-center">
+                {/* Top: Badge */}
                 <div id="st-child-home-hero-badge">
-                    <p className="uppercase tracking-[0.4em] text-[10px] md:text-xs mb-10 font-bold text-white bg-brand-gold px-8 py-3 rounded-full shadow-2xl border border-white/20">
+                    <p className="uppercase tracking-[0.4em] text-[10px] md:text-xs font-bold text-white bg-brand-gold px-8 py-3 rounded-full shadow-2xl border border-white/20">
                         Exclusive Mauritius Experience
                     </p>
                 </div>
 
-                <div className="space-y-4 mb-14 text-center items-center flex flex-col justify-center">
+                {/* Center: Headings */}
+                <div className="flex-1 flex flex-col justify-center space-y-4 text-center items-center">
                     <div id="st-child-home-hero-heading" className="overflow-hidden">
                         <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl leading-none">
                             Travel in
@@ -46,8 +48,8 @@ export function Hero() {
                     </div>
                 </div>
 
-                {/* Floating Request Bar */}
-                <div id="st-child-home-hero-booking-bar" className="w-full max-w-4xl">
+                {/* Bottom: Floating Request Bar */}
+                <div id="st-child-home-hero-booking-bar" className="w-full max-w-4xl pt-10">
                     <RequestBar />
                 </div>
             </div>
