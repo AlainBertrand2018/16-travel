@@ -13,7 +13,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://16-travel.vercel.app'),
   title: "SIXTEEN TRAVEL | Your Ultimate Touring Partner in Mauritius",
   description: "Bespoke tourism services in Mauritius. Exclusive tours, adventure activities, and seamless travel experiences with instant confirmation and best price guaranteed.",
   openGraph: {
