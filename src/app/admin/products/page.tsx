@@ -343,7 +343,7 @@ export default function ProductsManagement() {
                            setUploadingSlot({ type: "main" });
                            fileInputRef.current?.click();
                          }}
-                         className={`aspect-[4/3] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center group cursor-pointer transition-all overflow-hidden ${
+                         className={`aspect-[4/3] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center group cursor-pointer transition-all overflow-hidden relative ${
                            productForm.image 
                              ? "border-admin-accent bg-admin-bg" 
                              : "border-admin-border bg-admin-bg hover:bg-admin-bg/80"
@@ -376,7 +376,7 @@ export default function ProductsManagement() {
                                   setUploadingSlot({ type: "itinerary", index: idx });
                                   fileInputRef.current?.click();
                                 }}
-                                className={`aspect-square rounded-lg border border-dashed flex items-center justify-center cursor-pointer hover:bg-admin-bg transition-all overflow-hidden ${
+                                className={`aspect-square rounded-lg border border-dashed flex items-center justify-center cursor-pointer hover:bg-admin-bg transition-all overflow-hidden relative ${
                                   productForm.itineraryImages?.[idx] 
                                     ? "border-admin-accent/50 bg-admin-bg" 
                                     : "border-admin-border bg-admin-bg/50"
