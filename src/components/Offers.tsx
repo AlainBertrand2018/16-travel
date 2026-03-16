@@ -21,10 +21,10 @@ const packages = [
     },
     {
         order: "03",
-        title: "Reality Show",
-        category: "Shopping Day",
-        description: "Indulge in a premium shopping experience across Mauritius. From the vibrant markets of Port Louis to the luxury boutiques of Caudan Waterfront, discover the island's finest fashion and local crafts.",
-        image: "/images/port-louis-caudan.webp"
+        title: "Sky & Deep Blue",
+        category: "Adventure & Thrills",
+        description: "Experience Mauritius from every angle. From breathtaking helicopter tours over the Underwater Waterfall to magical undersea walks among vibrant coral reefs.",
+        image: "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=2070"
     }
 ];
 

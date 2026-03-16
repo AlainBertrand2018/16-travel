@@ -280,7 +280,6 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                             <div className="h-px bg-white/10 my-10" />
                             <div className="space-y-6">
                                 <button onClick={() => { setIsMenuOpen(false); window.dispatchEvent(new CustomEvent('open-contact')); }} className="block text-2xl font-display opacity-70 text-left">Contact Us</button>
-                                <a href="/boutique" className="block text-2xl font-display opacity-70">Boutique</a>
                             </div>
                         </div>
                     </motion.div>

@@ -104,7 +104,10 @@ export function MobileAppShell() {
                         className="absolute inset-0 overflow-y-auto overflow-x-hidden touch-pan-y"
                     >
                         <div className="min-h-full w-full">
-                            {sections[activeIndex].component({})}
+                            {(() => {
+                                const Component = sections[activeIndex].component;
+                                return <Component />;
+                            })()}
                         </div>
                     </motion.div>
                 </AnimatePresence>

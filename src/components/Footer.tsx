@@ -51,7 +51,7 @@ export function Footer() {
                 <div id="st-child-global-footer-links">
                     <h4 className="font-display text-xl mb-8 text-brand-bronze">Navigation</h4>
                     <ul className="space-y-4 text-muted-foreground font-medium">
-                        {["Transfers", "Tours", "Activities", "Boutique", "Private Jet"].map((link) => (
+                        {["Transfers", "Tours", "Activities", "Private Jet"].map((link) => (
                             <li key={link}>
                                 <Link href="#" className="hover:text-brand-gold transition-colors">{link}</Link>
                             </li>

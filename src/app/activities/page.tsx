@@ -10,24 +10,28 @@ const activities = [
     {
         title: "Le Morne Summit Hike",
         desc: "A spiritual and physical climb to the UNESCO World Heritage site.",
+        duration: "4 Hours",
         icon: <Mountain />,
         image: "https://sixteen-travel.vercel.app/images/le_Morne_hiking.avif"
     },
     {
         title: "Private Catamaran Cruise",
         desc: "Sail the crystal lagoons with your personal chef and crew.",
+        duration: "6 Hours",
         icon: <Waves />,
         image: "https://sixteen-travel.vercel.app/images/mru-catamaran-ileauxCerfs.webp"
     },
     {
         title: "Eco Forest Exploration",
         desc: "Discover endemic species in the heart of Black River Gorges.",
+        duration: "3 Hours",
         icon: <Sun />,
         image: "/images/Ferney-Gardens.webp"
     },
     {
         title: "Kitesurfing Le Morne",
         desc: "World-class conditions for the ultimate adrenaline rush.",
+        duration: "2 Hours",
         icon: <Wind />,
         image: "/images/Kitesurfing_in_Mauritius.webp"
     }
@@ -82,6 +86,10 @@ export default function ActivitiesPage() {
                             </div>
                         </div>
                         <div className="space-y-6">
+                            <div className="flex items-center gap-2 text-brand-gold font-bold uppercase tracking-[0.2em] text-[10px]">
+                                <Wind className="w-3 h-3" />
+                                <span>{act.duration} Duration</span>
+                            </div>
                             <h3 className="text-3xl font-display text-brand-bronze">{act.title}</h3>
                             <p className="text-muted-foreground leading-relaxed text-sm">{act.desc}</p>
                             <button className="bg-brand-gold text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">
@@ -146,6 +154,10 @@ export default function ActivitiesPage() {
                                 <div className="absolute inset-x-12 bottom-12 text-white">
                                     <div className="w-16 h-16 glass rounded-2xl flex items-center justify-center mb-6 text-brand-gold shadow-lg">
                                         {act.icon}
+                                    </div>
+                                    <div className="flex items-center gap-2 text-brand-gold font-bold uppercase tracking-[0.2em] text-xs mb-4">
+                                        <Wind className="w-4 h-4" />
+                                        <span>{act.duration} Duration</span>
                                     </div>
                                     <h3 className="text-4xl font-display mb-4">{act.title}</h3>
                                     <p className="text-lg opacity-80 max-w-sm">{act.desc}</p>
