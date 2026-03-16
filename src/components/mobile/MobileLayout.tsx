@@ -44,7 +44,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
         { name: "Tours", icon: <Compass className="w-5 h-5" />, href: "/tours" },
         { name: "Activities", icon: <Star className="w-5 h-5" />, href: "/activities" },
         { name: "Transfers", icon: <Car className="w-5 h-5" />, href: "/#st-transfers" },
-        { name: "Blog", icon: <Home className="w-5 h-5" />, href: "/blog" },
+        { name: "Offers", icon: <Star className="w-5 h-5" />, href: "/#st-offers" },
     ];
 
     const handleNext = () => {

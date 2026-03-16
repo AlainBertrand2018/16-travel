@@ -19,6 +19,7 @@ import {
 import { Product } from "@/lib/mockData";
 import { dbService, storageService } from "@/lib/db";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 export default function ProductsManagement() {
   const [activeTab, setActiveTab] = useState<"All" | "Transfer" | "Outing Package" | "Activity">("All");
@@ -84,12 +85,15 @@ export default function ProductsManagement() {
       if (uploadingSlot.type === "main") {
         setProductForm(prev => ({ ...prev, image: url }));
       } else if (uploadingSlot.type === "itinerary" && typeof uploadingSlot.index === "number") {
-        const currentItinerary = productForm.itineraryImages || ["", "", "", "", ""];
-        const newItinerary = [...currentItinerary];
-        // Ensure we have 5 slots
-        while (newItinerary.length < 5) newItinerary.push("");
-        newItinerary[uploadingSlot.index] = url;
-        setProductForm(prev => ({ ...prev, itineraryImages: newItinerary }));
+        const slotIdx = uploadingSlot.index;
+        setProductForm(prev => {
+          const currentItinerary = prev.itineraryImages || ["", "", "", "", ""];
+          const newItinerary = [...currentItinerary];
+          // Ensure we have 5 slots
+          while (newItinerary.length < 5) newItinerary.push("");
+          newItinerary[slotIdx] = url;
+          return { ...prev, itineraryImages: newItinerary };
+        });
       }
     } catch (error) {
       console.error("Upload error:", error);
@@ -97,6 +101,7 @@ export default function ProductsManagement() {
     } finally {
       setIsUploading(false);
       setUploadingSlot(null);
+      if (e.target) e.target.value = "";
     }
   };
 
@@ -152,10 +157,12 @@ export default function ProductsManagement() {
               className="bg-admin-card rounded-[32px] shadow-sm border border-admin-border overflow-hidden group hover:border-admin-accent/30 transition-all flex flex-col"
             >
               <div className="relative aspect-video overflow-hidden">
-                <img 
+                <Image 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-admin-sidebar/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute top-4 right-4 flex gap-2">
@@ -348,7 +355,7 @@ export default function ProductsManagement() {
                             <span className="text-[8px] font-black uppercase tracking-widest text-admin-accent">Processing...</span>
                           </div>
                         ) : productForm.image ? (
-                          <img src={productForm.image} alt="Preview" className="w-full h-full object-cover" />
+                          <Image src={productForm.image} alt="Preview" fill className="object-cover" />
                         ) : (
                           <>
                             <ImageIcon className="w-8 h-8 mb-2 opacity-20 group-hover:scale-110 transition-transform text-admin-text-muted" />
@@ -378,7 +385,7 @@ export default function ProductsManagement() {
                                 {isUploading && uploadingSlot?.type === "itinerary" && uploadingSlot?.index === idx ? (
                                   <div className="w-3 h-3 border border-admin-accent border-t-transparent rounded-full animate-spin" />
                                 ) : productForm.itineraryImages?.[idx] ? (
-                                  <img src={productForm.itineraryImages[idx]} className="w-full h-full object-cover" />
+                                  <Image src={productForm.itineraryImages[idx]} alt="Itinerary" fill className="object-cover" />
                                 ) : (
                                   <Plus className="w-3 h-3 text-admin-text-muted opacity-40" />
                                 )}

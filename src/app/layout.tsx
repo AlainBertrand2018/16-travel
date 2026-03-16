@@ -44,6 +44,8 @@ export const metadata: Metadata = {
 };
 
 import { CookieConsent } from "@/components/CookieConsent";
+import { Preloader } from "@/components/Preloader";
+import { HashScrollHandler } from "@/components/HashScrollHandler";
 
 export default function RootLayout({
   children,
@@ -53,6 +55,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`} data-scroll-behavior="smooth">
       <body className="antialiased">
+        <HashScrollHandler />
+        <Preloader />
         {children}
         <CookieConsent />
       </body>

@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeader } from "@/components/SectionHeader";
-import { Car, Shield, Gauge, Key } from "lucide-react";
+import { Car, Shield, Gauge, Key, X, Check } from "lucide-react";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
+import { BookingModal } from "@/components/BookingModal";
+import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const cars = [
     {
@@ -45,6 +48,8 @@ const perks = [
 
 export default function CarRentalPage() {
     const [isMobile, setIsMobile] = useState<boolean | null>(null);
+    const [selectedCar, setSelectedCar] = useState<any | null>(null);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -63,7 +68,13 @@ export default function CarRentalPage() {
                 component: (
                     <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
                         <div className="absolute inset-0 opacity-50">
-                             <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" className="w-full h-full object-cover" />
+                             <Image 
+                                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" 
+                                alt="Car Rental Header"
+                                fill 
+                                className="object-cover"
+                                priority
+                             />
                         </div>
                         <div className="relative z-10 space-y-8">
                             <h1 className="text-4xl md:text-6xl font-display leading-[1.1]">
@@ -97,9 +108,15 @@ export default function CarRentalPage() {
                 id: `car-${i}`,
                 title: car.name,
                 component: (
-                    <div className="proportional-section bg-pastel-cream p-10 min-h-screen flex flex-col justify-center space-y-8">
-                        <div className="relative aspect-[16/10] w-full rounded-[40px] overflow-hidden shadow-2xl">
-                             <img src={car.image} className="w-full h-full object-cover" />
+                    <div className="proportional-section bg-pastel-gold p-10 min-h-screen flex flex-col justify-center space-y-10">
+                        <div className="relative aspect-video w-full rounded-[40px] overflow-hidden shadow-2xl">
+                             <Image 
+                                src={car.image} 
+                                alt={car.name}
+                                fill 
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 33vw"
+                             />
                              <div className="absolute top-4 right-4 glass px-3 py-1.5 rounded-full font-bold text-xs text-brand-bronze">
                                 {car.price} /day
                              </div>
@@ -110,7 +127,10 @@ export default function CarRentalPage() {
                                 <h3 className="text-3xl font-display text-brand-bronze">{car.name}</h3>
                             </div>
                             <p className="text-muted-foreground text-sm leading-relaxed">{car.desc}</p>
-                            <button className="w-full py-4 bg-brand-gold text-white rounded-2xl font-bold uppercase tracking-widest text-[10px] shadow-lg">
+                            <button 
+                                onClick={() => setSelectedCar(car)}
+                                className="w-full py-4 bg-brand-bronze text-white rounded-full font-black uppercase tracking-widest text-[10px] shadow-lg"
+                            >
                                 Book This Vehicle
                             </button>
                         </div>
@@ -118,7 +138,95 @@ export default function CarRentalPage() {
                 )
             }))
         ];
-        return <MobileLayout sections={mobileSections} />;
+        return (
+            <>
+                <MobileLayout sections={mobileSections} />
+                <AnimatePresence>
+                    {selectedCar && (
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[100] flex items-end justify-center"
+                        >
+                            <div 
+                                className="absolute inset-0 bg-brand-bronze/60 backdrop-blur-md"
+                                onClick={() => setSelectedCar(null)}
+                            />
+                            <motion.div 
+                                initial={{ y: "100%" }}
+                                animate={{ y: 0 }}
+                                exit={{ y: "100%" }}
+                                transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                                className="relative w-full max-h-[85vh] bg-pastel-gold rounded-t-[40px] shadow-2xl overflow-y-auto"
+                            >
+                                <button 
+                                    onClick={() => setSelectedCar(null)}
+                                    className="absolute top-6 right-6 z-50 p-2 bg-white/20 rounded-full text-brand-bronze"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+                                
+                                <div className="p-8 space-y-10">
+                                    <div className="space-y-4">
+                                        <div className="inline-flex items-center gap-1.5 border border-brand-gold/30 px-3 py-1.5 rounded-full text-brand-gold font-bold uppercase tracking-[0.2em] text-[10px]">
+                                            <Shield className="w-3.5 h-3.5" />
+                                            <span>Premium Vehicle</span>
+                                        </div>
+                                        <h2 className="text-4xl font-display text-brand-bronze leading-[1.1]">
+                                            {selectedCar.name}
+                                        </h2>
+                                    </div>
+
+                                    <div className="relative aspect-video w-full rounded-3xl overflow-hidden shadow-xl">
+                                        <Image 
+                                            src={selectedCar.image} 
+                                            alt={selectedCar.name}
+                                            fill 
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <div className="bg-white/50 p-6 rounded-3xl border border-brand-gold/10">
+                                            <p className="text-brand-bronze/80 leading-relaxed text-sm">
+                                                {selectedCar.desc}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="flex justify-between items-center py-4 border-t border-brand-bronze/10">
+                                            <div>
+                                                <p className="text-[10px] font-black uppercase text-brand-gold">Price /day</p>
+                                                <p className="text-3xl font-display text-brand-bronze font-bold">{selectedCar.price}</p>
+                                            </div>
+                                            <button 
+                                                onClick={() => setIsBookingOpen(true)}
+                                                className="bg-brand-bronze text-white px-10 py-5 rounded-full text-xs font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+                                            >
+                                                Book Now
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {selectedCar && (
+                    <BookingModal 
+                        isOpen={isBookingOpen} 
+                        onClose={() => setIsBookingOpen(false)} 
+                        product={{
+                            ...selectedCar,
+                            title: selectedCar.name,
+                            price: parseInt(selectedCar.price.replace("€", ""))
+                        }} 
+                    />
+                )}
+            </>
+        );
     }
 
     return (
@@ -126,9 +234,15 @@ export default function CarRentalPage() {
             <Navbar />
             <section id="st-section-cars-header" className="relative h-[60vh] flex items-center justify-center overflow-hidden">
                 <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070')" }}
+                    className="absolute inset-0"
                 >
+                    <Image 
+                        src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070"
+                        alt="Car Rental Header"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                     <div className="absolute inset-0 bg-brand-bronze/50" />
                 </div>
                 <div className="relative z-10 px-6 text-center">
@@ -190,7 +304,13 @@ export default function CarRentalPage() {
                                 className="group bg-white rounded-[40px] overflow-hidden shadow-xl"
                             >
                                 <div className="relative aspect-[16/10] overflow-hidden">
-                                    <img src={car.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <Image 
+                                        src={car.image} 
+                                        alt={car.name}
+                                        fill 
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                    />
                                     <div className="absolute top-6 right-6 glass px-4 py-2 rounded-full font-bold text-brand-bronze shadow-lg">
                                         {car.price} <span className="text-xs font-normal opacity-70">/day</span>
                                     </div>
@@ -208,7 +328,10 @@ export default function CarRentalPage() {
                                             </span>
                                         ))}
                                     </div>
-                                    <button className="w-full py-5 bg-brand-gold text-white rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-brand-bronze transition-all shadow-lg hover:shadow-brand-gold/20">
+                                    <button 
+                                        onClick={() => { setSelectedCar(car); setIsBookingOpen(true); }}
+                                        className="w-full py-5 bg-brand-gold text-white rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-brand-bronze transition-all shadow-lg hover:shadow-brand-gold/20"
+                                    >
                                         Book This Vehicle
                                     </button>
                                 </div>
@@ -217,6 +340,19 @@ export default function CarRentalPage() {
                     </div>
                 </div>
             </section>
+
+            {selectedCar && (
+                <BookingModal 
+                    isOpen={isBookingOpen} 
+                    onClose={() => setIsBookingOpen(false)} 
+                    product={{
+                        ...selectedCar,
+                        title: selectedCar.name,
+                        price: parseInt(selectedCar.price.replace("€", ""))
+                    }} 
+                />
+            )}
+
             <Footer />
         </main>
     );

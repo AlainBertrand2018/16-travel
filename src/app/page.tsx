@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
@@ -12,11 +14,11 @@ import { BlogGrid } from "@/components/BlogGrid";
 import { ContactForm } from "@/components/ContactForm";
 import { GoldenTrace } from "@/components/GoldenTrace";
 import { Footer } from "@/components/Footer";
-import { Preloader } from "@/components/Preloader";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const router = useRouter();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -34,7 +36,7 @@ export default function Home() {
   }, []);
 
   // Prevent hydration mismatch by wait for client-side state
-  if (isMobile === null) return <Preloader />;
+  if (isMobile === null) return null;
 
   // MOBILE VIEW: Independent App-style experience
   if (isMobile) {
@@ -52,7 +54,6 @@ export default function Home() {
   // DESKTOP VIEW: Premium vertical scroll experience
   return (
     <main className="relative min-h-screen">
-      <Preloader />
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-brand-gold z-[60] origin-left"
@@ -82,7 +83,14 @@ export default function Home() {
 
             <section id="st-section-home-cta" className="relative py-32 px-6 overflow-hidden">
               <div className="absolute inset-0 bg-brand-bronze -z-20" />
-              <div className="absolute inset-0 bg-[url('https://sixteen-travel.vercel.app/images/hero-Background.jpg')] opacity-20 bg-cover bg-center -z-10" />
+              <div className="absolute inset-0 -z-10 opacity-20">
+                <Image 
+                  src="/images/hero-Background.jpg" 
+                  alt="CTA Background"
+                  fill 
+                  className="object-cover"
+                />
+              </div>
 
               <div className="relative z-20 max-w-4xl mx-auto text-center text-white">
                 <motion.div
@@ -96,7 +104,7 @@ export default function Home() {
                   </p>
                   <button 
                     id="st-child-home-cta-button" 
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-booking'))}
+                    onClick={() => router.push('/activities')}
                     className="bg-brand-gold hover:bg-white hover:text-brand-bronze text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-xl"
                   >
                     Plan Your Trip

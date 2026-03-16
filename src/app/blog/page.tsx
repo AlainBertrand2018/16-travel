@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ArrowUpRight, Clock, User } from "lucide-react";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
+import Image from "next/image";
 
 const posts = [
     {
@@ -53,7 +54,13 @@ export default function BlogPage() {
                 component: (
                     <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
                         <div className="absolute inset-0 opacity-40">
-                             <img src="/images/leMorne_hiking.avif" className="w-full h-full object-cover" />
+                             <Image 
+                                src="/images/leMorne_hiking.avif" 
+                                alt="Le Morne Hiking"
+                                fill 
+                                className="object-cover"
+                                priority
+                             />
                         </div>
                         <div className="relative z-10 space-y-8">
                              <span className="inline-block px-4 py-1.5 bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
@@ -75,7 +82,13 @@ export default function BlogPage() {
                 component: (
                     <div className="proportional-section bg-white p-10 min-h-screen flex flex-col justify-center space-y-8">
                         <div className="relative aspect-video w-full rounded-[40px] overflow-hidden shadow-2xl">
-                            <img src={post.image} className="w-full h-full object-cover" />
+                            <Image 
+                                src={post.image} 
+                                alt={post.title}
+                                fill 
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 33vw"
+                            />
                             <div className="absolute top-4 right-4 bg-brand-gold px-3 py-1 rounded-full text-[8px] uppercase font-bold text-white">
                                 {post.category}
                             </div>
@@ -104,9 +117,15 @@ export default function BlogPage() {
             <Navbar />
             <section id="st-section-blog-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
                 <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: "url('/images/leMorne_hiking.avif')" }}
+                    className="absolute inset-0"
                 >
+                    <Image 
+                        src="/images/leMorne_hiking.avif"
+                        alt="Blog Header"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                     <div className="absolute inset-0 bg-brand-bronze/40" />
                 </div>
                 <div className="relative z-10 px-6">
@@ -136,8 +155,14 @@ export default function BlogPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
                         <div id="st-child-blog-content-featured" className="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-[80px]">
-                            <div className="aspect-[21/9] w-full">
-                                <img src={posts[0].image} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                            <div className="aspect-[21/9] w-full relative">
+                                <Image 
+                                    src={posts[0].image} 
+                                    alt={posts[0].title}
+                                    fill 
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                    sizes="100vw"
+                                />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                                 <div className="absolute inset-x-12 bottom-12 text-white">
                                     <span className="bg-brand-gold px-4 py-1 rounded-full text-[10px] uppercase font-bold mb-6 inline-block">Featured</span>
@@ -160,7 +185,13 @@ export default function BlogPage() {
                                     className="group cursor-pointer"
                                 >
                                     <div className="relative aspect-[16/10] rounded-[60px] overflow-hidden mb-12 shadow-2xl">
-                                        <img src={post.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                        <Image 
+                                            src={post.image} 
+                                            alt={post.title}
+                                            fill 
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                        />
                                         <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-transparent" />
                                     </div>
                                     <div className="space-y-6">

@@ -21,6 +21,7 @@ import {
 } from "@/lib/mockData";
 import { dbService, storageService } from "@/lib/db";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { Image as ImageIcon } from "lucide-react";
 
 export default function TransportManagement() {
@@ -179,10 +180,12 @@ export default function TransportManagement() {
                 {/* Vehicle Header Visual */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-admin-bg">
                   {vehicle.image ? (
-                    <img 
+                    <Image 
                       src={vehicle.image} 
                       alt={vehicle.make} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105" 
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-admin-text-muted/20">
@@ -284,9 +287,9 @@ export default function TransportManagement() {
                 {/* Profile Visual (Large) */}
                 <div className="-mt-14 px-6 relative z-10">
                   <div className="flex items-end gap-5">
-                    <div className="w-24 h-24 rounded-[32px] bg-admin-bg border-[6px] border-admin-card flex items-center justify-center shadow-2xl overflow-hidden group-hover:border-admin-accent/20 transition-all duration-500">
+                    <div className="w-24 h-24 rounded-[32px] bg-admin-bg border-[6px] border-admin-card flex items-center justify-center shadow-2xl overflow-hidden group-hover:border-admin-accent/20 transition-all duration-500 relative">
                       {driver.image ? (
-                        <img src={driver.image} alt={driver.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <Image src={driver.image} alt={driver.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                       ) : (
                         <DriverIcon className="w-10 h-10 text-admin-accent/30" />
                       )}
@@ -381,14 +384,14 @@ export default function TransportManagement() {
                           accept="image/*"
                           onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], 'vehicle')}
                         />
-                        <div 
+                         <div 
                           onClick={() => vehicleFileRef.current?.click()}
-                          className="w-full h-32 bg-admin-bg rounded-xl border-2 border-dashed border-admin-border flex flex-col items-center justify-center cursor-pointer hover:bg-admin-bg/80 transition-all overflow-hidden"
+                          className="w-full h-32 bg-admin-bg rounded-xl border-2 border-dashed border-admin-border flex flex-col items-center justify-center cursor-pointer hover:bg-admin-bg/80 transition-all overflow-hidden relative"
                         >
                            {isUploading ? (
                              <div className="w-6 h-6 border-2 border-admin-accent border-t-transparent rounded-full animate-spin" />
                            ) : vehicleForm.image ? (
-                             <img src={vehicleForm.image} className="w-full h-full object-cover" />
+                             <Image src={vehicleForm.image} alt="Preview" fill className="object-cover" />
                            ) : (
                              <>
                                <ImageIcon className="w-6 h-6 text-admin-text-muted mb-2" />
@@ -517,7 +520,7 @@ export default function TransportManagement() {
                           {isUploading ? (
                              <div className="w-6 h-6 border-2 border-admin-accent border-t-transparent rounded-full animate-spin" />
                            ) : driverForm.image ? (
-                             <img src={driverForm.image} className="w-full h-full object-cover" />
+                             <Image src={driverForm.image} alt="Preview" fill className="object-cover" />
                            ) : (
                              <DriverIcon className="w-8 h-8 text-admin-text-muted" />
                            )}

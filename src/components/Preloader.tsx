@@ -3,17 +3,39 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const IMAGES_TO_PRELOAD = [
+    // Hero & Critical Branding
     "https://sixteen-travel.vercel.app/images/hero-Background.jpg",
     "/images/Vitz_logo_1.webp",
+    "/images/barcode_mock.webp",
+    
+    // Fleet Assets
+    "/images/16_exec_5-7.webp",
+    "/images/16_minivan.webp",
+    "/images/16_suv_5-7.webp",
+    "/images/BMW_Mau.webp",
+    "/images/Jimny_Mau.webp",
+    "/images/Toyota_mau.webp",
+    
+    // Destination & Blog Visuals
+    "/images/leMorne_hiking.avif",
+    "/images/chamarel-7couleurs.webp",
+    "/images/mauritius-oberoi-royal.webp",
+    "/images/IleauxCerfs.webp",
+    "/images/Kitesurfing_in_Mauritius.webp",
+    "/images/Ferney-Gardens.webp",
+    "/images/port-louis-caudan.webp",
+    "/images/underwater_16.webp",
+    "/images/Chapeau_paille.webp",
+    "/images/mauritius_south.jpg",
+    "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=2070",
+
+    // Remote fallbacks
     "https://sixteen-travel.vercel.app/images/le_Morne_hiking.avif",
     "https://sixteen-travel.vercel.app/images/mru-catamaran-ileauxCerfs.webp",
     "https://sixteen-travel.vercel.app/images/dauphins.jpg",
     "https://sixteen-travel.vercel.app/images/7couleurs.jpg",
     "https://sixteen-travel.vercel.app/images/south-east.jpg",
-    "/images/Jimny_Mau.webp",
-    "/images/Toyota_mau.webp",
-    "/images/BMW_Mau.webp",
-    "/images/leMorne_hiking.avif",
+    "https://sixteen-travel.vercel.app/images/hero-Background.jpg"
 ];
 
 export function Preloader() {
@@ -21,6 +43,13 @@ export function Preloader() {
     const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
+        // Only run preloader once per session
+        const hasLoaded = sessionStorage.getItem("st_preloader_done");
+        if (hasLoaded) {
+            setIsComplete(true);
+            return;
+        }
+
         let mounted = true;
 
         const preloadImage = (src: string) => {
@@ -51,7 +80,12 @@ export function Preloader() {
 
             if (mounted) {
                 // Short hover at 100% for aesthetic closure
-                setTimeout(() => setIsComplete(true), 1200);
+                setTimeout(() => {
+                    if (mounted) {
+                        sessionStorage.setItem("st_preloader_done", "true");
+                        setIsComplete(true);
+                    }
+                }, 1200);
             }
         };
 
