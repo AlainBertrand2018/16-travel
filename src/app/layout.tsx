@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/Vitz_logo_1.webp",
+        url: "https://firebasestorage.googleapis.com/v0/b/sixteentravel.firebasestorage.app/o/products%2Fmauritius-1-8_wd%20(1).webp?alt=media&token=b15b879f-96f4-48e3-b815-88766c33b13e",
         width: 1200,
         height: 630,
         alt: "Sixteen Travel Mauritius",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SIXTEEN TRAVEL | Your Ultimate Touring Partner in Mauritius",
     description: "Bespoke tourism services in Mauritius. Exclusive tours, adventure activities, and seamless travel experiences with instant confirmation and best price guaranteed.",
-    images: ["/images/Vitz_logo_1.webp"],
+    images: ["https://firebasestorage.googleapis.com/v0/b/sixteentravel.firebasestorage.app/o/products%2Fmauritius-1-8_wd%20(1).webp?alt=media&token=b15b879f-96f4-48e3-b815-88766c33b13e"],
   },
   alternates: {
     canonical: "https://16-travel.vercel.app/",
