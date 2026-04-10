@@ -35,9 +35,9 @@ export function Footer() {
                             { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61562025393976" },
                             { Icon: Twitter, href: "#" }
                         ].map(({ Icon, href }, i) => (
-                            <a 
-                                key={i} 
-                                href={href} 
+                            <a
+                                key={i}
+                                href={href}
                                 target={href !== "#" ? "_blank" : undefined}
                                 rel={href !== "#" ? "noopener noreferrer" : undefined}
                                 className="w-10 h-10 rounded-full border border-brand-gold/20 flex items-center justify-center hover:bg-brand-gold hover:text-white transition-all"
@@ -69,7 +69,7 @@ export function Footer() {
                     <ul className="space-y-6 text-muted-foreground font-medium">
                         <li className="flex items-center gap-4">
                             <Mail className="w-5 h-5 text-brand-gold" />
-                            <span>contact@sixteentravel.com</span>
+                            <span>contact@sixteen-travel.com</span>
                         </li>
                         <li className="flex items-center gap-4">
                             <Phone className="w-5 h-5 text-brand-gold" />
@@ -108,7 +108,7 @@ export function Footer() {
                 </div>
             </div>
 
-            <LegalModal 
+            <LegalModal
                 isOpen={legalState.isOpen}
                 onClose={() => setLegalState(prev => ({ ...prev, isOpen: false }))}
                 title={legalState.title}
