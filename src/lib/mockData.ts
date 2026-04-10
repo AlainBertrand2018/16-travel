@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   price: number;
   image: string;
-  category: "Activity" | "Outing Package" | "Transfer";
+  category: "Activity Booking" | "Pick & Drop" | "Transfers";
   description?: string;
   subcategory?: string;
   duration?: string;
@@ -23,7 +23,7 @@ export interface BookingItem {
   id: string;
   productId: string;
   productName: string;
-  productType: "Activity" | "Outing Package" | "Transfer";
+  productType: "Activity Booking" | "Pick & Drop" | "Transfers";
   date: string;
   time: string;
   price: number;
@@ -93,13 +93,36 @@ export interface Driver {
   image?: string;
 }
 
+export interface TransportService {
+  id: string;
+  categoryName: string;
+  vehicleImage: string;
+  paxRange?: string;
+  transfers: {
+    type: string;
+    price: number;
+  }[];
+  pickDrop: {
+    duration: string;
+    price: number;
+    destinations: string[];
+  }[];
+  excursions: {
+    name: string;
+    description?: string;
+    includes: string[];
+    time: string;
+    price: number;
+  }[];
+}
+
 export const INITIAL_PRODUCTS: Product[] = [
   {
     id: "a1",
     name: "Tandem Parasailing",
     price: 95,
     image: "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=2070",
-    category: "Activity",
+    category: "Activity Booking",
     subcategory: "Water Sports",
     description: "Soar above the turquoise lagoon for a breathtaking bird's-eye view."
   },
@@ -108,7 +131,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: "VIP Helicopter Tour",
     price: 450,
     image: "https://images.unsplash.com/photo-1506159679117-91689a7444c1?q=80&w=2070",
-    category: "Activity",
+    category: "Activity Booking",
     subcategory: "Aerial Tours",
     description: "Experience the island's majestic waterfalls and peaks from the sky."
   },
@@ -117,7 +140,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: "Le Sud-Ouest Sauvage",
     price: 450,
     image: "https://sixteen-travel.vercel.app/images/7couleurs.jpg",
-    category: "Outing Package",
+    category: "Activity Booking",
     description: "Explore the wild south-west. From the Seven Colored Earths to hidden waterfalls."
   },
   {
@@ -125,7 +148,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: "L'Est Turquoise",
     price: 550,
     image: "https://sixteen-travel.vercel.app/images/south-east.jpg",
-    category: "Outing Package",
+    category: "Activity Booking",
     description: "Sail towards the sunrise with private island picnics."
   },
   {
@@ -133,7 +156,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: "VIP Airport Transfer",
     price: 80,
     image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069",
-    category: "Transfer",
+    category: "Transfers",
     description: "Reliable and comfortable transportation from SSR International Airport."
   }
 ];
@@ -162,7 +185,7 @@ export const INITIAL_BOOKINGS: Booking[] = [
         id: "itm-1",
         productId: "s1",
         productName: "Arrival Transfer (Minivan)",
-        productType: "Transfer",
+        productType: "Transfers",
         date: "2026-03-20",
         time: "10:30",
         price: 80,
@@ -172,7 +195,7 @@ export const INITIAL_BOOKINGS: Booking[] = [
         id: "itm-2",
         productId: "p1",
         productName: "Le Sud-Ouest Sauvage",
-        productType: "Outing Package",
+        productType: "Activity Booking",
         date: "2026-03-21",
         time: "09:00",
         price: 450
@@ -181,7 +204,7 @@ export const INITIAL_BOOKINGS: Booking[] = [
         id: "itm-3",
         productId: "p2",
         productName: "L'Est Turquoise",
-        productType: "Outing Package",
+        productType: "Activity Booking",
         date: "2026-03-23",
         time: "08:30",
         price: 550
@@ -211,7 +234,7 @@ export const INITIAL_BOOKINGS: Booking[] = [
         id: "itm-4",
         productId: "s1",
         productName: "Arrival Transfer (VIP Car)",
-        productType: "Transfer",
+        productType: "Transfers",
         date: "2026-03-21",
         time: "14:00",
         price: 95,
@@ -221,7 +244,7 @@ export const INITIAL_BOOKINGS: Booking[] = [
         id: "itm-5",
         productId: "b1",
         productName: "Tandem Parasailing",
-        productType: "Activity",
+        productType: "Activity Booking",
         date: "2026-03-22",
         time: "10:00",
         price: 120
@@ -319,5 +342,171 @@ export const INITIAL_DRIVERS: Driver[] = [
     licenseNumber: "L-110293",
     status: "On Trip",
     rating: 4.8
+  }
+];
+
+export const INITIAL_TRANSPORT_SERVICES: TransportService[] = [
+  {
+    id: "ts1",
+    categoryName: "Standard Car",
+    vehicleImage: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=2070",
+    transfers: [
+      { type: "Airport to Hotel", price: 2000 },
+      { type: "Hotel to Airport", price: 2000 },
+      { type: "Inter-hotel", price: 2500 }
+    ],
+    pickDrop: [
+      {
+        duration: "Full Day",
+        price: 5000,
+        destinations: ["Casela", "Boat Trips", "Vallée Des Couleurs", "Domaine Frederica for quad", "Big Foot", "Marine Sub Scooter", "Catamaran"]
+      },
+      {
+        duration: "Half Day",
+        price: 4000,
+        destinations: ["Helicopter", "Sky Dive"]
+      }
+    ],
+    excursions: [
+      {
+        name: "North Tour Full Day Package",
+        time: "8hr",
+        price: 5000,
+        includes: ["La Citadelle", "Port Louis Market", "Caudan Waterfront", "Botanical Garden of Pamplemousse", "Beau Plan Sugar Factory", "Cap Malheureux"]
+      },
+      {
+        name: "North Tour Half Day Trip",
+        time: "4hr",
+        price: 4000,
+        includes: ["Quick highlights of North regional attractions"]
+      },
+      {
+        name: "South Tour Full Day Package 1",
+        time: "8hr",
+        price: 5000,
+        includes: ["Volcano", "Grand Bassin", "Bois Chéri tea factory", "Gorges", "Chamarel", "Curious Corner", "View Point"]
+      },
+      {
+        name: "South Tour Full Day Package 2",
+        time: "8hr",
+        price: 5000,
+        includes: ["La Vanille Crocodile Park", "St Aubin Rhum Factory", "Gris-gris", "Ile Aux Sancho", "Rochester Fall", "Maconde"]
+      },
+      {
+        name: "South Tour Half Day Trip",
+        time: "5hr",
+        price: 4000,
+        includes: ["Quick highlights of South regional attractions"]
+      }
+    ]
+  },
+  {
+    id: "ts2",
+    categoryName: "Executive Car",
+    vehicleImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070",
+    transfers: [
+      { type: "Airport to Hotel", price: 6500 },
+      { type: "Hotel to Airport", price: 6500 },
+      { type: "Inter-hotel", price: 7000 }
+    ],
+    pickDrop: [
+      {
+        duration: "Full Day",
+        price: 12000,
+        destinations: ["Casela", "Boat Trips", "Vallée Des Couleurs", "Domaine Frederica for quad", "Big Foot", "Marine Sub Scooter", "Catamaran"]
+      },
+      {
+        duration: "Half Day",
+        price: 10000,
+        destinations: ["Helicopter", "Sky Dive"]
+      }
+    ],
+    excursions: [
+      {
+        name: "North Tour Full Day Package",
+        time: "8hr",
+        price: 12000,
+        includes: ["La Citadelle", "Port Louis Market", "Caudan Waterfront", "Botanical Garden of Pamplemousse", "Beau Plan Sugar Factory", "Cap Malheureux"]
+      },
+      {
+        name: "North Tour Half Day Trip",
+        time: "4hr",
+        price: 10000,
+        includes: ["Quick highlights of North regional attractions"]
+      },
+      {
+        name: "South Tour Full Day Package 1",
+        time: "8hr",
+        price: 12000,
+        includes: ["Volcano", "Grand Bassin", "Bois Chéri tea factory", "Gorges", "Chamarel", "Curious Corner", "View Point"]
+      },
+      {
+        name: "South Tour Full Day Package 2",
+        time: "8hr",
+        price: 12000,
+        includes: ["La Vanille Crocodile Park", "St Aubin Rhum Factory", "Gris-gris", "Ile Aux Sancho", "Rochester Fall", "Maconde"]
+      },
+      {
+        name: "South Tour Half Day Trip",
+        time: "5hr",
+        price: 10000,
+        includes: ["Quick highlights of South regional attractions"]
+      }
+    ]
+  },
+  {
+    id: "ts3",
+    categoryName: "Executive Minivan",
+    paxRange: "04-08 Pax",
+    vehicleImage: "https://images.unsplash.com/photo-1549416843-ea70335e804f?q=80&w=2070",
+    transfers: [
+      { type: "Airport to Hotel", price: 4500 },
+      { type: "Hotel to Airport", price: 4500 },
+      { type: "Inter-hotel", price: 5000 }
+    ],
+    pickDrop: [
+      {
+        duration: "Full Day",
+        price: 8000,
+        destinations: ["Casela", "Boat Trips", "Vallée Des Couleurs", "Domaine Frederica for quad", "Big Foot", "Marine Sub Scooter", "Catamaran"]
+      },
+      {
+        duration: "Half Day",
+        price: 5000,
+        destinations: ["Helicopter", "Sky Dive"]
+      }
+    ],
+    excursions: [
+      {
+        name: "North Tour Full Day Package",
+        time: "8hr",
+        price: 8000,
+        includes: ["La Citadelle", "Port Louis Market", "Caudan Waterfront", "Botanical Garden of Pamplemousse", "Beau Plan Sugar Factory", "Cap Malheureux"]
+      },
+      {
+        name: "North Tour Half Day Trip",
+        time: "4hr",
+        price: 5000,
+        includes: ["Quick highlights of North regional attractions"]
+      },
+      {
+        name: "South Tour Full Day Package 1",
+        time: "8hr",
+        price: 8000,
+        includes: ["Volcano", "Grand Bassin", "Bois Chéri tea factory", "Gorges", "Chamarel", "Curious Corner", "View Point"]
+      },
+      {
+        name: "South Tour Full Day Package 2",
+        time: "8hr",
+        price: 8000,
+        includes: ["La Vanille Crocodile Park", "St Aubin Rhum Factory", "Gris-gris", "Ile Aux Sancho", "Rochester Fall", "Maconde"]
+      },
+      {
+        name: "South Tour Half Day Trip",
+        time: "5hr",
+        price: 8000,
+        includes: ["Quick highlights of South regional attractions"]
+      }
+    ]
   }
 ];

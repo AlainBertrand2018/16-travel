@@ -7,32 +7,32 @@ import Image from "next/image";
 const services = [
     {
         id: 1,
-        title: "Transfer & Rentals",
-        description: "Premium fleet of luxury vehicles for your island exploration.",
+        title: "Transfers & Rentals",
+        description: "Premium fleet of vehicles for your island exploration and your transfers from and to the airport.",
         icon: <Car />,
         color: "bg-blue-500/10",
         image: "/images/Vitz_logo_1.webp"
     },
     {
         id: 2,
-        title: "Nature Adventures",
-        description: "Hike the iconic Le Morne Brabant and discover hidden waterfalls.",
+        title: "Pick & Drop",
+        description: "Need to go a day activity or a night out? We've got you covered.",
         icon: <Mountain />,
         color: "bg-green-500/10",
-        image: "https://sixteen-travel.vercel.app/images/le_Morne_hiking.avif"
+        image: "/images/kitesurfing_in_Mauritius.webp"
     },
     {
         id: 3,
-        title: "Boat Trips",
-        description: "Private catamarans and turquoise lagoon explorations.",
+        title: "Trips & Excursions",
+        description: "Let us be your private guide around the island, in a comfortable and safe way.",
         icon: <Waves />,
         color: "bg-cyan-500/10",
-        image: "https://sixteen-travel.vercel.app/images/mru-catamaran-ileauxCerfs.webp"
+        image: "/images/port-louis-caudan.webp"
     },
     {
         id: 4,
-        title: "Underwater Adventures",
-        description: "Discover the crystal-clear depths and vibrant marine life of the Mauritian lagoons.",
+        title: "Special Activity Bookings",
+        description: "Should it be the crystal-clear depths and vibrant marine life of the Mauritian lagoons, or for an outing on a catamaran.",
         icon: <Waves />,
         color: "bg-orange-500/10",
         image: "/images/underwater_16.webp"

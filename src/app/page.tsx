@@ -15,6 +15,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { GoldenTrace } from "@/components/GoldenTrace";
 import { Footer } from "@/components/Footer";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
+// import { TransfersExcursions } from "@/components/TransfersExcursions";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
@@ -84,10 +85,10 @@ export default function Home() {
             <section id="st-section-home-cta" className="relative py-32 px-6 overflow-hidden">
               <div className="absolute inset-0 bg-brand-bronze -z-20" />
               <div className="absolute inset-0 -z-10 opacity-20">
-                <Image 
-                  src="/images/hero-Background.jpg" 
+                <Image
+                  src="/images/mauritius-oberoi-royal.webp"
                   alt="CTA Background"
-                  fill 
+                  fill
                   className="object-cover"
                 />
               </div>
@@ -102,8 +103,8 @@ export default function Home() {
                   <p className="text-xl md:text-2xl mb-12 text-white/80">
                     Our destination specialists are ready to curate your next extraordinary journey.
                   </p>
-                  <button 
-                    id="st-child-home-cta-button" 
+                  <button
+                    id="st-child-home-cta-button"
                     onClick={() => router.push('/activities')}
                     className="bg-brand-gold hover:bg-white hover:text-brand-bronze text-white px-10 py-5 rounded-full font-bold text-sm uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-xl"
                   >

@@ -8,7 +8,7 @@ export function Hero() {
             <div id="st-child-home-hero-background" className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-brand-bronze/10 z-10" />
                 <Image
-                    src="https://sixteen-travel.vercel.app/images/hero-Background.jpg"
+                    src="/images/mauritius-oberoi-royal.webp"
                     alt="Mauritius Luxury Backdrop"
                     fill
                     className="object-cover"

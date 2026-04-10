@@ -65,7 +65,7 @@ export default function BookingsManagement() {
               id: Math.random().toString(36).substr(2, 9),
               productId: "",
               productName: isArrival ? "Select Arrival Transfer" : isDeparture ? "Select Departure Transfer" : "Select Activity",
-              productType: (isArrival || isDeparture) ? "Transfer" : "Outing Package",
+              productType: (isArrival || isDeparture) ? "Transfers" : "Activity Booking",
               date: dateStr,
               time: isArrival ? "12:00" : "09:00",
               price: 0,
@@ -394,7 +394,7 @@ export default function BookingsManagement() {
                                               productName: e.target.value, 
                                               productId: prod?.id || "", 
                                               price: prod?.price || 100,
-                                              productType: prod?.category || "Outing Package" 
+                                              productType: prod?.category || "Activity Booking" 
                                            });
                                         }}
                                      >
@@ -407,7 +407,7 @@ export default function BookingsManagement() {
                                             <option>Coaster Bus Transfer</option>
                                           </>
                                         ) : (
-                                          products.filter((p: Product) => p.category !== 'Transfer').map((p: Product) => (
+                                          products.filter((p: Product) => p.category !== 'Transfers').map((p: Product) => (
                                             <option key={p.id}>{p.name}</option>
                                           ))
                                         )}

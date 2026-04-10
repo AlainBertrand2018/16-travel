@@ -22,12 +22,12 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 export default function ProductsManagement() {
-  const [activeTab, setActiveTab] = useState<"All" | "Transfer" | "Outing Package" | "Activity">("All");
+  const [activeTab, setActiveTab] = useState<"All" | "Transfers" | "Pick & Drop" | "Activity Booking">("All");
   const [products, setProducts] = useState<Product[]>([]);
   const [isEditing, setIsEditing] = useState<Product | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [productForm, setProductForm] = useState<Partial<Product>>({
-    category: "Activity",
+    category: "Activity Booking",
     price: 0,
     image: ""
   });
@@ -60,7 +60,7 @@ export default function ProductsManagement() {
     setShowAddModal(false);
     setIsEditing(null);
     setProductForm({ 
-      category: "Activity", 
+      category: "Activity Booking", 
       price: 0, 
       image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=2070",
       duration: "",
@@ -110,7 +110,7 @@ export default function ProductsManagement() {
       {/* Search & Tabs */}
       <div className="flex flex-col xl:flex-row justify-between items-center gap-6 bg-admin-card p-6 rounded-[32px] border border-admin-border shadow-sm">
         <div className="flex bg-admin-bg p-1.5 rounded-xl border border-admin-border gap-1">
-          {(["All", "Transfer", "Outing Package", "Activity"] as const).map((tab) => (
+          {(["All", "Transfers", "Pick & Drop", "Activity Booking"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -120,7 +120,7 @@ export default function ProductsManagement() {
                   : "text-admin-text-muted hover:text-admin-text-main"
               }`}
             >
-              {tab === "Transfer" ? "Transfers" : tab === "Outing Package" ? "Outings" : tab === "Activity" ? "Activities" : tab}
+              {tab}
             </button>
           ))}
         </div>
@@ -181,13 +181,13 @@ export default function ProductsManagement() {
                 </div>
                  <div className="absolute bottom-4 left-4 flex gap-2">
                   <span className={`px-2.5 py-1 text-white text-[8px] font-black uppercase tracking-[0.2em] rounded-lg shadow-lg flex items-center gap-1.5 ${
-                    product.category === 'Transfer' ? 'bg-blue-600' :
-                    product.category === 'Outing Package' ? 'bg-amber-600' :
+                    product.category === 'Transfers' ? 'bg-blue-600' :
+                    product.category === 'Pick & Drop' ? 'bg-amber-600' :
                     'bg-purple-600'
                   }`}>
-                    {product.category === 'Activity' && <Wind className="w-2.5 h-2.5" />}
-                    {product.category === 'Transfer' && <Plane className="w-2.5 h-2.5" />}
-                    {product.category === 'Outing Package' && <Anchor className="w-2.5 h-2.5" />}
+                    {product.category === 'Activity Booking' && <Wind className="w-2.5 h-2.5" />}
+                    {product.category === 'Transfers' && <Plane className="w-2.5 h-2.5" />}
+                    {product.category === 'Pick & Drop' && <Anchor className="w-2.5 h-2.5" />}
                     {product.category}
                   </span>
                 </div>
@@ -226,11 +226,11 @@ export default function ProductsManagement() {
                       <span>REF: {product.id}</span>
                    </div>
                    <div className={`px-2 py-0.5 rounded text-[7px] border ${
-                     product.category === 'Transfer' ? 'border-blue-500/20 text-blue-500 bg-blue-500/5' :
-                     product.category === 'Outing Package' ? 'border-amber-500/20 text-amber-500 bg-amber-500/5' :
+                     product.category === 'Transfers' ? 'border-blue-500/20 text-blue-500 bg-blue-500/5' :
+                     product.category === 'Pick & Drop' ? 'border-amber-500/20 text-amber-500 bg-amber-500/5' :
                      'border-purple-500/20 text-purple-500 bg-purple-500/5'
                    }`}>
-                      {product.category === 'Activity' ? 'ADVENTURE READY' : 'ACTIVE LISTING'}
+                      {product.category === 'Activity Booking' ? 'ADVENTURE READY' : 'ACTIVE LISTING'}
                    </div>
                 </div>
               </div>
@@ -288,12 +288,12 @@ export default function ProductsManagement() {
                       <label className="block text-[9px] font-black uppercase tracking-widest text-admin-text-muted ml-0.5">Classification</label>
                       <select 
                         className="form-input-admin h-[46px] py-0"
-                        value={productForm.category || "Activity"}
+                        value={productForm.category || "Activity Booking"}
                         onChange={(e) => setProductForm({ ...productForm, category: e.target.value as any })}
                       >
-                        <option value="Activity">Activity</option>
-                        <option value="Outing Package">Outing Package</option>
-                        <option value="Transfer">Transfer</option>
+                        <option value="Activity Booking">Activity Booking</option>
+                        <option value="Pick & Drop">Pick & Drop</option>
+                        <option value="Transfers">Transfers</option>
                       </select>
                     </div>
                     <div className="space-y-1.5">
@@ -364,8 +364,8 @@ export default function ProductsManagement() {
                         )}
                       </div>
 
-                      {/* Itinerary Images Grid for Outing Packages */}
-                      {productForm.category === "Outing Package" && (
+                      {/* Itinerary Images Grid for Activity Bookings */}
+                      {productForm.category === "Activity Booking" && (
                         <div className="space-y-2 text-left">
                           <label className="block text-[9px] font-black uppercase tracking-widest text-admin-text-muted ml-0.5">Expedition Itinerary (5 Slots)</label>
                           <div className="grid grid-cols-5 gap-2">

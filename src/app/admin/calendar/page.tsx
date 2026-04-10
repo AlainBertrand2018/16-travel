@@ -192,9 +192,9 @@ export default function ActivityCalendar() {
                       <div className="mt-4 space-y-1.5">
                         {dayActivities.slice(0, 3).map((act) => (
                           <div key={act.id} className={`px-2 py-1 rounded-md text-[8px] font-black uppercase tracking-tighter truncate border ${
-                            act.productType === 'Transfer' ? 'bg-blue-500/10 text-blue-500 border-blue-500/10' :
-                            act.productType === 'Outing Package' ? 'bg-amber-500/10 text-amber-500 border-amber-500/10' :
-                            act.productType === 'Activity' ? 'bg-indigo-500/10 text-indigo-500 border-indigo-500/10' :
+                            act.productType === 'Transfers' ? 'bg-blue-500/10 text-blue-500 border-blue-500/10' :
+                            act.productType === 'Pick & Drop' ? 'bg-amber-500/10 text-amber-500 border-amber-500/10' :
+                            act.productType === 'Activity Booking' ? 'bg-indigo-500/10 text-indigo-500 border-indigo-500/10' :
                             'bg-emerald-500/10 text-emerald-500 border-emerald-500/10'
                           }`}>
                             {act.productName}
@@ -255,9 +255,9 @@ export default function ActivityCalendar() {
                               <div className="space-y-1">
                                  <div className="flex items-center gap-2">
                                     <span className={`px-2 py-0.5 rounded text-[7px] font-black uppercase tracking-widest ${
-                                      act.productType === 'Transfer' ? 'bg-blue-500/10 text-blue-500' :
-                                      act.productType === 'Outing Package' ? 'bg-amber-500/10 text-amber-500' :
-                                      act.productType === 'Activity' ? 'bg-indigo-500/10 text-indigo-500' :
+                                      act.productType === 'Transfers' ? 'bg-blue-500/10 text-blue-500' :
+                                      act.productType === 'Pick & Drop' ? 'bg-amber-500/10 text-amber-500' :
+                                      act.productType === 'Activity Booking' ? 'bg-indigo-500/10 text-indigo-500' :
                                       'bg-emerald-500/10 text-emerald-500'
                                     }`}>
                                       {act.productType}
@@ -293,19 +293,19 @@ export default function ActivityCalendar() {
                     <div className="bg-admin-card p-5 rounded-2xl border border-admin-border flex justify-between items-center">
                        <span className="text-[9px] font-black text-admin-text-muted uppercase">Transfers</span>
                        <span className="text-xl font-black text-admin-text-main">
-                          {filteredActivities.filter(a => new Date(a.date).toDateString() === currentDate.toDateString() && a.productType === 'Transfer').length}
+                          {filteredActivities.filter(a => new Date(a.date).toDateString() === currentDate.toDateString() && a.productType === 'Transfers').length}
                        </span>
                     </div>
                     <div className="bg-admin-card p-5 rounded-2xl border border-admin-border flex justify-between items-center">
                        <span className="text-[9px] font-black text-admin-text-muted uppercase">Outings</span>
                        <span className="text-xl font-black text-admin-text-main">
-                          {filteredActivities.filter(a => new Date(a.date).toDateString() === currentDate.toDateString() && a.productType === 'Outing Package').length}
+                          {filteredActivities.filter(a => new Date(a.date).toDateString() === currentDate.toDateString() && a.productType === 'Pick & Drop').length}
                        </span>
                     </div>
                     <div className="bg-admin-card p-5 rounded-2xl border border-admin-border flex justify-between items-center">
                        <span className="text-[9px] font-black text-admin-text-muted uppercase">Activities</span>
                        <span className="text-xl font-black text-admin-text-main">
-                          {filteredActivities.filter(a => new Date(a.date).toDateString() === currentDate.toDateString() && a.productType === 'Activity').length}
+                          {filteredActivities.filter(a => new Date(a.date).toDateString() === currentDate.toDateString() && a.productType === 'Activity Booking').length}
                        </span>
                     </div>
                  </div>
@@ -356,9 +356,9 @@ export default function ActivityCalendar() {
                                      <div className="flex flex-col gap-1.5">
                                         <span className="flex items-center gap-1.5 text-[8px] font-black text-admin-text-muted uppercase tracking-tighter"><User className="w-2.5 h-2.5 text-admin-accent" /> {act.customerName.split(' ')[0]}</span>
                                         <span className={`px-1.5 py-0.5 rounded text-[6px] font-black uppercase tracking-widest w-fit border ${
-                                          act.productType === 'Transfer' ? 'bg-blue-500/5 text-blue-500 border-blue-500/10' :
-                                          act.productType === 'Outing Package' ? 'bg-amber-500/5 text-amber-500 border-amber-500/10' :
-                                          act.productType === 'Activity' ? 'bg-indigo-500/5 text-indigo-500 border-indigo-500/10' :
+                                          act.productType === 'Transfers' ? 'bg-blue-500/5 text-blue-500 border-blue-500/10' :
+                                          act.productType === 'Pick & Drop' ? 'bg-amber-500/5 text-amber-500 border-amber-500/10' :
+                                          act.productType === 'Activity Booking' ? 'bg-indigo-500/5 text-indigo-500 border-indigo-500/10' :
                                           'bg-emerald-500/5 text-emerald-500 border-emerald-500/10'
                                         }`}>
                                           {act.productType}
@@ -471,19 +471,19 @@ export default function ActivityCalendar() {
                            <div className="bg-blue-500/5 p-5 rounded-2xl border border-blue-500/10 flex flex-col items-center justify-center text-center">
                               <p className="text-[8px] font-black uppercase text-blue-500 tracking-widest mb-1">Transfers</p>
                               <p className="text-xl font-black text-blue-500 font-mono">
-                                {activitiesForSelectedDate.filter(a => a.productType === 'Transfer').length}
+                                {activitiesForSelectedDate.filter(a => a.productType === 'Transfers').length}
                               </p>
                            </div>
                            <div className="bg-amber-500/5 p-5 rounded-2xl border border-amber-500/10 flex flex-col items-center justify-center text-center">
                               <p className="text-[8px] font-black uppercase text-amber-500 tracking-widest mb-1">Outings</p>
                               <p className="text-xl font-black text-amber-500 font-mono">
-                                {activitiesForSelectedDate.filter(a => a.productType === 'Outing Package').length}
+                                {activitiesForSelectedDate.filter(a => a.productType === 'Pick & Drop').length}
                               </p>
                            </div>
                            <div className="bg-indigo-500/5 p-5 rounded-2xl border border-indigo-500/10 flex flex-col items-center justify-center text-center">
                               <p className="text-[8px] font-black uppercase text-indigo-500 tracking-widest mb-1">Activities</p>
                               <p className="text-xl font-black text-indigo-500 font-mono">
-                                {activitiesForSelectedDate.filter(a => a.productType === 'Activity').length}
+                                {activitiesForSelectedDate.filter(a => a.productType === 'Activity Booking').length}
                               </p>
                            </div>
                         </div>
@@ -520,7 +520,7 @@ export default function ActivityCalendar() {
                                 <h5 className="font-black text-[10px] uppercase tracking-widest text-white/80">Supervisor Intelligence</h5>
                              </div>
                              <p className="text-[10px] text-white/50 leading-relaxed font-medium italic">
-                                {activitiesForSelectedDate.some(a => a.productType === 'Transfer') 
+                                {activitiesForSelectedDate.some(a => a.productType === 'Transfers') 
                                   ? "High priority transfers detected. Coordinate vehicle prep and chauffeur arrival 15m prior to scheduled pickup."
                                   : "Monitoring inventory levels for upcoming product distribution."}
                              </p>

@@ -23,50 +23,25 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>({
+    uid: "dev-user",
+    email: "admin@sixteen.travel",
+    displayName: "Admin"
+  } as any);
+  const [profile, setProfile] = useState<any>({
+    name: "Admin",
+    role: "System Admin"
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let isMounted = true;
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUser(user);
-        try {
-          // Fetch additional profile data from Firestore
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
-          if (isMounted) {
-            if (docSnap.exists()) {
-              setProfile({ ...docSnap.data(), id: docSnap.id });
-            } else {
-              setProfile(null);
-            }
-            setLoading(false);
-          }
-        } catch (error) {
-          console.error("Auth status change error:", error);
-          if (isMounted) {
-            setLoading(false);
-          }
-        }
-      } else {
-        if (isMounted) {
-          setUser(null);
-          setProfile(null);
-          setLoading(false);
-        }
-      }
-    });
-
-    return () => {
-      isMounted = false;
-      unsubscribe();
-    };
+    // Auth logic suspended for development
+    setLoading(false);
   }, []);
 
   const signOut = async () => {
-    await firebaseSignOut(auth);
+    // Sign out disabled for development
+    console.log("Sign out bypassed");
   };
 
   return (

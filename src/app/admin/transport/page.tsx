@@ -10,14 +10,19 @@ import {
   ShieldCheck,
   AlertCircle,
   Users,
-  X
+  X,
+  Package,
+  Map,
+  Clock,
+  Briefcase
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   INITIAL_VEHICLES, 
   INITIAL_DRIVERS, 
   Vehicle, 
-  Driver 
+  Driver,
+  TransportService
 } from "@/lib/mockData";
 import { dbService, storageService } from "@/lib/db";
 import { useEffect, useRef } from "react";
@@ -27,27 +32,43 @@ import { Image as ImageIcon } from "lucide-react";
 export default function TransportManagement() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [drivers, setDrivers] = useState<Driver[]>([]);
-  const [view, setView] = useState<"vehicles" | "drivers">("vehicles");
+  const [services, setServices] = useState<TransportService[]>([]);
+  const [view, setView] = useState<"vehicles" | "drivers" | "packages">("vehicles");
   const [searchTerm, setSearchTerm] = useState("");
   
   useEffect(() => {
     const unsubVehicles = dbService.subscribeToCollection("transport_vehicles", setVehicles);
     const unsubDrivers = dbService.subscribeToCollection("transport_drivers", setDrivers);
+    const unsubServices = dbService.subscribeToCollection("transport_services", setServices);
     return () => {
       unsubVehicles();
       unsubDrivers();
+      unsubServices();
     };
   }, []);
 
   // Modals state
   const [showVehicleModal, setShowVehicleModal] = useState(false);
   const [showDriverModal, setShowDriverModal] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
   const [editingDriver, setEditingDriver] = useState<Driver | null>(null);
+  const [editingService, setEditingService] = useState<TransportService | null>(null);
 
   const [vehicleForm, setVehicleForm] = useState<Partial<Vehicle>>({
     category: "Executive Car",
     status: "Available"
+  });
+
+  const [serviceForm, setServiceForm] = useState<Partial<TransportService>>({
+    categoryName: "Standard Car",
+    transfers: [
+      { type: "Airport to Hotel", price: 2000 },
+      { type: "Hotel to Airport", price: 2000 },
+      { type: "Inter-hotel", price: 2500 }
+    ],
+    pickDrop: [],
+    excursions: []
   });
 
   const [driverForm, setDriverForm] = useState<Partial<Driver>>({
@@ -57,6 +78,7 @@ export default function TransportManagement() {
   const [isUploading, setIsUploading] = useState(false);
   const vehicleFileRef = useRef<HTMLInputElement>(null);
   const driverFileRef = useRef<HTMLInputElement>(null);
+  const serviceFileRef = useRef<HTMLInputElement>(null);
 
   const handleDeleteVehicle = async (id: string) => {
     if (confirm("Are you sure you want to remove this vehicle?")) {
@@ -67,6 +89,12 @@ export default function TransportManagement() {
   const handleDeleteDriver = async (id: string) => {
     if (confirm("Are you sure you want to remove this driver?")) {
       await dbService.deleteItem("transport_drivers", id);
+    }
+  };
+
+  const handleDeleteService = async (id: string) => {
+    if (confirm("Are you sure you want to delete this service package?")) {
+      await dbService.deleteItem("transport_services", id);
     }
   };
 
@@ -93,15 +121,39 @@ export default function TransportManagement() {
     setEditingDriver(null);
     setDriverForm({ status: "Active" });
   };
-  const handleImageUpload = async (file: File, type: 'vehicle' | 'driver') => {
+
+  const handleSaveService = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingService) {
+      await dbService.updateItem("transport_services", editingService.id, serviceForm);
+    } else {
+      await dbService.addItem("transport_services", serviceForm);
+    }
+    setShowServiceModal(false);
+    setEditingService(null);
+    setServiceForm({
+      categoryName: "Standard Car",
+      transfers: [
+        { type: "Airport to Hotel", price: 2000 },
+        { type: "Hotel to Airport", price: 2000 },
+        { type: "Inter-hotel", price: 2500 }
+      ],
+      pickDrop: [],
+      excursions: []
+    });
+  };
+
+  const handleImageUpload = async (file: File, type: 'vehicle' | 'driver' | 'service') => {
     try {
       setIsUploading(true);
       const path = `${type}s/${Date.now()}_${file.name}`;
       const url = await storageService.uploadFile(path, file);
       if (type === 'vehicle') {
         setVehicleForm(prev => ({ ...prev, image: url }));
-      } else {
+      } else if (type === 'driver') {
         setDriverForm(prev => ({ ...prev, image: url }));
+      } else {
+        setServiceForm(prev => ({ ...prev, vehicleImage: url }));
       }
     } catch (error) {
       console.error("Upload error:", error);
@@ -142,6 +194,19 @@ export default function TransportManagement() {
                 Personnel Roster
               </div>
             </button>
+            <button
+              onClick={() => setView("packages")}
+              className={`px-6 py-3 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                view === "packages" 
+                  ? "bg-admin-accent text-white shadow-md shadow-admin-accent/20" 
+                  : "text-admin-text-muted hover:text-admin-text-main hover:bg-admin-card"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Package className="w-3.5 h-3.5" />
+                Service Packages
+              </div>
+            </button>
         </div>
 
         <div className="flex items-center gap-4 w-full xl:w-auto">
@@ -156,7 +221,11 @@ export default function TransportManagement() {
               />
            </div>
            <button 
-             onClick={() => view === "vehicles" ? setShowVehicleModal(true) : setShowDriverModal(true)}
+             onClick={() => {
+               if (view === "vehicles") setShowVehicleModal(true);
+               else if (view === "drivers") setShowDriverModal(true);
+               else setShowServiceModal(true);
+             }}
              className="px-6 py-3 bg-admin-sidebar text-white rounded-xl flex items-center gap-2 shadow-lg shadow-admin-sidebar/10 hover:brightness-110 active:scale-95 transition-all"
            >
               <Plus className="w-3.5 h-3.5 text-admin-accent" />
@@ -258,7 +327,7 @@ export default function TransportManagement() {
               </div>
             ))}
           </motion.div>
-        ) : (
+        ) : view === "drivers" ? (
           <motion.div 
             key="drivers"
             initial={{ opacity: 0, scale: 0.98 }}
@@ -338,6 +407,83 @@ export default function TransportManagement() {
                     <button 
                       onClick={() => handleDeleteDriver(driver.id)}
                       className="w-14 h-14 bg-rose-500/5 text-rose-500 rounded-2xl flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all border border-rose-500/10 shadow-sm"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="packages"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+          >
+            {services.filter(s => s.categoryName.toLowerCase().includes(searchTerm.toLowerCase())).map((service) => (
+              <div key={service.id} className="bg-admin-card rounded-[32px] shadow-sm border border-admin-border overflow-hidden group hover:border-admin-accent/30 transition-all flex flex-col h-full">
+                <div className="relative aspect-[16/10] overflow-hidden bg-admin-bg">
+                  {service.vehicleImage ? (
+                    <Image 
+                      src={service.vehicleImage} 
+                      alt={service.categoryName} 
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105" 
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-admin-text-muted/20">
+                      <Package className="w-16 h-16" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+                  <div className="absolute bottom-4 left-6">
+                    <p className="text-[9px] font-black text-white/70 uppercase tracking-[0.2em] mb-0.5">{service.paxRange || 'Standard'}</p>
+                    <h3 className="text-xl font-bold text-white tracking-tight">{service.categoryName}</h3>
+                  </div>
+                </div>
+
+                <div className="p-6 flex flex-col flex-1 justify-between gap-6">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-admin-text-muted uppercase bg-admin-bg/50 p-3 rounded-xl border border-admin-border">
+                      <div className="flex items-center gap-2">
+                        <Map className="w-3 h-3 text-admin-accent" />
+                        <span>Transfers</span>
+                      </div>
+                      <span className="text-admin-text-main">{service.transfers.length} Types</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] font-bold text-admin-text-muted uppercase bg-admin-bg/50 p-3 rounded-xl border border-admin-border">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3 h-3 text-admin-accent" />
+                        <span>Excursions</span>
+                      </div>
+                      <span className="text-admin-text-main">{service.excursions.length} Packages</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] font-bold text-admin-text-muted uppercase bg-admin-bg/50 p-3 rounded-xl border border-admin-border">
+                      <div className="flex items-center gap-2">
+                        <Briefcase className="w-3 h-3 text-admin-accent" />
+                        <span>Pick & Drop</span>
+                      </div>
+                      <span className="text-admin-text-main">{service.pickDrop.length} Options</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={() => {
+                        setEditingService(service);
+                        setServiceForm(service);
+                        setShowServiceModal(true);
+                      }}
+                      className="flex-1 py-3.5 bg-admin-accent/10 text-admin-accent rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-admin-accent hover:text-white transition-all border border-admin-accent/20"
+                    >
+                      <Edit className="w-3.5 h-3.5" /> Edit Package
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteService(service.id)}
+                      className="w-14 h-14 bg-rose-500/5 text-rose-500 rounded-2xl flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all border border-rose-500/10"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -576,6 +722,128 @@ export default function TransportManagement() {
                     <button type="button" onClick={() => { setShowDriverModal(false); setEditingDriver(null); }} className="flex-1 py-3 text-[10px] font-black uppercase tracking-widest text-admin-text-muted hover:text-admin-text-main transition-colors">Cancel</button>
                     <button type="submit" className="flex-[2] py-4 bg-admin-sidebar text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-admin-sidebar/20 hover:brightness-110 active:scale-[0.98] transition-all">
                       {editingDriver ? "Apply Changes" : "Confirm Roster Entry"}
+                    </button>
+                  </div>
+                </form>
+             </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showServiceModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+             <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               onClick={() => { setShowServiceModal(false); setEditingService(null); }}
+               className="absolute inset-0 bg-admin-sidebar/60 backdrop-blur-sm"
+             />
+             <motion.div 
+               initial={{ scale: 0.95, opacity: 0, y: 20 }}
+               animate={{ scale: 1, opacity: 1, y: 0 }}
+               exit={{ scale: 0.95, opacity: 0, y: 20 }}
+               className="relative w-full max-w-2xl bg-admin-card rounded-[32px] shadow-3xl overflow-hidden border border-admin-border transition-colors duration-300"
+             >
+                <form onSubmit={handleSaveService}>
+                  <div className="p-8 bg-admin-sidebar flex justify-between items-center">
+                    <h3 className="text-xl font-bold text-white uppercase tracking-tight">{editingService ? "Edit Service Package" : "Create Service Package"}</h3>
+                    <button type="button" onClick={() => { setShowServiceModal(false); setEditingService(null); }} className="text-white/40 hover:text-white transition-colors">
+                        <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar bg-admin-card">
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-admin-text-muted tracking-widest">Service Image</label>
+                        <input 
+                          type="file" 
+                          ref={serviceFileRef} 
+                          className="hidden" 
+                          accept="image/*"
+                          onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], 'service')}
+                        />
+                         <div 
+                          onClick={() => serviceFileRef.current?.click()}
+                          className="w-full h-40 bg-admin-bg rounded-2xl border-2 border-dashed border-admin-border flex flex-col items-center justify-center cursor-pointer hover:bg-admin-bg/80 transition-all overflow-hidden relative"
+                        >
+                           {isUploading ? (
+                             <div className="w-6 h-6 border-2 border-admin-accent border-t-transparent rounded-full animate-spin" />
+                           ) : serviceForm.vehicleImage ? (
+                             <Image src={serviceForm.vehicleImage} alt="Preview" fill className="object-cover" />
+                           ) : (
+                             <>
+                               <ImageIcon className="w-6 h-6 text-admin-text-muted mb-2" />
+                               <span className="text-[8px] font-black uppercase text-admin-text-muted">Click to Upload Vehicle Visual</span>
+                             </>
+                           )}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-admin-text-muted tracking-widest">Category Name</label>
+                        <input 
+                          type="text" required
+                          className="w-full p-3.5 bg-admin-bg rounded-xl border border-admin-border focus:ring-2 focus:ring-admin-accent/20 outline-none text-sm text-admin-text-main"
+                          value={serviceForm.categoryName || ""}
+                          onChange={(e) => setServiceForm({...serviceForm, categoryName: e.target.value})}
+                          placeholder="e.g. Standard Car"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-admin-text-muted tracking-widest">PAX Range</label>
+                        <input 
+                          type="text"
+                          className="w-full p-3.5 bg-admin-bg rounded-xl border border-admin-border focus:ring-2 focus:ring-admin-accent/20 outline-none text-sm text-admin-text-main"
+                          value={serviceForm.paxRange || ""}
+                          onChange={(e) => setServiceForm({...serviceForm, paxRange: e.target.value})}
+                          placeholder="e.g. 01-03 Pax"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Transfers Section */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <label className="text-[10px] font-black uppercase text-admin-text-muted tracking-widest">Transfers Pricing</label>
+                      </div>
+                      <div className="space-y-3">
+                        {serviceForm.transfers?.map((t, idx) => (
+                          <div key={idx} className="flex gap-4 items-center">
+                            <input 
+                              type="text"
+                              className="flex-1 p-3 bg-admin-bg rounded-xl border border-admin-border text-sm text-admin-text-main"
+                              value={t.type}
+                              readOnly
+                            />
+                            <div className="relative w-40">
+                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-admin-accent">MUR</span>
+                              <input 
+                                type="number"
+                                className="w-full pl-12 pr-4 py-3 bg-admin-bg rounded-xl border border-admin-border text-sm text-admin-text-main"
+                                value={t.price}
+                                onChange={(e) => {
+                                  const newTransfers = [...(serviceForm.transfers || [])];
+                                  newTransfers[idx].price = Number(e.target.value);
+                                  setServiceForm({...serviceForm, transfers: newTransfers});
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-2xl">
+                      <p className="text-[10px] font-bold text-amber-500 uppercase tracking-wider mb-1">Coming Soon</p>
+                      <p className="text-[10px] text-amber-500/70">Pick & Drop and Excursion package editing will be available in the next update. Using default values for now.</p>
+                    </div>
+                  </div>
+                  <div className="p-8 border-t border-admin-border flex gap-4 bg-admin-card">
+                    <button type="button" onClick={() => { setShowServiceModal(false); setEditingService(null); }} className="flex-1 py-3 text-[10px] font-black uppercase tracking-widest text-admin-text-muted hover:text-admin-text-main transition-colors">Cancel</button>
+                    <button type="submit" className="flex-[2] py-4 bg-admin-sidebar text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-admin-sidebar/20 hover:brightness-110 active:scale-[0.98] transition-all">
+                      {editingService ? "Update Services" : "Create New Services"}
                     </button>
                   </div>
                 </form>

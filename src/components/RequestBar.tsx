@@ -12,6 +12,12 @@ interface RequestData {
     adults: number;
     children: number;
     language: "English" | "French";
+    selectedOptions?: Array<{
+        name: string;
+        price?: string;
+        detail?: string;
+        date: string;
+    }>;
 }
 
 export function RequestBar() {
@@ -37,7 +43,16 @@ export function RequestBar() {
         
         const handleExternalOpen = (e: any) => {
             if (e.detail?.vehicleType) {
-                setRequestData(prev => ({ ...prev, vehicleType: e.detail.vehicleType }));
+                const options = e.detail.selectedOptions?.map((o: any) => ({
+                    ...o,
+                    date: new Date().toISOString().split('T')[0] // Default date
+                }));
+                setRequestData(prev => ({ 
+                    ...prev, 
+                    vehicleType: e.detail.vehicleType,
+                    service: e.detail.serviceType || "Custom Selection",
+                    selectedOptions: options?.length ? options : undefined
+                }));
                 setStep("selection");
             } else {
                 setStep("finalize");
@@ -71,14 +86,22 @@ export function RequestBar() {
 
     const handleWhatsapp = () => {
         if (!form.name || !form.email) return alert("Please fill in your name and email.");
-        const text = `*New Request from ${form.name}*\n\n*Service:* ${requestData.service}\n*Vehicle:* ${requestData.vehicleType}\n*Arrival:* ${requestData.arrivalDate}\n*Departure:* ${requestData.departureDate}\n*Guests:* ${requestData.adults} Adults, ${requestData.children} Children\n*Preferred Language:* ${requestData.language}\n*Email:* ${form.email}`;
+        let optionsText = "";
+        if (requestData.selectedOptions?.length) {
+            optionsText = "\n*Selected Options:*\n" + requestData.selectedOptions.map(opt => `- ${opt.name} on ${opt.date}`).join("\n");
+        }
+        const text = `*New Request from ${form.name}*\n\n*Service:* ${requestData.service}\n*Vehicle:* ${requestData.vehicleType}${optionsText}\n*Arrival:* ${requestData.arrivalDate}\n*Departure:* ${requestData.departureDate}\n*Guests:* ${requestData.adults} Adults, ${requestData.children} Children\n*Preferred Language:* ${requestData.language}\n*Email:* ${form.email}`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
     };
 
     const handleEmail = () => {
         if (!form.name || !form.email) return alert("Please fill in your name and email.");
+        let optionsText = "";
+        if (requestData.selectedOptions?.length) {
+            optionsText = "\nSelected Options:\n" + requestData.selectedOptions.map(opt => `- ${opt.name} on ${opt.date}`).join("\n");
+        }
         const subject = `Booking Request: ${requestData.service}`;
-        const body = `Name: ${form.name}\nEmail: ${form.email}\nLanguage: ${requestData.language}\n\nRequest Details:\n- Service: ${requestData.service}\n- Vehicle: ${requestData.vehicleType}\n- Arrival: ${requestData.arrivalDate}\n- Departure: ${requestData.departureDate}\n- Guests: ${requestData.adults} Adults, ${requestData.children} Children`;
+        const body = `Name: ${form.name}\nEmail: ${form.email}\nLanguage: ${requestData.language}\n\nRequest Details:\n- Service: ${requestData.service}\n- Vehicle: ${requestData.vehicleType}${optionsText}\n- Arrival: ${requestData.arrivalDate}\n- Departure: ${requestData.departureDate}\n- Guests: ${requestData.adults} Adults, ${requestData.children} Children`;
         window.location.href = `mailto:contact@sixteentravel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     };
 
@@ -117,20 +140,51 @@ export function RequestBar() {
                                     </div>
 
                                     <div className="space-y-4 text-left">
-                                        <div>
-                                            <label className="text-[10px] font-bold text-brand-gold uppercase tracking-widest block mb-2 px-1">Route & Service</label>
-                                            <div className="grid grid-cols-1 gap-2">
-                                                {services.map(s => (
-                                                    <button 
-                                                        key={s}
-                                                        onClick={() => setRequestData({...requestData, service: s})}
-                                                        className={`text-left px-5 py-3 rounded-2xl text-sm transition-all border ${requestData.service === s ? 'bg-brand-gold text-white border-brand-gold shadow-md' : 'bg-pastel-gold/50 border-brand-gold/10 text-brand-bronze hover:border-brand-gold/30'}`}
-                                                    >
-                                                        {s}
-                                                    </button>
-                                                ))}
+                                        {requestData.selectedOptions && requestData.selectedOptions.length > 0 ? (
+                                            <div>
+                                                <label className="text-[10px] font-bold text-brand-gold uppercase tracking-widest block mb-2 px-1">Selected Tours & Transfers</label>
+                                                <div className="space-y-3">
+                                                    {requestData.selectedOptions.map((opt, idx) => (
+                                                        <div key={idx} className="bg-pastel-gold/50 border border-brand-gold/20 rounded-2xl p-4">
+                                                            <div className="flex justify-between items-start mb-3">
+                                                                <div>
+                                                                    <p className="text-sm font-bold text-brand-bronze">{opt.name}</p>
+                                                                    {opt.price && <p className="text-[10px] text-brand-gold font-bold">{opt.price}</p>}
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <label className="text-[10px] font-bold text-brand-gold uppercase tracking-widest block mb-1">Date</label>
+                                                                <input 
+                                                                    type="date" 
+                                                                    className="w-full bg-white border border-brand-gold/10 rounded-xl px-3 py-2 text-sm text-brand-bronze focus:ring-2 focus:ring-brand-gold outline-none"
+                                                                    value={opt.date}
+                                                                    onChange={(e) => {
+                                                                        const newOpts = [...(requestData.selectedOptions || [])];
+                                                                        newOpts[idx] = { ...newOpts[idx], date: e.target.value };
+                                                                        setRequestData({ ...requestData, selectedOptions: newOpts });
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
+                                        ) : (
+                                            <div>
+                                                <label className="text-[10px] font-bold text-brand-gold uppercase tracking-widest block mb-2 px-1">Route & Service</label>
+                                                <div className="grid grid-cols-1 gap-2">
+                                                    {services.map(s => (
+                                                        <button 
+                                                            key={s}
+                                                            onClick={() => setRequestData({...requestData, service: s})}
+                                                            className={`text-left px-5 py-3 rounded-2xl text-sm transition-all border ${requestData.service === s ? 'bg-brand-gold text-white border-brand-gold shadow-md' : 'bg-pastel-gold/50 border-brand-gold/10 text-brand-bronze hover:border-brand-gold/30'}`}
+                                                        >
+                                                            {s}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
 
                                         <div className="grid grid-cols-2 gap-4 text-left">
                                             <div>
@@ -197,6 +251,13 @@ export function RequestBar() {
                                             <div className="col-span-1 sm:col-span-2">
                                                 <p className="text-[10px] text-muted-foreground uppercase opacity-60">Service & Vehicle</p>
                                                 <p className="truncate">{requestData.service} • {requestData.vehicleType}</p>
+                                                {requestData.selectedOptions?.length ? (
+                                                    <div className="mt-2 space-y-1">
+                                                        {requestData.selectedOptions.map((o, idx) => (
+                                                            <p key={idx} className="text-xs text-brand-bronze/80">• {o.name} ({o.date})</p>
+                                                        ))}
+                                                    </div>
+                                                ) : null}
                                             </div>
                                             <div>
                                                 <p className="text-[10px] text-muted-foreground uppercase opacity-60">Arrival</p>

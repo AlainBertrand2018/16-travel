@@ -4,220 +4,121 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ArrowRight, Map, X, Clock, Navigation, Check, Calendar, Users } from "lucide-react";
-import { MobileLayout } from "@/components/mobile/MobileLayout";
-import { BookingModal } from "@/components/BookingModal";
-import { collection, query, where, getDocs, limit } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { X, Navigation, Check, Map, ChevronLeft, ChevronRight } from "lucide-react";
+import { RequestBar } from "@/components/RequestBar";
+
+const bentoItems = [
+    {
+        id: "north-full",
+        title: "North Tour — Full Day",
+        duration: "8 hours",
+        detail: "La Citadelle · Port Louis Market · Caudan Waterfront · Botanical Garden · Beau Plan Sugar Factory · Cap Malheureux",
+        price: "MUR 12,000",
+        image: "/images/marche_PL.webp",
+        className: "md:col-span-2 lg:col-span-8 md:row-span-2 min-h-[400px] lg:min-h-[600px]",
+        featured: true,
+        gallery: [
+            { img: "/images/pamplemousse-garden.webp", title: "Pamplemousse Garden", desc: "Discover the island's rich and unique botanical heritage." },
+            { img: "/images/cheminee-aventureDuSucre.webp", title: "L'Aventure du Sucre", desc: "Discover the history of sugar and its importance to Mauritian culture." },
+            { img: "/images/cap-malheureux.webp", title: "Cap Malheureux", desc: "All the beauty of our northern coastlines revealed." }
+        ]
+    },
+    {
+        id: "south-1",
+        title: "Wild South - Full Day",
+        duration: "8 hours",
+        detail: "Grand Bassin · Bois Chéri Tea Factory · Gorges · Chamarel · Curious Corner · View Point",
+        price: "MUR 12,000",
+        image: "/images/mauritius_south.jpg",
+        className: "md:col-span-1 lg:col-span-4 md:row-span-1 min-h-[300px]",
+        featured: false,
+        gallery: [
+            { img: "/images/grandBassin.webp", title: "Grand Bassin", desc: "When Scenery reflects the fervor of the islanders." },
+            { img: "/images/Bois Cheri.webp", title: "Bois Cheri Tea Estate", desc: "Discover the stunning story behind the unique Mauritius Tea." },
+            { img: "/images/chamarel-7couleurs.webp", title: "Chamarel 7 Coloured Earth", desc: "Geological rarity in the middle of a green forest... Discover Chamarel." },
+        ]
+    },
+    {
+        id: "south-2",
+        title: "Wild Wild South - Full Day",
+        duration: "8 hours",
+        detail: "La Vanille Crocodile Park · St Aubin Rhum Factory · Gris-gris · Ile Aux Sancho · Rochester Fall · Maconde",
+        price: "MUR 12,000",
+        image: "/images/grisGris.webp",
+        className: "md:col-span-1 lg:col-span-4 md:row-span-1 min-h-[300px]",
+        featured: false,
+        gallery: [
+            { img: "/images/rochester.webp", title: "Rochester Falls", desc: "Where sculpted basalt columns meet cascading waters, Rochester Falls offers a raw, poetic escape into nature’s artistry." },
+            { img: "/images/laVanilleCrocodilePark.webp", title: "La Vanille Crocodile Park", desc: "Step into a world where giants roam free. La Vanille Reserve is a lush sanctuary where crocodiles bask, giant tortoises wander, and nature’s most ancient creatures command your attention." },
+            { img: "/images/stAubin.avif", title: "St. Aubin Rum Distillery", desc: "Discover the secrets of rum production and enjoy a tasting session at one of the island's most iconic distilleries." },
+        ]
+    },
+    {
+        id: "north-half",
+        title: "North Tour — Half Day",
+        duration: "4 hours",
+        detail: "Quick highlights of North regional attractions",
+        price: "MUR 10,000",
+        image: "/images/odysseo.webp",
+        className: "md:col-span-1 lg:col-span-6 md:row-span-1 min-h-[300px] lg:min-h-[400px]",
+        featured: false,
+        gallery: [
+            { img: "/images/odysseo.webp", title: "Odysseo Oceanarium", desc: "Discover the wonders of the Indian Ocean at Odysseo, the largest aquarium in the Southern Hemisphere. A mesmerizing journey through vibrant coral reefs, mysterious deep-sea trenches, and captivating marine life." },
+            { img: "/images/champ_de_Mars_Racecourse.webp", title: "Champ de Mars Racecourse", desc: "Where history thunders alive... The Champs de Mars Racecourse, one of the oldest of the World (est. 1812)ignites passion, elegance, and island spirit nestled within a dramatic mountain skyline." },
+            { img: "/images/caudan_CraftMarket.webp", title: "The Caudan Craft Market", desc: "Discover the vibrant heart of Mauritian craftsmanship at The Caudan Craft Market. A bustling hub where local artisans showcase their talents, offering a colorful array of handmade souvenirs, intricate textiles, and unique treasures." }
+        ]
+    },
+    {
+        id: "south-half",
+        title: "South Tour — Half Day",
+        duration: "5 hours",
+        detail: "Quick highlights of South regional attractions",
+        price: "MUR 10,000",
+        image: "/images/le-chamarel-restaurant.webp",
+        className: "md:col-span-1 lg:col-span-6 md:row-span-1 min-h-[300px] lg:min-h-[400px]",
+        featured: false,
+        gallery: [
+            { img: "/images/mahebourg_Market.webp", title: "Mahébourg Market", desc: "Discover the vibrant heart of Mauritian craftsmanship at The Caudan Craft Market. A bustling hub where local artisans showcase their talents, offering a colorful array of handmade souvenirs, intricate textiles, and unique treasures." },
+            { img: "/images/mouchoir-rouge.webp", title: "Mouchoir Rouge", desc: "A solitary jewel adrift in turquoise lagoons, Île au Mouchoir Rouge captivates with wild beauty, mystery, and untouched serenity." },
+            { img: "/images/maconde.webp", title: "Maconde", desc: "Perched above crashing waves, Maconde Belvedere unveils dramatic coastal curves, endless ocean horizons, and breathtaking, wind-swept Mauritian vistas." },
+        ]
+    }
+];
 
 export default function ToursPage() {
-    const [isMobile, setIsMobile] = useState<boolean | null>(null);
-    const [tours, setTours] = useState<any[]>([]);
-    const [selectedTour, setSelectedTour] = useState<any | null>(null);
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [activeItem, setActiveItem] = useState<any>(null);
+    const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
+    const galleryItem = (galleryIndex !== null && activeItem?.gallery) ? activeItem.gallery[galleryIndex] : null;
 
+    // Stop body scroll when modal open
     useEffect(() => {
-        const fetchTours = async () => {
-            try {
-                const q = query(
-                    collection(db, "products"), 
-                    where("category", "==", "Outing Package"),
-                    limit(10)
-                );
-                const querySnapshot = await getDocs(q);
-                const data = querySnapshot.docs.map(doc => {
-                    const docData = doc.data();
-                    return {
-                        id: doc.id,
-                        title: docData.name || "Unknown Tour",
-                        desc: docData.description || "No description available.",
-                        duration: docData.duration ? `${docData.duration} Hours` : "Varied Duration",
-                        image: docData.image || "/images/placeholder.jpg",
-                        price: docData.price || 0,
-                        itineraryImages: docData.itineraryImages || []
-                    };
-                });
-                setTours(data);
-            } catch (error) {
-                console.error("Error fetching tours:", error);
-            }
-        };
+        if (activeItem) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+    }, [activeItem]);
 
-        fetchTours();
-
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
-        return () => window.removeEventListener("resize", checkMobile);
-    }, []);
-
-    if (isMobile === null) return null;
-
-    if (isMobile) {
-        const mobileSections = [
-            {
-                id: "header",
-                title: "Tours",
-                component: (
-                    <div className="proportional-section relative overflow-hidden text-center bg-brand-bronze text-white p-12 min-h-screen flex flex-col justify-center">
-                        <div className="absolute inset-0 opacity-40">
-                             <Image 
-                                src="/images/mauritius-oberoi-royal.webp" 
-                                alt="Tours Header"
-                                fill 
-                                className="object-cover"
-                                priority
-                             />
-                        </div>
-                        <div className="relative z-10 space-y-8">
-                             <span className="inline-block px-4 py-1.5 bg-brand-gold text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
-                                Curated Island Adventures
-                            </span>
-                            <h2 className="text-4xl md:text-6xl font-display leading-[1.1]">
-                                Curated <br /> Journeys
-                            </h2>
-                            <p className="text-white/80 text-lg leading-relaxed">
-                                Every tour is balanced with exploration and moments of profound serenity.
-                            </p>
-                        </div>
-                    </div>
-                )
-            },
-            ...tours.map((tour, i) => ({
-                id: `tour-${tour.id || i}`,
-                title: tour.title,
-                component: (
-                    <div className="proportional-section bg-pastel-gold p-10 min-h-screen flex flex-col justify-center space-y-10">
-                        <div className="relative aspect-video w-full rounded-[40px] overflow-hidden shadow-2xl">
-                            <Image 
-                                src={tour.image} 
-                                alt={tour.title}
-                                fill 
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                            />
-                        </div>
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-3 text-brand-gold font-bold uppercase tracking-widest text-[10px]">
-                                <Map className="w-4 h-4" />
-                                <span>{tour.duration} Private Tour</span>
-                            </div>
-                            <h3 className="text-3xl font-display text-brand-bronze leading-tight">{tour.title}</h3>
-                            <p className="text-muted-foreground leading-relaxed text-sm line-clamp-4">{tour.desc}</p>
-                            <button 
-                                onClick={() => setSelectedTour(tour)}
-                                className="w-full bg-brand-gold text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg"
-                            >
-                                View Itinerary
-                            </button>
-                        </div>
-                    </div>
-                )
-            }))
-        ];
-
-        return (
-            <>
-                <MobileLayout sections={mobileSections} />
-                <AnimatePresence>
-                    {selectedTour && (
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[100] flex items-end justify-center"
-                        >
-                            <div 
-                                className="absolute inset-0 bg-brand-bronze/60 backdrop-blur-md"
-                                onClick={() => setSelectedTour(null)}
-                            />
-                            <motion.div 
-                                initial={{ y: "100%" }}
-                                animate={{ y: 0 }}
-                                exit={{ y: "100%" }}
-                                transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-                                className="relative w-full max-h-[85vh] bg-pastel-gold rounded-t-[40px] shadow-2xl overflow-y-auto"
-                            >
-                                <button 
-                                    onClick={() => setSelectedTour(null)}
-                                    className="absolute top-6 right-6 z-50 p-2 glass-dark rounded-full text-brand-bronze"
-                                >
-                                    <X className="w-5 h-5" />
-                                </button>
-                                
-                                <div className="p-8 space-y-10">
-                                    <div className="space-y-4">
-                                        <div className="inline-flex items-center gap-1.5 border border-brand-gold/30 px-3 py-1.5 rounded-full text-brand-gold font-bold uppercase tracking-[0.2em] text-[10px]">
-                                            <Navigation className="w-3.5 h-3.5" />
-                                            <span>Private Journey</span>
-                                        </div>
-                                        <h2 className="text-4xl font-display text-brand-bronze leading-[1.1]">
-                                            {selectedTour.title}
-                                        </h2>
-                                    </div>
-
-                                    {/* Mobile Gallery */}
-                                    {selectedTour.itineraryImages?.length > 0 && (
-                                        <div className="flex gap-4 overflow-x-auto pb-4 -mx-8 px-8 no-scrollbar">
-                                            {selectedTour.itineraryImages.filter(Boolean).map((img: string, idx: number) => (
-                                                <div key={idx} className="relative aspect-[4/5] w-48 shrink-0 rounded-3xl overflow-hidden shadow-lg">
-                                                    <Image 
-                                                        src={img} 
-                                                        alt={`${selectedTour.title} itinerary ${idx}`}
-                                                        fill 
-                                                        className="object-cover"
-                                                        sizes="200px"
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    <div className="space-y-6">
-                                        <div className="bg-pastel-warm/50 p-6 rounded-3xl border border-brand-gold/10">
-                                            <p className="text-brand-bronze/80 leading-relaxed text-sm whitespace-pre-line">
-                                                {selectedTour.desc}
-                                            </p>
-                                        </div>
-                                        
-                                        <div className="flex flex-col gap-4">
-                                            <div className="flex justify-between items-center px-4">
-                                                <span className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Pricing From</span>
-                                                <span className="text-3xl font-display text-brand-bronze font-bold">€{selectedTour.price}</span>
-                                            </div>
-                                            <button 
-                                                onClick={() => setIsBookingOpen(true)}
-                                                className="w-full bg-brand-bronze text-white px-8 py-4 rounded-full text-xs font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all"
-                                            >
-                                                Book Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                {selectedTour && (
-                    <BookingModal 
-                        isOpen={isBookingOpen} 
-                        onClose={() => setIsBookingOpen(false)} 
-                        product={selectedTour} 
-                    />
-                )}
-            </>
-        );
-    }
+    const handleReserve = (tour: any) => {
+        setActiveItem(null);
+        setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('open-booking', {
+                detail: {
+                    vehicleType: "Private Executive Vehicle",
+                    serviceType: "Trips & Excursions",
+                    selectedOptions: [{ name: tour.title, price: tour.price }]
+                }
+            }));
+        }, 300);
+    };
 
     return (
         <main className="min-h-screen bg-white">
             <Navbar />
-            <section id="st-section-tours-header" className="relative h-[70vh] flex items-center justify-center overflow-hidden text-center">
-                <div
-                    className="absolute inset-0"
-                >
-                    <Image 
+
+            <section id="st-section-tours-header" className="relative h-[70vh] flex flex-col items-center justify-center overflow-hidden text-center mb-16">
+                <div className="absolute inset-0">
+                    <Image
                         src="/images/mauritius-oberoi-royal.webp"
                         alt="Tours Header"
                         fill
@@ -249,172 +150,292 @@ export default function ToursPage() {
                 </div>
             </section>
 
-            <section id="st-section-tours-list" className="py-24 px-6 md:px-24 bg-pastel-warm">
-                <div className="max-w-7xl mx-auto">
-                    {tours.length === 0 ? (
-                        <div className="flex justify-center items-center py-24 text-brand-bronze/50 font-display text-2xl">
-                            Mapping your next journey...
-                        </div>
-                    ) : (
-                        <div id="st-child-tours-list-container" className="space-y-32">
-                            {tours.map((tour, i) => (
-                                <motion.div
-                                    key={tour.id || i}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-16 md:gap-32 items-center`}
+            <section className="pb-32 px-4 md:px-8 lg:px-12 max-w-[1600px] mx-auto">
+                {/* Section Header */}
+                <div className="text-center pt-16 pb-20 md:pt-20 md:pb-24 lg:pt-24 lg:pb-28 max-w-3xl mx-auto">
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-[10px] md:text-xs font-black uppercase tracking-[0.35em] text-brand-gold mb-6"
+                    >
+                        Handpicked Experiences
+                    </motion.p>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
+                        className="text-4xl md:text-6xl lg:text-7xl font-display text-brand-bronze leading-[1.1] mb-6"
+                    >
+                        Our Signature Tours
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="text-base md:text-lg text-brand-bronze/60 font-light leading-relaxed max-w-xl mx-auto"
+                    >
+                        From volcanic highlands to turquoise lagoons — each itinerary is crafted to reveal the soul of Mauritius.
+                    </motion.p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8">
+                    {bentoItems.map((item) => (
+                        <motion.div
+                            layoutId={`card-${item.id}`}
+                            key={item.id}
+                            onClick={() => setActiveItem(item)}
+                            className={`relative rounded-[32px] overflow-hidden cursor-pointer group shadow-lg border border-brand-gold/10 bg-pastel-gold/20 ${item.className}`}
+                            whileHover={{ scale: 0.99 }}
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        >
+                            <div className="absolute inset-0">
+                                <Image
+                                    src={item.image}
+                                    alt={item.title}
+                                    fill
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-brand-bronze/90 via-brand-bronze/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                            </div>
+
+                            <motion.div
+                                className="absolute inset-0 p-8 flex flex-col justify-end text-white z-10"
+                                layoutId={`content-${item.id}`}
+                            >
+                                <div className="mb-4">
+                                    <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-white border border-white/30">
+                                        <Map className="w-3 h-3" />
+                                        {item.duration}
+                                    </span>
+                                </div>
+                                <motion.h3
+                                    layoutId={`title-${item.id}`}
+                                    className={`${item.featured ? 'text-4xl lg:text-6xl text-brand-gold' : 'text-2xl lg:text-3xl'} font-display leading-tight mb-2`}
                                 >
-                                    <div className="flex-1 relative aspect-video w-full rounded-[60px] overflow-hidden group shadow-2xl">
-                                        <Image 
-                                            src={tour.image} 
-                                            alt={tour.title}
-                                            fill 
-                                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                                            sizes="(max-width: 768px) 100vw, 50vw"
-                                        />
-                                        <div className="absolute inset-0 bg-brand-bronze/10 group-hover:bg-transparent transition-colors" />
-                                    </div>
-                                    <div className="flex-1 space-y-8">
-                                        <div className="flex items-center gap-4 text-brand-gold font-bold uppercase tracking-widest text-sm">
-                                            <Map className="w-5 h-5" />
-                                            <span>{tour.duration} Private Tour</span>
-                                        </div>
-                                        <h2 className="text-5xl md:text-7xl font-display text-brand-bronze leading-tight">{tour.title}</h2>
-                                        <p className="text-xl text-muted-foreground leading-relaxed">{tour.desc}</p>
-                                        <button 
-                                            onClick={() => setSelectedTour(tour)}
-                                            className="flex items-center gap-4 group text-lg font-bold text-brand-bronze"
-                                        >
-                                            View Itinerary
-                                            <div className="w-14 h-14 rounded-full border border-brand-gold/20 flex items-center justify-center group-hover:bg-brand-gold group-hover:text-white transition-all shadow-lg">
-                                                <ArrowRight className="w-6 h-6" />
-                                            </div>
-                                        </button>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    )}
+                                    {item.title}
+                                </motion.h3>
+                                <motion.p
+                                    layoutId={`desc-${item.id}`}
+                                    className={`text-white/80 font-light ${item.featured ? 'text-lg line-clamp-3' : 'text-sm line-clamp-2'}`}
+                                >
+                                    {item.detail}
+                                </motion.p>
+                            </motion.div>
+                        </motion.div>
+                    ))}
                 </div>
             </section>
 
+            {/* Expansion Modal */}
             <AnimatePresence>
-                {selectedTour && (
-                    <motion.div 
+                {activeItem && (
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
                     >
-                        <div 
+                        <div
                             className="absolute inset-0 bg-brand-bronze/60 backdrop-blur-md"
-                            onClick={() => setSelectedTour(null)}
+                            onClick={() => {
+                                if (galleryIndex !== null) setGalleryIndex(null);
+                                else setActiveItem(null);
+                            }}
                         />
-                        <motion.div 
-                            initial={{ scale: 0.95, opacity: 0, y: 30 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 30 }}
-                            className="relative w-full max-w-6xl bg-white rounded-[60px] shadow-3xl overflow-hidden flex flex-col md:flex-row h-[90vh] md:h-[750px] border border-brand-gold/10"
+
+                        <motion.div
+                            layoutId={`card-${activeItem.id}`}
+                            className="relative w-full max-w-5xl h-[85vh] bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10"
+                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         >
-                            <button 
-                                onClick={() => setSelectedTour(null)}
-                                className="absolute top-8 right-8 z-50 p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-brand-gold hover:text-white hover:border-brand-gold transition-all shadow-2xl hover:rotate-90"
+                            <button
+                                onClick={() => setActiveItem(null)}
+                                className="absolute top-6 right-6 z-50 p-3 bg-white/10 backdrop-blur-md border border-brand-bronze/20 rounded-full text-brand-bronze lg:text-brand-bronze lg:bg-brand-bronze/5 hover:bg-brand-gold hover:text-white transition-all shadow-lg hidden lg:block"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5" />
                             </button>
 
-                            {/* Sidebar / Main Visual */}
-                            <div className="w-full md:w-5/12 h-64 md:h-full relative shrink-0 overflow-hidden">
-                                <Image 
-                                    src={selectedTour.image} 
-                                    alt={selectedTour.title}
-                                    fill 
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 40vw"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                <div className="absolute bottom-12 left-12 right-12 text-white">
-                                    <div className="flex items-center gap-3 text-brand-gold font-bold uppercase tracking-widest text-xs mb-4">
-                                        <Navigation className="w-4 h-4" />
-                                        <span>Curated Experience</span>
+                            {/* Image Side */}
+                            <div className="w-full lg:w-1/2 flex flex-col h-auto lg:h-full shrink-0 border-b lg:border-b-0 lg:border-r border-brand-bronze/10">
+                                <div className="relative flex-1 min-h-[300px] lg:min-h-0 overflow-hidden">
+                                    <Image
+                                        src={activeItem.image}
+                                        alt={activeItem.title}
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-brand-bronze/80 via-transparent to-transparent lg:hidden" />
+
+                                    <button
+                                        onClick={() => setActiveItem(null)}
+                                        className="absolute top-6 right-6 z-50 p-3 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-brand-gold transition-all shadow-lg lg:hidden"
+                                    >
+                                        <X className="w-5 h-5" />
+                                    </button>
+
+                                    {/* Mobile Title Overlay */}
+                                    <div className="absolute bottom-6 left-6 right-6 lg:hidden text-white">
+                                        <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-white border border-white/30 mb-3">
+                                            <Map className="w-3 h-3" />
+                                            {activeItem.duration}
+                                        </span>
+                                        <motion.h3
+                                            layoutId={`title-${activeItem.id}`}
+                                            className="text-3xl font-display leading-tight text-brand-gold"
+                                        >
+                                            {activeItem.title}
+                                        </motion.h3>
                                     </div>
-                                    <h3 className="text-4xl font-display leading-tight">{selectedTour.title}</h3>
                                 </div>
+
+                                {/* Thumbnails Row */}
+                                {activeItem.gallery && (
+                                    <div className="h-32 p-4 bg-pastel-gold flex gap-3 overflow-x-auto custom-scrollbar shrink-0 items-center justify-center">
+                                        {activeItem.gallery.map((g: any, i: number) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setGalleryIndex(i)}
+                                                className="relative h-20 aspect-video rounded-xl overflow-hidden shrink-0 border-2 border-transparent hover:border-brand-gold transition-all group"
+                                            >
+                                                <Image src={g.img} fill className="object-cover group-hover:scale-110 transition-transform duration-500" alt={`Thumbnail ${i}`} />
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Content Area */}
-                            <div className="flex-1 p-8 md:p-16 flex flex-col justify-start overflow-y-auto">
-                                <div className="max-w-2xl space-y-12">
-                                    <div className="flex flex-wrap gap-8 items-center border-b border-brand-bronze/10 pb-10">
-                                        <div className="space-y-1">
-                                            <p className="text-[10px] font-black uppercase text-brand-gold tracking-widest">Duration</p>
-                                            <p className="text-xl font-display text-brand-bronze">{selectedTour.duration}</p>
-                                        </div>
-                                        <div className="space-y-1">
-                                            <p className="text-[10px] font-black uppercase text-brand-gold tracking-widest">Pricing</p>
-                                            <p className="text-xl font-display text-brand-bronze">From €{selectedTour.price}</p>
-                                        </div>
-                                        <div className="space-y-1">
-                                            <p className="text-[10px] font-black uppercase text-brand-gold tracking-widest">Category</p>
-                                            <p className="text-xl font-display text-brand-bronze">Private Outing</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-8">
-                                        <h4 className="text-xs font-black uppercase tracking-[0.3em] text-brand-gold">Expedition Highlights</h4>
-                                        <p className="text-brand-bronze/70 text-lg leading-relaxed font-light italic">
-                                            "{selectedTour.desc}"
-                                        </p>
-                                        
-                                        {/* Expedition Gallery */}
-                                        {selectedTour.itineraryImages?.length > 0 && (
-                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-4">
-                                                {selectedTour.itineraryImages.filter(Boolean).map((img: string, idx: number) => (
-                                                    <motion.div 
-                                                        key={idx}
-                                                        whileHover={{ y: -5 }}
-                                                        className="relative aspect-[4/5] rounded-[32px] overflow-hidden shadow-xl"
-                                                    >
-                                                        <Image 
-                                                            src={img} 
-                                                            alt={`${selectedTour.title} expedition ${idx}`}
-                                                            fill 
-                                                            className="object-cover"
-                                                            sizes="(max-width: 768px) 33vw, 20vw"
-                                                        />
-                                                    </motion.div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div className="pt-10 border-t border-brand-bronze/10 flex flex-col sm:flex-row items-center justify-between gap-8">
-                                        <div className="flex items-center gap-4 text-brand-bronze/60 text-sm">
-                                            <Check className="w-5 h-5 text-green-600" />
-                                            <span>Secure your private booking for 2026/27</span>
-                                        </div>
-                                        <button 
-                                            onClick={() => setIsBookingOpen(true)}
-                                            className="w-full sm:w-auto bg-brand-bronze text-white px-12 py-5 rounded-full text-xs font-black uppercase tracking-widest shadow-2xl hover:bg-brand-gold hover:-translate-y-1 transition-all"
+                            {/* Content Side */}
+                            <div className="w-full lg:w-1/2 flex flex-col h-full">
+                                {/* Scrollable Content */}
+                                <div className="flex-1 overflow-y-auto p-8 lg:p-16 pb-4 custom-scrollbar">
+                                    <div className="hidden lg:block mb-8">
+                                        <span className="inline-flex items-center gap-2 px-3 py-1 bg-pastel-gold rounded-full text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-4 border border-brand-gold/20">
+                                            <Map className="w-3 h-3" />
+                                            {activeItem.duration}
+                                        </span>
+                                        <motion.h3
+                                            layoutId={`title-desk-${activeItem.id}`}
+                                            className="text-5xl font-display leading-tight text-brand-bronze"
                                         >
-                                            Book Now
-                                        </button>
+                                            {activeItem.title}
+                                        </motion.h3>
                                     </div>
+
+                                    <div className="space-y-10">
+                                        <div>
+                                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-gold mb-3">Itinerary Route</h4>
+                                            <p className="text-brand-bronze/80 text-lg leading-relaxed pt-2">
+                                                {activeItem.detail.split('·').map((stop: string, i: number) => (
+                                                    <span key={i} className="inline-flex items-center">
+                                                        <span className="font-semibold">{stop.trim()}</span>
+                                                        {i < activeItem.detail.split('·').length - 1 && (
+                                                            <span className="mx-2 text-brand-gold/50">→</span>
+                                                        )}
+                                                    </span>
+                                                ))}
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-pastel-gold/30 p-6 rounded-3xl border border-brand-gold/10">
+                                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-gold mb-4">Included in Package</h4>
+                                            <ul className="space-y-3">
+                                                {["Private Executive Vehicle", "Dedicated Professional Chauffeur", "Hotel Pick-up & Drop-off", "Bottled Water & Refreshments"].map((inc, i) => (
+                                                    <li key={i} className="flex items-center gap-3 text-sm text-brand-bronze">
+                                                        <div className="w-5 h-5 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold">
+                                                            <Check className="w-3 h-3" />
+                                                        </div>
+                                                        {inc}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Pinned Price + CTA — always visible */}
+                                <div className="shrink-0 p-8 lg:px-16 lg:pb-12 pt-6 border-t border-brand-bronze/10 bg-white flex flex-col gap-4">
+                                    <div className="flex justify-between items-center px-2">
+                                        <span className="text-[10px] font-black uppercase text-brand-gold tracking-widest">Base Rate</span>
+                                        <span className="text-3xl font-display text-brand-bronze font-bold">{activeItem.price}</span>
+                                    </div>
+                                    <button
+                                        onClick={() => handleReserve(activeItem)}
+                                        className="w-full bg-brand-gold text-white py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:bg-brand-bronze hover:shadow-brand-bronze/20 transition-all duration-300"
+                                    >
+                                        Reserve This Tour
+                                    </button>
                                 </div>
                             </div>
                         </motion.div>
+
+                        {/* Secondary Gallery Carousel Modal */}
+                        <AnimatePresence>
+                            {galleryItem && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-8"
+                                >
+                                    <div
+                                        className="absolute inset-0 bg-black/80 backdrop-blur-md"
+                                        onClick={() => setGalleryIndex(null)}
+                                    />
+                                    <div className="relative w-full max-w-4xl bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col z-10">
+                                        <button
+                                            onClick={() => setGalleryIndex(null)}
+                                            className="absolute top-4 right-4 z-50 p-2 bg-black/20 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-brand-gold transition-all"
+                                        >
+                                            <X className="w-5 h-5" />
+                                        </button>
+
+                                        {/* Prev / Next Arrows */}
+                                        <button
+                                            onClick={() => setGalleryIndex((prev) => prev !== null ? (prev - 1 + activeItem.gallery.length) % activeItem.gallery.length : 0)}
+                                            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 bg-black/30 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-brand-gold transition-all shadow-lg"
+                                        >
+                                            <ChevronLeft className="w-5 h-5" />
+                                        </button>
+                                        <button
+                                            onClick={() => setGalleryIndex((prev) => prev !== null ? (prev + 1) % activeItem.gallery.length : 0)}
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 bg-black/30 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-brand-gold transition-all shadow-lg"
+                                        >
+                                            <ChevronRight className="w-5 h-5" />
+                                        </button>
+
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                key={galleryIndex}
+                                                initial={{ opacity: 0, x: 30 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: -30 }}
+                                                transition={{ duration: 0.25, ease: "easeInOut" }}
+                                            >
+                                                <div className="relative w-full aspect-video sm:aspect-[21/9] bg-brand-bronze">
+                                                    <Image src={galleryItem.img} fill className="object-cover" alt={galleryItem.title} />
+                                                </div>
+                                                <div className="p-8 text-center bg-pastel-gold">
+                                                    <h3 className="text-3xl font-display text-brand-bronze mb-3">{galleryItem.title}</h3>
+                                                    <p className="text-brand-bronze/80 text-sm max-w-lg mx-auto leading-relaxed">{galleryItem.desc}</p>
+                                                    <p className="text-[10px] font-bold text-brand-gold uppercase tracking-widest mt-4">
+                                                        {(galleryIndex ?? 0) + 1} / {activeItem.gallery.length}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {selectedTour && (
-                <BookingModal 
-                    isOpen={isBookingOpen} 
-                    onClose={() => setIsBookingOpen(false)} 
-                    product={selectedTour} 
-                />
-            )}
 
             <Footer />
         </main>

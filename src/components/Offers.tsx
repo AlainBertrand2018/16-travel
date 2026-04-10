@@ -7,24 +7,24 @@ import Image from "next/image";
 const packages = [
     {
         order: "01",
-        title: "Le Sud-Ouest Sauvage",
+        title: "Wild Wild South",
         category: "Adventure & Nature",
         description: "Explore the wild south-west. From the Seven Colored Earths to the hidden waterfalls of Chamarel, experience the untamed beauty of the island.",
-        image: "https://sixteen-travel.vercel.app/images/7couleurs.jpg"
+        image: "/images/lionMountain_Aerial.webp"
     },
     {
         order: "02",
-        title: "L'Est Turquoise",
-        category: "Luxe & Serenity",
-        description: "Sail towards the sunrise. Private island picnics at Île aux Cerfs and exclusive snorkeling in the crystal clear lagoons of the East.",
-        image: "https://sixteen-travel.vercel.app/images/south-east.jpg"
+        title: "Le Nord Colour-Spectacular",
+        category: "Culture & Vibrancy",
+        description: "On the road up to Cap Malheureux, home to the iconic red-roofed church, vibe to the rhythm of sensual Port Louis Bazaar.",
+        image: "/images/eglise-cap-malheureux.webp"
     },
     {
         order: "03",
         title: "Sky & Deep Blue",
         category: "Adventure & Thrills",
         description: "Experience Mauritius from every angle. From breathtaking helicopter tours over the Underwater Waterfall to magical undersea walks among vibrant coral reefs.",
-        image: "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=2070"
+        image: "/images/heli_sea.webp"
     }
 ];
 

@@ -49,16 +49,12 @@ function AdminContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setMounted(true);
     
-    if (!loading && !user && pathname !== "/admin/login") {
-      router.push("/admin/login");
-    }
-
     // Theme check
     const savedTheme = localStorage.getItem("admin_theme");
     if (savedTheme === "dark") {
       setIsDarkMode(true);
     }
-  }, [user, loading, pathname, router]);
+  }, [mounted]);
 
   const toggleTheme = () => {
     const newTheme = !isDarkMode;
@@ -75,8 +71,8 @@ function AdminContent({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  // Show loading state while checking auth
-  if (loading || !mounted) {
+  // Show loading state while mounting
+  if (!mounted) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-admin-accent border-t-transparent rounded-full animate-spin" />
@@ -121,14 +117,10 @@ function AdminContent({ children }: { children: React.ReactNode }) {
             })}
           </nav>
 
-          <div className="p-4 border-t border-white/5 bg-black/20">
-            <button 
-              onClick={handleSignOut}
-              className="flex items-center gap-3 w-full px-4 py-3 text-white/50 hover:text-white hover:bg-rose-500/10 hover:text-rose-400 rounded-xl transition-all group"
-            >
-              <LogOut className="w-4.5 h-4.5 text-white/20 group-hover:text-rose-400" />
-              <span className="font-semibold text-xs tracking-wide">Sign Out</span>
-            </button>
+          <div className="p-4 border-t border-white/5 bg-black/20 mt-auto">
+             <div className="px-5 py-4">
+                <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.2em]">Sixteen Travel Admin v1.0</p>
+             </div>
           </div>
         </aside>
 
