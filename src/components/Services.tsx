@@ -19,7 +19,7 @@ const services = [
         description: "Need to go a day activity or a night out? We've got you covered.",
         icon: <Mountain />,
         color: "bg-green-500/10",
-        image: "/images/kitesurfing_in_Mauritius.webp"
+        image: "/images/kitesurfing_mauritius.webp"
     },
     {
         id: 3,
