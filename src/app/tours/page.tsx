@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { X, Navigation, Check, Map, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Navigation, Check, Map, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { RequestBar } from "@/components/RequestBar";
 
 const bentoItems = [
@@ -148,9 +148,26 @@ export default function ToursPage() {
                         Every tour is balanced with exploration and moments of profound serenity.
                     </p>
                 </div>
+
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 1 }}
+                    className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 cursor-pointer group"
+                    onClick={() => document.getElementById('st-section-tours-list')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                    <motion.div
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                        className="flex flex-col items-center gap-2"
+                    >
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-white/60 font-bold group-hover:text-white transition-colors">Discover</span>
+                        <ChevronDown className="w-6 h-6 text-white group-hover:text-brand-gold transition-colors" />
+                    </motion.div>
+                </motion.div>
             </section>
 
-            <section className="pb-32 px-4 md:px-8 lg:px-12 max-w-[1600px] mx-auto">
+            <section id="st-section-tours-list" className="pb-32 px-4 md:px-8 lg:px-12 max-w-[1600px] mx-auto">
                 {/* Section Header */}
                 <div className="text-center pt-16 pb-20 md:pt-20 md:pb-24 lg:pt-24 lg:pb-28 max-w-3xl mx-auto">
                     <motion.p
