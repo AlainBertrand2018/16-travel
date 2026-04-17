@@ -121,24 +121,30 @@ export function RequestBar() {
                         initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                        className="relative w-full max-w-lg bg-white rounded-[40px] shadow-2xl overflow-hidden border border-brand-gold/20"
+                        className="relative w-full max-w-lg bg-white rounded-[40px] shadow-2xl overflow-hidden border border-brand-gold/20 flex flex-col max-h-[90vh]"
                     >
-                        <div className="p-6 md:p-10 max-h-[90vh] overflow-y-auto custom-scrollbar">
+                        {/* Static Header & Close Button */}
+                        <div className="shrink-0 p-6 md:px-10 md:pt-10 md:pb-6 border-b border-brand-gold/5 flex justify-between items-start relative">
+                            <div className="text-left pr-8">
+                                <p className="text-brand-gold text-[10px] font-black uppercase tracking-[0.2em] mb-1">
+                                    {step === "selection" ? "Step 1 of 2" : "Step 2 of 2"}
+                                </p>
+                                <h3 className="text-2xl md:text-3xl font-display text-brand-bronze leading-tight">
+                                    {step === "selection" ? "Booking Details" : "Finalize Your Request"}
+                                </h3>
+                            </div>
                             <button 
                                 onClick={() => setIsModalOpen(false)}
-                                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-pastel-gold flex items-center justify-center text-brand-gold hover:bg-brand-gold hover:text-white transition-all z-50 shadow-sm"
+                                className="w-10 h-10 rounded-full bg-pastel-gold flex items-center justify-center text-brand-gold hover:bg-brand-gold hover:text-white transition-all shadow-sm shrink-0"
                             >
                                 <X className="w-5 h-5" />
                             </button>
+                        </div>
 
+                        {/* Scrollable Body */}
+                        <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
                             {step === "selection" ? (
-                                <div className="space-y-6 pt-2">
-                                    <div className="mb-6 text-left">
-                                        <p className="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-2">Step 1 of 2</p>
-                                        <h3 className="text-3xl font-display text-brand-bronze">Booking Details</h3>
-                                        <p className="text-muted-foreground text-sm">Specify your travel dates and passenger count.</p>
-                                    </div>
-
+                                <div className="space-y-6">
                                     <div className="space-y-4 text-left">
                                         {requestData.selectedOptions && requestData.selectedOptions.length > 0 ? (
                                             <div>
@@ -227,25 +233,11 @@ export function RequestBar() {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <button 
-                                        onClick={() => setStep("finalize")}
-                                        className="w-full bg-brand-gold text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-brand-bronze transition-all shadow-lg mt-4"
-                                    >
-                                        Proceed to Contact
-                                        <ArrowRight className="w-4 h-4" />
-                                    </button>
                                 </div>
                             ) : (
-                                <>
-                                    <div className="mb-6 pt-2 text-left">
-                                        <p className="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-2">{isModalOpen && step === "finalize" ? "Step 2 of 2" : "Inquiry Details"}</p>
-                                        <h3 className="text-3xl font-display text-brand-bronze mb-2">Finalize Your Request</h3>
-                                        <p className="text-muted-foreground text-sm">Fill in your contact details and preferred language.</p>
-                                    </div>
-
+                                <div className="space-y-6">
                                     {/* Request Summary */}
-                                    <div className="bg-pastel-gold rounded-2xl p-4 mb-6 border border-brand-gold/10 text-left">
+                                    <div className="bg-pastel-gold rounded-2xl p-4 border border-brand-gold/10 text-left">
                                         <p className="text-[10px] font-bold text-brand-gold uppercase tracking-widest mb-2">Trip Overview</p>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-2 text-[13px] font-medium text-brand-bronze">
                                             <div className="col-span-1 sm:col-span-2">
@@ -274,7 +266,7 @@ export function RequestBar() {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-4 mb-8 text-left">
+                                    <div className="space-y-4 text-left">
                                         <div>
                                             <label className="text-[10px] font-bold text-brand-gold uppercase tracking-widest block mb-1.5 px-1">Full Name *</label>
                                             <input 
@@ -315,7 +307,22 @@ export function RequestBar() {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            )}
+                        </div>
 
+                        {/* Sticky Footer */}
+                        <div className="shrink-0 p-6 md:p-10 border-t border-brand-gold/5 bg-white space-y-4">
+                            {step === "selection" ? (
+                                <button 
+                                    onClick={() => setStep("finalize")}
+                                    className="w-full bg-brand-gold text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-brand-bronze transition-all shadow-lg"
+                                >
+                                    Proceed to Contact
+                                    <ArrowRight className="w-4 h-4" />
+                                </button>
+                            ) : (
+                                <>
                                     <div className="grid grid-cols-2 gap-4">
                                         <button 
                                             onClick={handleWhatsapp}
@@ -332,19 +339,17 @@ export function RequestBar() {
                                             Email
                                         </button>
                                     </div>
-                                    
-                                    {isModalOpen && step === "finalize" && (
-                                        <button 
-                                            onClick={() => setStep("selection")}
-                                            className="mt-6 text-[10px] uppercase font-bold text-brand-gold tracking-widest hover:text-brand-bronze transition-colors block mx-auto"
-                                        >
-                                            ← Back to Trip Details
-                                        </button>
-                                    )}
+                                    <button 
+                                        onClick={() => setStep("selection")}
+                                        className="text-[10px] uppercase font-bold text-brand-gold tracking-widest hover:text-brand-bronze transition-colors flex items-center justify-center gap-2 w-full pt-2"
+                                    >
+                                        <ChevronLeft className="w-3 h-3" /> Back to Trip Details
+                                    </button>
                                 </>
                             )}
                         </div>
                     </motion.div>
+
                 </div>
             )}
         </AnimatePresence>

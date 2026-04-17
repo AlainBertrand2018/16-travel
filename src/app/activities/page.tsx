@@ -145,11 +145,11 @@ export default function ActivitiesPage() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className="text-6xl md:text-9xl font-display mb-8 text-white drop-shadow-2xl whitespace-nowrap"
+                        className="text-4xl sm:text-7xl lg:text-8xl xl:text-9xl font-display mb-8 text-white drop-shadow-2xl leading-tight"
                     >
                         Live <span>Boldly</span>
                     </motion.h1>
-                    <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/90 drop-shadow-md">
+                    <p className="text-base sm:text-lg md:text-2xl font-light max-w-2xl mx-auto text-white/90 drop-shadow-md px-4">
                         From the summit to the sea — adventures crafted for those who seek the extraordinary.
                     </p>
                 </div>
@@ -255,7 +255,7 @@ export default function ActivitiesPage() {
 
                         <motion.div
                             layoutId={`act-card-${activeItem.id}`}
-                            className="relative w-full max-w-5xl h-[85vh] bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10"
+                            className="relative w-full max-w-5xl h-[90vh] bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col lg:flex-row z-10"
                             transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         >
                             <button
@@ -266,8 +266,8 @@ export default function ActivitiesPage() {
                             </button>
 
                             {/* Image Side */}
-                            <div className="w-full lg:w-1/2 flex flex-col h-auto lg:h-full shrink-0 border-b lg:border-b-0 lg:border-r border-brand-bronze/10">
-                                <div className="relative flex-1 min-h-[300px] lg:min-h-0 overflow-hidden">
+                            <div className="w-full lg:w-1/2 flex flex-col h-[35vh] lg:h-full shrink-0 border-b lg:border-b-0 lg:border-r border-brand-bronze/10">
+                                <div className="relative flex-1 min-h-0 overflow-hidden">
                                     <Image
                                         src={activeItem.image}
                                         alt={activeItem.title}
@@ -316,7 +316,7 @@ export default function ActivitiesPage() {
                             </div>
 
                             {/* Content Side */}
-                            <div className="w-full lg:w-1/2 flex flex-col h-full">
+                            <div className="w-full lg:w-1/2 flex flex-col flex-1 lg:h-full min-h-0">
                                 {/* Scrollable Content */}
                                 <div className="flex-1 overflow-y-auto p-8 lg:p-16 pb-4 custom-scrollbar">
                                     <div className="hidden lg:block mb-8">
@@ -449,6 +449,7 @@ export default function ActivitiesPage() {
             </AnimatePresence>
 
             <Footer />
+            <RequestBar />
         </main>
     );
 }

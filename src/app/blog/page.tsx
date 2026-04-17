@@ -141,11 +141,11 @@ export default function BlogPage() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className="text-6xl md:text-9xl font-display mb-8 text-white drop-shadow-2xl whitespace-nowrap"
+                        className="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-display mb-8 text-white drop-shadow-2xl"
                     >
                         The Journal
                     </motion.h1>
-                    <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/90 drop-shadow-md">
+                    <p className="text-lg sm:text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/90 drop-shadow-md">
                         A collection of narratives, guides, and island secrets.
                     </p>
                 </div>

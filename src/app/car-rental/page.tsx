@@ -251,8 +251,8 @@ export default function CarRentalPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-6xl md:text-9xl font-display text-white mb-6">Car Rental</h1>
-                        <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto">
+                        <h1 className="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-display text-white mb-6">Car Rental</h1>
+                        <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto">
                             The keys to the island are in your hands.
                         </p>
                     </motion.div>

@@ -165,18 +165,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                                             <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Previous Page</span>
                                         </motion.button>
                                     )
-                                ) : (
-                                    <motion.button 
-                                        key="nav-up"
-                                        onClick={() => scrollTo('up')}
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.8 }}
-                                        className="bg-white/90 backdrop-blur-md p-2 rounded-full text-brand-gold shadow-xl border border-brand-gold/20 pointer-events-auto active:scale-90 transition-transform"
-                                    >
-                                        <ChevronUp className="w-6 h-6 animate-bounce" />
-                                    </motion.button>
-                                )}
+                                ) : null}
                             </AnimatePresence>
                         </div>
 
@@ -197,18 +186,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                                             <ChevronRight className="w-5 h-5 animate-pulse" />
                                         </motion.button>
                                     )
-                                ) : (
-                                    <motion.button 
-                                        key="nav-down"
-                                        onClick={() => scrollTo('down')}
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.8 }}
-                                        className="bg-brand-gold text-white p-3 rounded-full shadow-[0_10px_30px_rgba(196,160,82,0.4)] pointer-events-auto active:scale-90 transition-transform"
-                                    >
-                                        <ChevronDown className="w-7 h-7 animate-bounce" />
-                                    </motion.button>
-                                )}
+                                ) : null}
                             </AnimatePresence>
                         </div>
                     </>

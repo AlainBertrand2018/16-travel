@@ -337,14 +337,14 @@ export function CarRental() {
 
                         {/* Modal Content */}
                         <motion.div
-                            className="relative bg-white rounded-[40px] shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden"
+                            className="relative bg-white rounded-[40px] shadow-2xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col"
                             initial={{ opacity: 0, y: 40, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 40, scale: 0.95 }}
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
                         >
                             {/* Header */}
-                            <div className="p-8 pb-6 border-b border-brand-gold/10">
+                            <div className="shrink-0 p-8 pb-6 border-b border-brand-gold/10">
                                 <div className="flex items-start justify-between">
                                     <div>
                                         <h3 className="text-2xl font-display text-brand-bronze mb-2">{activeModal.content.title}</h3>
@@ -360,7 +360,7 @@ export function CarRental() {
                             </div>
 
                             {/* Items */}
-                            <div className="p-8 space-y-4 overflow-y-auto max-h-[55vh]">
+                            <div className="flex-1 p-8 space-y-4 overflow-y-auto min-h-0 custom-scrollbar">
                                 {activeModal.content.items.map((item, i) => {
                                     const isSelected = selectedItemIndices.includes(i);
                                     return (
@@ -396,7 +396,7 @@ export function CarRental() {
                             </div>
 
                             {/* Footer */}
-                            <div className="p-8 pt-4 border-t border-brand-gold/10">
+                            <div className="shrink-0 p-8 pt-4 border-t border-brand-gold/10 bg-white">
                                 <button
                                     onClick={() => {
                                         if (selectedItemIndices.length > 0) {

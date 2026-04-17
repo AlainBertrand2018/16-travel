@@ -37,12 +37,12 @@ export function Hero() {
                 {/* Center: Headings */}
                 <div className="flex-1 flex flex-col justify-center space-y-4 text-center items-center">
                     <div id="st-child-home-hero-heading" className="overflow-hidden">
-                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl leading-none">
+                        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl leading-none">
                             Travel in
                         </h1>
                     </div>
                     <div className="overflow-hidden">
-                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl">
+                        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display tracking-tight text-white drop-shadow-2xl">
                             <span className="font-light">Sublime</span> Style
                         </h1>
                     </div>

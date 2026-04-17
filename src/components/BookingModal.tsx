@@ -50,19 +50,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                         onClick={onClose}
                     />
                     
-                    <motion.div 
+                        <motion.div 
                         initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                        className="relative w-full max-w-xl bg-white rounded-[40px] shadow-3xl overflow-hidden border border-brand-gold/20"
+                        className="relative w-full max-w-xl bg-white rounded-[40px] shadow-3xl overflow-hidden border border-brand-gold/20 flex flex-col max-h-[90vh]"
                     >
                         {/* Header */}
-                        <div className="p-8 pb-0 flex justify-between items-start">
+                        <div className="shrink-0 p-8 pb-6 border-b border-brand-gold/5 flex justify-between items-start">
                             <div className="space-y-1">
                                 <span className="text-[10px] font-black text-brand-gold uppercase tracking-[0.2em]">
                                     {step === "details" ? "Secure your spot" : "Finalize Payment"}
                                 </span>
-                                <h2 className="text-3xl font-display text-brand-bronze">{product.title}</h2>
+                                <h2 className="text-2xl md:text-3xl font-display text-brand-bronze leading-tight">{product.title}</h2>
                             </div>
                             <button 
                                 onClick={onClose}
@@ -72,11 +72,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                             </button>
                         </div>
 
-                        <div className="p-8 space-y-8">
+                        {/* Scrollable Body */}
+                        <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
                             {step === "details" ? (
                                 <div className="space-y-6">
                                     <div className="space-y-6">
-                                        <div className="space-y-2">
+                                        <div className="space-y-2 text-left">
                                             <label className="text-[10px] font-black text-brand-bronze uppercase tracking-widest flex items-center gap-2">
                                                 <Calendar className="w-3.5 h-3.5 text-brand-gold" />
                                                 Preferred Date
@@ -89,12 +90,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                                             />
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-2 gap-4 text-left">
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black text-brand-bronze uppercase tracking-widest block">
                                                     Adults
                                                 </label>
-                                                <div className="flex items-center justify-between bg-pastel-gold/30 border border-brand-gold/10 rounded-2xl p-1.5">
+                                                <div className="flex items-center justify-between bg-pastel-gold/30 border border-brand-gold/10 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-brand-gold/20 transition-all">
                                                     <button 
                                                         onClick={() => setAdults(Math.max(1, adults - 1))}
                                                         className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-lg font-bold text-brand-bronze hover:bg-brand-gold hover:text-white transition-all"
@@ -114,7 +115,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                                                 <label className="text-[10px] font-black text-brand-bronze uppercase tracking-widest block">
                                                     Children
                                                 </label>
-                                                <div className="flex items-center justify-between bg-pastel-gold/30 border border-brand-gold/10 rounded-2xl p-1.5">
+                                                <div className="flex items-center justify-between bg-pastel-gold/30 border border-brand-gold/10 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-brand-gold/20 transition-all">
                                                     <button 
                                                         onClick={() => setChildren(Math.max(0, children - 1))}
                                                         className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-lg font-bold text-brand-bronze hover:bg-brand-gold hover:text-white transition-all"
@@ -134,7 +135,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                                     </div>
 
                                     {/* Vehicle Info Card */}
-                                    <div className={`p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4 ${isMinivan ? 'bg-brand-bronze text-white border-brand-gold' : 'bg-pastel-gold/20 border-brand-gold/10 text-brand-bronze'}`}>
+                                    <div className={`p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4 text-left ${isMinivan ? 'bg-brand-bronze text-white border-brand-gold shadow-lg shadow-brand-bronze/20' : 'bg-pastel-gold/20 border-brand-gold/10 text-brand-bronze'}`}>
                                         <div className="p-3 bg-brand-gold/20 rounded-xl">
                                             <Users className="w-5 h-5 text-brand-gold" />
                                         </div>
@@ -143,20 +144,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                                             <p className="font-display text-lg">{isMinivan ? 'Private Minivan (Up to 15)' : 'Private Car/SUV (Up to 7)'}</p>
                                         </div>
                                     </div>
-
-                                    <div className="pt-6 border-t border-brand-gold/10 flex items-center justify-between">
-                                        <div>
-                                            <p className="text-[10px] font-black text-brand-gold uppercase tracking-widest">Group Total</p>
-                                            <p className="text-3xl font-display text-brand-bronze">€{currentPrice}</p>
-                                        </div>
-                                        <button 
-                                            onClick={() => setStep("payment")}
-                                            disabled={!date}
-                                            className="bg-brand-bronze text-white px-10 py-5 rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-brand-bronze/20 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale transition-all"
-                                        >
-                                            Proceed to Pay
-                                        </button>
-                                    </div>
                                 </div>
                             ) : (
                                 <motion.div 
@@ -164,7 +151,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                                     animate={{ opacity: 1, x: 0 }}
                                     className="space-y-8"
                                 >
-                                    <div className="flex flex-col md:flex-row gap-8 items-center bg-pastel-gold/20 p-6 rounded-[32px] border border-brand-gold/10">
+                                    <div className="flex flex-col md:flex-row gap-8 items-center bg-pastel-gold/20 p-6 rounded-[32px] border border-brand-gold/10 text-left">
                                         <div className="relative w-40 h-40 bg-white p-4 rounded-2xl shadow-xl border border-brand-gold/10">
                                             <Image 
                                                 src="/images/barcode_mock.webp" 
@@ -204,20 +191,42 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pro
                                             Please scan the QR code to pay via your Banking app, or use the bank details provided to wire your reservation. <br />
                                             Email your proof of payment to admin@sixteen.travel
                                         </p>
-                                        <button 
-                                            onClick={onClose}
-                                            className="w-full py-5 bg-brand-gold text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl hover:bg-brand-bronze transition-all"
-                                        >
-                                            I've Completed Payment
-                                        </button>
-                                        <button 
-                                            onClick={() => setStep("details")}
-                                            className="text-[10px] font-bold text-brand-gold uppercase tracking-widest hover:text-brand-bronze transition-colors"
-                                        >
-                                            Go Back to Details
-                                        </button>
                                     </div>
                                 </motion.div>
+                            )}
+                        </div>
+
+                        {/* Sticky Footer */}
+                        <div className="shrink-0 p-8 border-t border-brand-gold/10 bg-white">
+                            {step === "details" ? (
+                                <div className="flex items-center justify-between gap-4">
+                                    <div className="text-left">
+                                        <p className="text-[10px] font-black text-brand-gold uppercase tracking-widest">Group Total</p>
+                                        <p className="text-3xl font-display text-brand-bronze font-bold">€{currentPrice}</p>
+                                    </div>
+                                    <button 
+                                        onClick={() => setStep("payment")}
+                                        disabled={!date}
+                                        className="bg-brand-bronze text-white px-10 py-5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl shadow-brand-bronze/20 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale transition-all"
+                                    >
+                                        Proceed to Pay
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    <button 
+                                        onClick={onClose}
+                                        className="w-full py-5 bg-brand-gold text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl hover:bg-brand-bronze transition-all"
+                                    >
+                                        I've Completed Payment
+                                    </button>
+                                    <button 
+                                        onClick={() => setStep("details")}
+                                        className="text-[10px] font-bold text-brand-gold uppercase tracking-widest hover:text-brand-bronze transition-colors flex items-center justify-center gap-2 w-full"
+                                    >
+                                        <ChevronLeft className="w-3 h-3" /> Go Back to Details
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </motion.div>
