@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar as CalendarIcon, Users, Car, MessageCircle, X, Mail, Phone, ChevronDown, Minus, Plus, Languages, ArrowRight } from "lucide-react";
+import { Calendar as CalendarIcon, Users, Car, MessageCircle, X, Mail, Phone, ChevronDown, ChevronLeft, Minus, Plus, Languages, ArrowRight } from "lucide-react";
 
 interface RequestData {
     service: string;
@@ -22,9 +22,10 @@ interface RequestData {
 
 interface RequestBarProps {
     modalOnly?: boolean;
+    listenToEvents?: boolean;
 }
 
-export function RequestBar({ modalOnly = false }: RequestBarProps) {
+export function RequestBar({ modalOnly = false, listenToEvents = true }: RequestBarProps) {
     const [isMounted, setIsMounted] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [step, setStep] = useState<"selection" | "finalize">("finalize");
@@ -46,6 +47,7 @@ export function RequestBar({ modalOnly = false }: RequestBarProps) {
         setIsMounted(true);
         
         const handleExternalOpen = (e: any) => {
+            if (!listenToEvents) return;
             if (e.detail?.vehicleType) {
                 const options = e.detail.selectedOptions?.map((o: any) => ({
                     ...o,
@@ -64,7 +66,9 @@ export function RequestBar({ modalOnly = false }: RequestBarProps) {
             setIsModalOpen(true);
         };
 
-        window.addEventListener('open-booking', handleExternalOpen);
+        if (listenToEvents) {
+            window.addEventListener('open-booking', handleExternalOpen);
+        }
 
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -359,6 +363,10 @@ export function RequestBar({ modalOnly = false }: RequestBarProps) {
         </AnimatePresence>
     );
 
+    if (modalOnly) {
+        return isMounted ? createPortal(modalContent, document.body) : null;
+    }
+
     return (
         <div className="relative w-full max-w-6xl mx-auto" ref={dropdownRef}>
             <motion.div 
@@ -367,6 +375,7 @@ export function RequestBar({ modalOnly = false }: RequestBarProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
             >
+                {/* ... existing trigger bar content ... */}
                 {/* Service Selector */}
                 <div 
                     className="flex-[1.2] flex items-center px-6 py-3 border-b md:border-b-0 md:border-r border-brand-gold/10 group cursor-pointer relative"

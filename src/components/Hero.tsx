@@ -48,9 +48,8 @@ export function Hero() {
                     </div>
                 </div>
 
-                {/* Bottom: Floating Request Bar */}
                 <div id="st-child-home-hero-booking-bar" className="w-full max-w-4xl pt-10">
-                    <RequestBar />
+                    <RequestBar listenToEvents={false} />
                 </div>
             </div>
 

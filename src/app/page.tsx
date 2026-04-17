@@ -15,6 +15,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { GoldenTrace } from "@/components/GoldenTrace";
 import { Footer } from "@/components/Footer";
 import { MobileLayout } from "@/components/mobile/MobileLayout";
+import { RequestBar } from "@/components/RequestBar";
 // import { TransfersExcursions } from "@/components/TransfersExcursions";
 
 export default function Home() {
@@ -49,7 +50,12 @@ export default function Home() {
       { id: "transfers", title: "Transfers", component: <CarRental /> },
       { id: "cherry-picks", title: "Signature", component: <Offers /> },
     ];
-    return <MobileLayout sections={mobileSections} />;
+    return (
+      <>
+        <MobileLayout sections={mobileSections} />
+        <RequestBar modalOnly listenToEvents />
+      </>
+    );
   }
 
   // DESKTOP VIEW: Premium vertical scroll experience
@@ -120,6 +126,7 @@ export default function Home() {
         </div>
 
         <Footer />
+        <RequestBar modalOnly listenToEvents />
       </div>
     </main>
   );

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Home, Compass, Car, Star, Menu, X, ArrowLeft, ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
+import { RequestBar } from "../RequestBar";
 
 interface MobileLayoutProps {
     children?: React.ReactNode;
