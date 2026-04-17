@@ -119,7 +119,7 @@ export default function ToursPage() {
             <section id="st-section-tours-header" className="relative h-screen md:h-[70vh] flex flex-col items-center justify-center overflow-hidden text-center mb-16">
                 <div className="absolute inset-0">
                     <Image
-                        src="/images/mauritius-oberoi-royal.webp"
+                        src="/images/viewpoint_Chamarel.webp"
                         alt="Tours Header"
                         fill
                         className="object-cover"

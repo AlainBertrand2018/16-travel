@@ -9,7 +9,6 @@ const navItems = [
     { name: "Tours", icon: <Compass className="w-5 h-5" />, href: "/tours" },
     { name: "Activities", icon: <Star className="w-5 h-5" />, href: "/activities" },
     { name: "Transfers", icon: <Car className="w-5 h-5" />, href: "/#transfers" },
-    { name: "Offers", icon: <Tag className="w-5 h-5" />, href: "/#cherry-picks" },
 ];
 
 export function MobileNav() {

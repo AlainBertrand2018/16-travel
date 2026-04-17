@@ -43,9 +43,7 @@ export function Navbar() {
         { name: "What we do", href: "/#st-what-we-do" },
         { name: "About Us", href: "/#st-about" },
         { name: "Mission", href: "/#st-mission" },
-        { name: "Our Offers", href: "/#st-offers" },
-        { name: "Our Transfer Services", href: "/#st-transfers" },
-        { name: "Cherry Picks", href: "/#st-cherry-picks" },
+        { name: "Transfers", href: "/#st-transfers" },
     ];
 
     const mainNavItems = [

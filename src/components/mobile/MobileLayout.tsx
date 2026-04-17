@@ -24,7 +24,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
         const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
         // Sensitivity thresholds
         const atTop = scrollTop < 40;
-        const atBottom = scrollTop + clientHeight >= scrollHeight - 40;
+        const atBottom = scrollTop + clientHeight >= scrollHeight - 100;
         setScrollState({ isAtTop: atTop, isAtBottom: atBottom });
     };
 
@@ -40,12 +40,29 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
         if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0;
     }, [activeIndex]);
 
+    // Handle hash links for mobile section switching
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.replace("#", "");
+            if (hash && sections) {
+                const index = sections.findIndex(s => s.id === hash);
+                if (index !== -1 && index !== activeIndex) {
+                    setDirection(index > activeIndex ? 1 : -1);
+                    setActiveIndex(index);
+                }
+            }
+        };
+
+        handleHashChange(); // Initial check
+        window.addEventListener("hashchange", handleHashChange);
+        return () => window.removeEventListener("hashchange", handleHashChange);
+    }, [sections, activeIndex]);
+
     const navItems = [
         { name: "Home", icon: <Home className="w-5 h-5" />, href: "/" },
         { name: "Tours", icon: <Compass className="w-5 h-5" />, href: "/tours" },
         { name: "Activities", icon: <Star className="w-5 h-5" />, href: "/activities" },
-        { name: "Transfers", icon: <Car className="w-5 h-5" />, href: "/#st-transfers" },
-        { name: "Offers", icon: <Star className="w-5 h-5" />, href: "/#st-offers" },
+        { name: "Transfers", icon: <Car className="w-5 h-5" />, href: "/#transfers" },
     ];
 
     const handleNext = () => {
@@ -155,7 +172,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                                 {scrollState.isAtTop ? (
                                     activeIndex > 0 && (
                                         <motion.button 
-                                            key="nav-left"
+                                            key="nav-previous"
                                             onClick={handleBack}
                                             initial={{ opacity: 0, y: -20 }}
                                             animate={{ opacity: 1, y: 0 }}
@@ -163,7 +180,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                                             className="bg-brand-gold text-white px-5 py-2 rounded-full flex items-center gap-3 shadow-[0_10px_30px_rgba(196,160,82,0.4)] pointer-events-auto active:scale-95 transition-transform"
                                         >
                                             <ChevronLeft className="w-5 h-5 animate-pulse" />
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Previous Page</span>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Previous</span>
                                         </motion.button>
                                     )
                                 ) : null}
@@ -171,19 +188,19 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                         </div>
 
                         {/* Bottom Overlay: Swipe Right or Scroll Down */}
-                        <div className="absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none z-[120]">
+                        <div className="absolute bottom-28 left-0 right-0 flex justify-center pointer-events-none z-[120]">
                             <AnimatePresence mode="wait">
                                 {scrollState.isAtBottom ? (
                                     activeIndex < sections.length - 1 && (
                                         <motion.button 
-                                            key="nav-right"
+                                            key="nav-next"
                                             onClick={handleNext}
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 20 }}
                                             className="bg-brand-gold text-white px-5 py-2 rounded-full flex items-center gap-3 shadow-[0_10px_30px_rgba(196,160,82,0.4)] pointer-events-auto active:scale-95 transition-transform"
                                         >
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Next Page</span>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Next</span>
                                             <ChevronRight className="w-5 h-5 animate-pulse" />
                                         </motion.button>
                                     )

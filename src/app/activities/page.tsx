@@ -124,7 +124,7 @@ export default function ActivitiesPage() {
             <section id="st-section-activities-header" className="relative h-screen md:h-[70vh] flex flex-col items-center justify-center overflow-hidden text-center mb-16">
                 <div className="absolute inset-0">
                     <Image
-                        src="/images/casela03.webp"
+                        src="/images/kitesurfing_mauritius.webp"
                         alt="Activities Header"
                         fill
                         className="object-cover"
