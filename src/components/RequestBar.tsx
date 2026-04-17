@@ -20,7 +20,11 @@ interface RequestData {
     }>;
 }
 
-export function RequestBar() {
+interface RequestBarProps {
+    modalOnly?: boolean;
+}
+
+export function RequestBar({ modalOnly = false }: RequestBarProps) {
     const [isMounted, setIsMounted] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [step, setStep] = useState<"selection" | "finalize">("finalize");
