@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, Users, CreditCard, Check, Copy } from "lucide-react";
+import { X, Calendar, Users, CreditCard, Check, Copy, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 
 interface BookingModalProps {

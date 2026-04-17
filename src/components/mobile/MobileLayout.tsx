@@ -85,7 +85,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
     };
 
     return (
-        <div className="fixed inset-0 bg-white overflow-hidden flex flex-col font-sans select-none z-[9999]">
+        <div className="fixed inset-0 bg-white overflow-hidden flex flex-col font-sans select-none z-[100]">
             {/* Header */}
             <header className="h-16 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md border-b border-brand-gold/10 z-[100]">
                 {pathname !== "/" ? (
@@ -199,34 +199,6 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                 )}
             </main>
 
-            {/* Bottom Nav */}
-            <nav className="h-20 bg-white/90 backdrop-blur-xl border-t border-brand-gold/10 flex items-center justify-around px-2 z-[100] pb-safe">
-                {navItems.map((item) => (
-                    <button
-                        key={item.name}
-                        onClick={() => {
-                            if (item.href.includes("#") && pathname === "/") {
-                                // Close menu or handle internal home scroll if needed
-                                // For now, we'll let Next handle the route
-                            }
-                            router.push(item.href);
-                        }}
-                        className={cn(
-                            "flex flex-col items-center gap-1.5 transition-all duration-300 px-3 py-2 rounded-2xl",
-                            (pathname === item.href || (item.href === "/" && pathname === "/")) ? "text-brand-gold" : "text-brand-bronze/40"
-                        )}
-                    >
-                        <div className={cn(
-                            "p-1.5 rounded-xl transition-colors",
-                            (pathname === item.href || (item.href === "/" && pathname === "/")) ? "bg-brand-gold/10" : "bg-transparent"
-                        )}>
-                            {item.icon}
-                        </div>
-                        <span className="text-[10px] font-bold uppercase tracking-widest">{item.name}</span>
-                    </button>
-                ))}
-            </nav>
-
             {/* Menu Drawer */}
             <AnimatePresence>
                 {isMenuOpen && (
@@ -278,6 +250,7 @@ export function MobileLayout({ children, sections }: MobileLayoutProps) {
                         display: flex !important;
                         flex-direction: column !important;
                         justify-content: center !important;
+                        min-height: 0 !important;
                     }
                 }
             `}</style>

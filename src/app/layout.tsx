@@ -46,6 +46,7 @@ export const metadata: Metadata = {
 import { CookieConsent } from "@/components/CookieConsent";
 import { Preloader } from "@/components/Preloader";
 import { HashScrollHandler } from "@/components/HashScrollHandler";
+import { MobileNav } from "@/components/mobile/MobileNav";
 
 export default function RootLayout({
   children,
@@ -58,6 +59,7 @@ export default function RootLayout({
         <HashScrollHandler />
         <Preloader />
         {children}
+        <MobileNav />
         <CookieConsent />
       </body>
     </html>

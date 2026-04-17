@@ -118,7 +118,7 @@ export default function ActivitiesPage() {
     };
 
     return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen bg-white pb-24 md:pb-0">
             <Navbar />
 
             <section id="st-section-activities-header" className="relative h-[70vh] flex flex-col items-center justify-center overflow-hidden text-center mb-16">
