@@ -121,7 +121,7 @@ export default function ActivitiesPage() {
         <main className="min-h-screen bg-white pb-24 md:pb-0">
             <Navbar />
 
-            <section id="st-section-activities-header" className="relative h-[70vh] flex flex-col items-center justify-center overflow-hidden text-center mb-16">
+            <section id="st-section-activities-header" className="relative h-screen md:h-[70vh] flex flex-col items-center justify-center overflow-hidden text-center mb-16">
                 <div className="absolute inset-0">
                     <Image
                         src="/images/casela03.webp"
