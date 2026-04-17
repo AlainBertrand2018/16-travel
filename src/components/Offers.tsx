@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const packages = [
     {
@@ -10,21 +11,24 @@ const packages = [
         title: "Wild Wild South",
         category: "Adventure & Nature",
         description: "Explore the wild south-west. From the Seven Colored Earths to the hidden waterfalls of Chamarel, experience the untamed beauty of the island.",
-        image: "/images/lionMountain_Aerial.webp"
+        image: "/images/lionMountain_Aerial.webp",
+        href: "/tours?package=south-2"
     },
     {
         order: "02",
         title: "Le Nord Colour-Spectacular",
         category: "Culture & Vibrancy",
         description: "On the road up to Cap Malheureux, home to the iconic red-roofed church, vibe to the rhythm of sensual Port Louis Bazaar.",
-        image: "/images/eglise-cap-malheureux.webp"
+        image: "/images/eglise-cap-malheureux.webp",
+        href: "/tours?package=north-full"
     },
     {
         order: "03",
         title: "Sky & Deep Blue",
         category: "Adventure & Thrills",
         description: "Experience Mauritius from every angle. From breathtaking helicopter tours over the Underwater Waterfall to magical undersea walks among vibrant coral reefs.",
-        image: "/images/heli_sea.webp"
+        image: "/images/heli_sea.webp",
+        href: "/activities?package=helicopter-tours"
     }
 ];
 
@@ -71,15 +75,18 @@ function PackageCard({ pkg, index }: { pkg: typeof packages[0], index: number })
                             {pkg.description}
                         </p>
                     </div>
-                    <motion.button
-                        whileHover={{ x: 10 }}
-                        className="flex items-center gap-4 text-lg font-medium group text-brand-bronze"
+                    <Link
+                        href={pkg.href}
+                        className="flex items-center gap-4 text-lg font-medium group text-brand-bronze w-fit"
                     >
                         Explore Package
-                        <div className="w-12 h-12 rounded-full border border-brand-gold/20 flex items-center justify-center group-hover:bg-brand-gold group-hover:text-white transition-all">
+                        <motion.div 
+                            whileHover={{ x: 10 }}
+                            className="w-12 h-12 rounded-full border border-brand-gold/20 flex items-center justify-center group-hover:bg-brand-gold group-hover:text-white transition-all"
+                        >
                             <ArrowRight className="w-5 h-5" />
-                        </div>
-                    </motion.button>
+                        </motion.div>
+                    </Link>
                 </div>
             </div>
         </div>

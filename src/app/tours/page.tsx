@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
@@ -86,9 +87,31 @@ const bentoItems = [
 ];
 
 export default function ToursPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+            <ToursPageContent />
+        </Suspense>
+    );
+}
+
+function ToursPageContent() {
+    const searchParams = useSearchParams();
     const [activeItem, setActiveItem] = useState<any>(null);
     const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
     const galleryItem = (galleryIndex !== null && activeItem?.gallery) ? activeItem.gallery[galleryIndex] : null;
+
+    // Handle deep links from Offers
+    useEffect(() => {
+        const pkgId = searchParams.get('package');
+        if (pkgId) {
+            const pkg = bentoItems.find(item => item.id === pkgId);
+            if (pkg) {
+                setActiveItem(pkg);
+                // Scroll to top to ensure modal is visible if page is long
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    }, [searchParams]);
 
     // Stop body scroll when modal open
     useEffect(() => {
